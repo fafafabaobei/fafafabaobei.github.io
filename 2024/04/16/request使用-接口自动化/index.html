@@ -1,0 +1,966 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Request使用+接口自动化 | fafafabaobei</title><meta name="author" content="fafafa"><meta name="copyright" content="fafafa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="接口测试基础知识接口测试概念接口测试是测试系统组件间接口的一种测试。接口测试主要用于检测外部系统与系统之 间以及内部各个子系统之间的交互点。测试的重点是要检查数据的交换，传递和控制管理过 程，以及系统间的相互逻辑依赖关系等。 接口测试目的 核心：保证系统的稳定 手段：持续集成 目的：提高测试效率，提升用户体验，降低产品研发成本  接口测试一般流程 列出需求 安排资源，编写接口用例 -&gt; 用例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Request使用+接口自动化">
+<meta property="og:url" content="https://fafafabaobei.github.io/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/index.html">
+<meta property="og:site_name" content="fafafabaobei">
+<meta property="og:description" content="接口测试基础知识接口测试概念接口测试是测试系统组件间接口的一种测试。接口测试主要用于检测外部系统与系统之 间以及内部各个子系统之间的交互点。测试的重点是要检查数据的交换，传递和控制管理过 程，以及系统间的相互逻辑依赖关系等。 接口测试目的 核心：保证系统的稳定 手段：持续集成 目的：提高测试效率，提升用户体验，降低产品研发成本  接口测试一般流程 列出需求 安排资源，编写接口用例 -&gt; 用例">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.fellowship-church.ca/wp-content/uploads/2019/02/prayer-requests.jpg">
+<meta property="article:published_time" content="2024-04-16T12:11:24.000Z">
+<meta property="article:modified_time" content="2024-04-16T12:11:24.000Z">
+<meta property="article:author" content="fafafa">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="接口自动化">
+<meta property="article:tag" content="request">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.fellowship-church.ca/wp-content/uploads/2019/02/prayer-requests.jpg"><link rel="shortcut icon" href="/img/blog.png"><link rel="canonical" href="https://fafafabaobei.github.io/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><link rel="stylesheet" href="/css/index.css?v=4.14.0-b3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>(()=>{
+      const saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+      
+      window.btf = {
+        saveToLocal: saveToLocal,
+        getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+          script.src = url
+          script.async = true
+          script.onerror = reject
+          script.onload = script.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            script.onload = script.onreadystatechange = null
+            resolve()
+          }
+
+          Object.keys(attr).forEach(key => {
+            script.setAttribute(key, attr[key])
+          })
+
+          document.head.appendChild(script)
+        }),
+
+        getCSS: (url, id = false) => new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          if (id) link.id = id
+          link.onerror = reject
+          link.onload = link.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            link.onload = link.onreadystatechange = null
+            resolve()
+          }
+          document.head.appendChild(link)
+        }),
+
+        addGlobalFn: (key, fn, name = false, parent = window) => {
+          const pjaxEnable = false
+          if (!pjaxEnable && key.startsWith('pjax')) return
+
+          const globalFn = parent.globalFn || {}
+          const keyObj = globalFn[key] || {}
+    
+          if (name && keyObj[name]) return
+    
+          name = name || Object.keys(keyObj).length
+          keyObj[name] = fn
+          globalFn[key] = keyObj
+          parent.globalFn = globalFn
+        }
+      }
+    
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+      
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })()</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Request使用+接口自动化',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-16 20:11:24'
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', () => { preloader.initLoading() }, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', () => { preloader.endLoading() }, 'preloader_end')
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.fellowship-church.ca/wp-content/uploads/2019/02/prayer-requests.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="fafafabaobei"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/blog.png" alt="Logo"/><span class="site-name">fafafabaobei</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Request使用+接口自动化<a class="post-edit-link" href="null_posts/request使用-接口自动化.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-16T12:11:24.000Z" title="发表于 2024-04-16 20:11:24">2024-04-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-16T12:11:24.000Z" title="更新于 2024-04-16 20:11:24">2024-04-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/">python</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/">接口自动化</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/request/">request</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">13.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>52分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Request使用+接口自动化"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="接口测试基础知识"><a href="#接口测试基础知识" class="headerlink" title="接口测试基础知识"></a>接口测试基础知识</h2><h4 id="接口测试概念"><a href="#接口测试概念" class="headerlink" title="接口测试概念"></a>接口测试概念</h4><p>接口测试是测试系统组件间接口的一种测试。<br>接口测试主要用于检测外部系统与系统之 间以及内部各个子系统之间的交互点。测试的重点是要检查数据的交换，传递和控制管理过 程，以及系统间的相互逻辑依赖关系等。</p>
+<h4 id="接口测试目的"><a href="#接口测试目的" class="headerlink" title="接口测试目的"></a>接口测试目的</h4><ul>
+<li>核心：保证系统的稳定</li>
+<li>手段：持续集成</li>
+<li>目的：提高测试效率，提升用户体验，降低产品研发成本</li>
+</ul>
+<h4 id="接口测试一般流程"><a href="#接口测试一般流程" class="headerlink" title="接口测试一般流程"></a>接口测试一般流程</h4><ul>
+<li>列出需求</li>
+<li>安排资源，编写接口用例 -&gt; 用例评审</li>
+<li>编写接口测试代码 -&gt; 代码评审codeReview</li>
+<li>执行接口测试</li>
+</ul>
+<h4 id="接口测试关注点"><a href="#接口测试关注点" class="headerlink" title="接口测试关注点"></a>接口测试关注点</h4><ul>
+<li>功能:功能实现,实现与设计一致, 接口通过性测试</li>
+<li>健壮性: 边界值,容错性</li>
+<li>性能: 并发及压测</li>
+<li>稳定性: 长期运行的稳定性</li>
+<li>安全性: SQL注入, session依赖, 数字签名, http接口的安全性</li>
+</ul>
+<h4 id="常见接口种类"><a href="#常见接口种类" class="headerlink" title="常见接口种类"></a>常见接口种类</h4><ul>
+<li>Http&#x2F;Https接口: 通过http&#x2F;https协议传送接口数据(通常按字符串&#x2F;二进制传输), 如常见的网页表单, https安全性更好</li>
+<li>RESTful Api: REST表述性状态传递. 一种设计风格,基于http&#x2F;https协议, 把一切接口视为资源, 接口要分版本,在统一的域名下管理, 不同的方法(get&#x2F;post..)做不同的事,通常请求及响应使用json格式</li>
+<li>Web Service: SOAP简单面向对象协议, 基于http实现的一种RPC方案.接口返回一些对象,可以直接通过操作对象,实现我们需要的业务处理.使用xml格式传输数据</li>
+<li>RPC接口: RPC为远程方法调用, 有不同的实现方案,基于TCP&#x2F;Http协议的都有. RPC可以想我们本地导入和调用对象一样使用. Dubbo接口也是一种RPC接口.</li>
+</ul>
+<h4 id="常见接口数据类型"><a href="#常见接口数据类型" class="headerlink" title="常见接口数据类型"></a>常见接口数据类型</h4><ul>
+<li>请求数据类型(Content-Type):<ul>
+<li>application&#x2F;x-www-form-urlencoded: 常规只有文本的网页表单</li>
+<li>application&#x2F;json: RESTful Api常用格式, 结构清晰, 含有多层嵌套</li>
+<li>multipart&#x2F;form-data: 既有文本,又有上传文件或富文本框的混合数据表单</li>
+<li>text&#x2F;xml: xml格式, RPC接口常用格式</li>
+</ul>
+</li>
+<li>响应数据类型<ul>
+<li>string&#x2F;html: 返回字符串或网页源码</li>
+<li>json: RESTful Api常用响应格式, 结构清晰</li>
+<li>xml: RPC接口常用格式</li>
+</ul>
+</li>
+</ul>
+<h4 id="常见接口安全验证方式"><a href="#常见接口安全验证方式" class="headerlink" title="常见接口安全验证方式"></a>常见接口安全验证方式</h4><ul>
+<li>Auth_1.0&#x2F;Auth_2.0: 通用接口授权方式</li>
+<li>Session依赖: 需要登录之后才能进行接口操作</li>
+<li>Token验证: 先要使用自己的appid&#x2F;appsecret通过获取token接口验证身份获取一个token(令牌,有一定有效期), 然后带着token访问接口</li>
+<li>数字签名: 将原本的参数按一定规则进行组合,配合时间戳或appsecret, 通过加密算法生成一个签名sign, 携带签名进行接口请求</li>
+</ul>
+<h4 id="常见接口请求方法-RESTful规范"><a href="#常见接口请求方法-RESTful规范" class="headerlink" title="常见接口请求方法(RESTful规范)"></a>常见接口请求方法(RESTful规范)</h4><ul>
+<li>GET: 获取资源</li>
+<li>POST: 修改资源</li>
+<li>PUT: 上传资源</li>
+<li>DELETE: 删除资源</li>
+<li>HEAD: 只请求页面首部</li>
+<li>PATCH: 补丁</li>
+<li>OPTIONS: 运行客户端查看服务器性能<br>……</li>
+</ul>
+<h4 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h4><ul>
+<li>200系: 成功<ul>
+<li>200 OK - [GET]：获取资源成功</li>
+<li>201 CREATED - [POST&#x2F;PUT&#x2F;PATCH]：创建&#x2F;修改成功</li>
+<li>202 Accepted - [*]：任务接受</li>
+<li>204 NO CONTENT - [DELETE]：删除成功</li>
+</ul>
+</li>
+<li>300系: 重定向<ul>
+<li>301 Moved Permanently: 永久重定向</li>
+<li>302 Found: 临时重定向</li>
+</ul>
+</li>
+<li>400: 资源错误<ul>
+<li>400 INVALID REQUEST - [POST&#x2F;PUT&#x2F;PATCH]：用户请求错误</li>
+<li>401 Unauthorized - [*]：没有权限(鉴权失败, 接口层)</li>
+<li>403 Forbidden - [*] 资源禁止访问(服务器层,没有访问权限)</li>
+<li>404 NOT FOUND - [*]：资源不存在</li>
+<li>405 Method Not Allowd: 访问的方法不允许, 如用POST访问只支持GET请求的接口</li>
+<li>406 Not Acceptable - [GET]：用户请求的格式不可得(比如用户请求JSON格式，但是只有XML格式)</li>
+<li>410 Gone -[GET]：资源被永久删除</li>
+<li>422 Unprocesable entity - [POST&#x2F;PUT&#x2F;PATCH] 当创建对象时，发生验证错误</li>
+</ul>
+</li>
+<li>500系: 服务器内部错误(接口崩溃或有Bug)<ul>
+<li>500 INTERNAL SERVER ERROR - [*]：服务器发生错误</li>
+</ul>
+</li>
+</ul>
+<h4 id="接口业务类型"><a href="#接口业务类型" class="headerlink" title="接口业务类型"></a>接口业务类型</h4><ul>
+<li>返回数据型接口: 只从数据库读取数据</li>
+<li>业务操作型接口: 需要写数据库(接口测试需要要涉及参数化或环境清理)</li>
+</ul>
+<h2 id="接口概念"><a href="#接口概念" class="headerlink" title="接口概念"></a>接口概念</h2><p>接口又称API（Application Programming Interface,应用程序编程接口），是一些预先定义的函数，目的是提供应用程序与开发人员基于某软件或硬件得以访问一组例程的能力</p>
+<p><strong>简单概括为以下3点：</strong></p>
+<ul>
+<li>程序代码（函数方法）</li>
+<li>屏蔽实现细节</li>
+<li>可以被访问&#x2F;调用来获取信息或实现某些功能（提供访问地址，定义了访问规则）</li>
+</ul>
+<p><strong>接口自述（通俗的来说）：</strong></p>
+<ul>
+<li>首先我有一些功能（功能函数）</li>
+<li>你不用关心我怎么实现的（屏蔽细节）</li>
+<li>我会给你一个我的地址（接口地址）</li>
+<li>你按照地址找到我，按照我规定的格式（请求类型）告诉我所需要的信息（参数）就行</li>
+<li>我会给你个反馈（响应信息）</li>
+</ul>
+<h3 id="常见接口类型"><a href="#常见接口类型" class="headerlink" title="常见接口类型"></a>常见接口类型</h3><p>HTTP接口：通过HTTP协议传输的接口，可以传输文本表单数据，也可以传输Json类型的对象数据或xml类型的数据</p>
+<p>RPC: 远程方法调用，随着分布式系统的出现，当你需要调用部署到其他服务器上的方法时，需要用到RPC。RPC只是提出了这样一个问题，有很多种解决方案，比如WebService(基于SOAP协议)， REST(基于HTTP协议）。</p>
+<p>SOAP: 简单面向对象协议，基于HTTP，使用xml作为默认传输格式</p>
+<p>Web Service: 基于SOAP协议的一种RPC实现方案。相比传统的HTTP接口只传输文本请求和文本相应，通过Web Service可以直接拿到远程的一个对象，并能够直接调用该对象的属性和方法，比HTTP更高级。</p>
+<p>REST&#x2F;RESTful API: REST，表述性状态转移。一种HTTP接口的设计风格，将一切接口视为资源，要求接口路径同意管理，分版本管理，规定了GET&#x2F;POST等请求以及HTTP状态码的使用规范，默认使用JSON格式传输。RESTful API即满足REST风格即设计规范的API接口</p>
+<h3 id="什么是接口测试？"><a href="#什么是接口测试？" class="headerlink" title="什么是接口测试？"></a>什么是接口测试？</h3><p>接口测试是测试系统组件间接口的一种测试。接口测试主要用于检测外部系统与系统之间以及内部各个<br>子系统之间的交互点。测试的重点是要检查数据的交换、传递和控制管理过程，以及系统间的相互逻辑依赖关系等。</p>
+<h4 id="为什么要做接口测试？"><a href="#为什么要做接口测试？" class="headerlink" title="为什么要做接口测试？"></a><strong>为什么要做接口测试？</strong></h4><ul>
+<li>接口测试介于单元测试与系统测试之间，单元测试一般由开发完成（不要相信开发）</li>
+<li>接口是各种系统功能的基础，一旦接口出现问题可能会引起许多系统功能的问题并且不容易定位</li>
+<li>开展接口测试可以及早发现问题，有效降低测试成本</li>
+<li>接口一般较UI相对稳定，利于进行自动化和持续集成</li>
+</ul>
+<h4 id="接口测试都测什么？"><a href="#接口测试都测什么？" class="headerlink" title="接口测试都测什么？"></a><strong>接口测试都测什么？</strong></h4><p>接口测试一般有以下岗位实施：</p>
+<ul>
+<li>手工测试岗：先提测接口再提出功能，兼做接口自动化</li>
+<li>服务端测试岗：梳理代码，审核接口实现逻辑是否与业务设计一致，技术实现逻辑的合理性，异常流测试，接口压测及安全性测试</li>
+<li>测试开发岗：专职做接口（或UI）的自动化用例开发，测试工具开发</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/.%5Crequest%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%5C%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%86%85%E5%AE%B9.png" alt="image-20240714230830936"></p>
+<h4 id="怎样掌握接口测试？"><a href="#怎样掌握接口测试？" class="headerlink" title="怎样掌握接口测试？"></a><strong>怎样掌握接口测试？</strong></h4><ol>
+<li>了解OSI网络模型，TCP&#x2F;UDP协议，掌握HTTP&#x2F;HTTPS协议，了解RPC, Web Service及REST，理解Session和Cookie</li>
+<li>掌握常用的接口测试工具如curl命令,Postman,Jmeter,LR,SoupUI,AB等</li>
+<li>掌握基本的抓包工具如Chrome开发者工具,Fiddler,Charles,Wireshark,tcpdumps等</li>
+<li>掌握一门编程语言Python或Java</li>
+<li>了解Nginx, Apache, Tomcat等服务器中间件</li>
+<li>掌握数据库基本查询命令，及一些NoSQL(如Redis)操作，用于检查响应结果</li>
+<li>掌握基本的Linux日子查询和筛选命令</li>
+</ol>
+<h4 id="接口测试重难点"><a href="#接口测试重难点" class="headerlink" title="接口测试重难点"></a><strong>接口测试重难点</strong></h4><ol>
+<li>动态变量参数化</li>
+<li>接口依赖及中间变量问题</li>
+<li>异步接口结果验证问题</li>
+<li>相应参数及嵌套很多的验证问题</li>
+<li>接口测试框架的稳定性问题</li>
+<li>资源清理问题</li>
+<li>多接口场景测试</li>
+</ol>
+<h2 id="网络基础知识：IP-域名-DNS及端口"><a href="#网络基础知识：IP-域名-DNS及端口" class="headerlink" title="网络基础知识：IP,域名, DNS及端口"></a>网络基础知识：IP,域名, DNS及端口</h2><h3 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h3><p>​	IP地址是IP协议提供的一种统一的地址格式，它为互联网上的每一个网络和每一台主机分配一个逻辑地址</p>
+<h4 id="查看IP命令"><a href="#查看IP命令" class="headerlink" title="查看IP命令"></a>查看IP命令</h4><ul>
+<li>Windows: ipconfig</li>
+<li>Linux: ifconfig</li>
+</ul>
+<h4 id="Python练习：检查字符串是否ip"><a href="#Python练习：检查字符串是否ip" class="headerlink" title="Python练习：检查字符串是否ip"></a>Python练习：检查字符串是否ip</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># windoows</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_ip</span>(<span class="params">ip</span>):</span><br><span class="line">    num_list = ip.split(<span class="string">&quot;.&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> num <span class="keyword">in</span> num_list:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> num.isdigit() <span class="keyword">or</span> <span class="keyword">not</span> <span class="number">0</span> &lt;= <span class="built_in">int</span>(num) &lt;=<span class="number">255</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(is_ip(<span class="string">&quot;101.1.0.201&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span>  <span class="title function_">check_ipv4</span>(<span class="params"><span class="built_in">str</span></span>):</span><br><span class="line">    ip = <span class="built_in">str</span>.strip().split(<span class="string">&quot;.&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span> <span class="keyword">if</span> <span class="built_in">len</span>(ip) != <span class="number">4</span> <span class="keyword">or</span> <span class="literal">False</span> <span class="keyword">in</span> <span class="built_in">map</span>(<span class="keyword">lambda</span> x:<span class="literal">True</span> <span class="keyword">if</span> x.isdigit() <span class="keyword">and</span> <span class="number">0</span>&lt;= <span class="built_in">int</span>(x) &lt;= <span class="number">255</span> <span class="keyword">else</span> <span class="literal">False</span>, ip) <span class="keyword">else</span> <span class="literal">True</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h3><p>“端口”是英文port的意译，可以认为是设备与外界通讯交流的出口。<br>如果把IP地址比作一间房子，端口就是出入这间房子的门。一个IP地址的端口可以有65536（即：2^16）个</p>
+<h4 id="端口类型"><a href="#端口类型" class="headerlink" title="端口类型"></a><strong>端口类型</strong></h4><ul>
+<li>公认端口：从0到1023，紧密绑定于一些服务</li>
+<li>注册端口：人1024到49151，许多服务绑定这些端口，这些端口同样用于许多其它目的。</li>
+<li>动态或私有端口：从49152到65535。理论上，不应为服务分配这此端口。实际上，机器通常从1024起分配动态端口。</li>
+</ul>
+<h4 id="常见软件默认端口"><a href="#常见软件默认端口" class="headerlink" title="常见软件默认端口"></a><strong>常见软件默认端口</strong></h4><ul>
+<li>Apache&#x2F;Nginx(HTTP服务): 80</li>
+<li>Tomcat: 8080</li>
+<li>Oracle: 1521</li>
+<li>MySQL: 3306</li>
+<li>SQL Server: 1433</li>
+<li>PostgreSQL: 5432</li>
+<li>MongoDB: 27017</li>
+<li>Redis: 6379</li>
+<li>Memcached: 11211</li>
+</ul>
+<h4 id="查看端口命令"><a href="#查看端口命令" class="headerlink" title="查看端口命令"></a><strong>查看端口命令</strong></h4><ul>
+<li>Windows: netstat -ano</li>
+<li>Linux: netstat -ntlp</li>
+</ul>
+<h4 id="解决端口占用问题"><a href="#解决端口占用问题" class="headerlink" title="解决端口占用问题"></a>解决端口占用问题</h4><ul>
+<li>Windows: netstat -ano | findstr “8080”,找到占用端口的程序的PID -&gt; 打开任务管理器 -&gt; 设置显示PID -&gt; 找到并结束对于程序</li>
+<li>Linux: netstat -ntlp | grep “8080”, 找到对应的程序 -&gt; ps -ef | grep “程序名” 找到对于的pid -&gt; kill 相应的id</li>
+</ul>
+<h3 id="域名及DNS"><a href="#域名及DNS" class="headerlink" title="域名及DNS"></a>域名及DNS</h3><p>由于IP地址不容易记忆，为IP地址赋予了一个利于记忆的别名，称为域名</p>
+<h5 id="如何查看域名所对于的ip？"><a href="#如何查看域名所对于的ip？" class="headerlink" title="如何查看域名所对于的ip？"></a><strong>如何查看域名所对于的ip？</strong></h5><ul>
+<li>Windows&#x2F;Linux: ping <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a></li>
+</ul>
+<h5 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a><strong>DNS</strong></h5><p>DNS即域名解析系统，域名和IP地址相互映射的一个分布式数据库，提供域名转到对应ip的服务</p>
+<h2 id="网络基础知识：OSI七层模型及TCP协议"><a href="#网络基础知识：OSI七层模型及TCP协议" class="headerlink" title="网络基础知识：OSI七层模型及TCP协议"></a>网络基础知识：OSI七层模型及TCP协议</h2><h3 id="OSI七层模型"><a href="#OSI七层模型" class="headerlink" title="OSI七层模型"></a>OSI七层模型</h3><p>OSI即开放系统互连参考模型，一种网络架构，分为7层</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/.%5Crequest%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%5COSI-%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B.png" alt="image-20240714231254726"></p>
+<ul>
+<li>上三层—应用层，控制软件方面<ul>
+<li>应用层：文件传输，电子邮件，文件服务，虚拟终端 TFTP，HTTP，SNMP，FTP，SMTP，DNS，Telnet</li>
+<li>表示层：数据格式化，代码转换，数据加密</li>
+<li>会话层：解除或建立与别的接点的联系(会话)</li>
+</ul>
+</li>
+<li>下四层—数据流层，用来管理硬件<ul>
+<li>传输层：提供端对端的接口 TCP，UDP</li>
+<li>网络层：为数据包选择路由 IP，ICMP，RIP，OSPF，BGP，IGMP</li>
+<li>数据链路层 传输有地址的帧以及错误检测功能 SLIP，CSLIP，PPP，ARP，RARP，MTU</li>
+<li>物理层 以二进制数据形式在物理媒体上传输数据 ISO2110，IEEE802，IEEE802.2</li>
+</ul>
+</li>
+</ul>
+<h3 id="OSI七层模型及各层协议"><a href="#OSI七层模型及各层协议" class="headerlink" title="OSI七层模型及各层协议"></a><strong>OSI七层模型及各层协议</strong></h3><h4 id="TCP及UDP协议"><a href="#TCP及UDP协议" class="headerlink" title="TCP及UDP协议"></a>TCP及UDP协议</h4><p>TCP和UDP都是传输层的协议</p>
+<ul>
+<li>TCP：传输控制协议</li>
+<li>UDP: 数据报文协议</li>
+</ul>
+<p><strong>TCP和UDP的区别</strong></p>
+<ul>
+<li>UDP的特点如下：</li>
+</ul>
+<ol>
+<li>无链接</li>
+<li>UDP使用尽最大努力交付，不保证可靠性</li>
+<li>UDP是面向报文的，UDP对应用层交付下来的报文，既不合并，也不拆分，而是保留这些报文的边界。应用层交给UDP多长的报文，UDP就照样发送，即一次发送一个报文</li>
+<li>UDP没有拥塞控制</li>
+<li>UDP支持一对一、一对多、多对一和多对多的交互通信</li>
+<li>UDP的首部开销小，只有8字节</li>
+</ol>
+<ul>
+<li>TCP的特点：</li>
+</ul>
+<ol>
+<li>TCP是面向连接的</li>
+<li>每条TCP连接只能用于两个断点，一对一</li>
+<li>TCP提供可靠交付的服务：连接传输数据、无差错、不丢失、不重复、并且按序到达</li>
+<li>TCP提供全双工通信</li>
+<li>面向字节流。TCP根据对方给出的窗口和当前网络拥塞的程度来决定一个报文应该包含多少个字节</li>
+</ol>
+<h4 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h4><p>HTTP：超文本传输协议，是用于从WWW服务器传输超文本到本地浏览器的传输协议。<br>HTTP协议是一种无状态协议，主要包含请求和相应两大部分：</p>
+<h5 id="请求"><a href="#请求" class="headerlink" title="请求"></a>请求</h5><p>请求是我们发送给接口的数据对象，包含接口地址（URL），请求方法，参数，请求头（Headers), Cookies, 数据等</p>
+<p><strong>GET请求</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">GET https://www.sojson.com/<span class="built_in">open</span>/api/weather/json.shtml?city=%E5%8C%<span class="number">97</span>%E4%BA%AC HTTP/<span class="number">1.1</span></span><br><span class="line">Host: www.sojson.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Upgrade-Insecure-Requests: <span class="number">1</span></span><br><span class="line">User-Agent: Mozilla/<span class="number">5.0</span> (Windows NT <span class="number">10.0</span>; Win64; x64) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Chrome/<span class="number">68.0</span><span class="number">.3440</span><span class="number">.106</span> Safari/<span class="number">537.36</span></span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=<span class="number">0.9</span>,image/webp,image/apng,*/*;q=<span class="number">0.8</span></span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=<span class="number">0.9</span>,en-US;q=<span class="number">0.8</span>,en;q=<span class="number">0.7</span></span><br><span class="line">Cookie: __cfduid=dccd65c484a7657b468327b66023fefc41534934250; yjs_id=59d1c42afa817b578b4b562d1f72651f; ctrl_time=<span class="number">1</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">第1行： 请求方法 接口地址 HTTP协议版本</span></span><br><span class="line"><span class="string">第2-N行：请求headers(如果有Cookie，最后一行为Cookie)</span></span><br><span class="line"><span class="string">空一行</span></span><br><span class="line"><span class="string">请求数据（POST等方法使用，此处为空）</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>POST请求</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">POST http://openapi.tuling123.com/openapi/api/v2 HTTP/<span class="number">1.1</span></span><br><span class="line">Content-<span class="type">Type</span>: application/json</span><br><span class="line">cache-control: no-cache</span><br><span class="line">Postman-Token: 1a39439e-61c8-<span class="number">4e59</span>-82a1-736a362c5962</span><br><span class="line">User-Agent: PostmanRuntime/<span class="number">7.2</span><span class="number">.0</span></span><br><span class="line">Accept: */*</span><br><span class="line">Host: openapi.tuling123.com</span><br><span class="line">accept-encoding: gzip, deflate</span><br><span class="line">content-length: <span class="number">468</span></span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">&quot;reqType&quot;</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">&quot;perception&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;inputText&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;text&quot;</span>: <span class="string">&quot;附近的酒店&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;inputImage&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;url&quot;</span>: <span class="string">&quot;imageUrl&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;selfInfo&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;location&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;city&quot;</span>: <span class="string">&quot;北京&quot;</span>,</span><br><span class="line">                <span class="string">&quot;province&quot;</span>: <span class="string">&quot;北京&quot;</span>,</span><br><span class="line">                <span class="string">&quot;street&quot;</span>: <span class="string">&quot;信息路&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;userInfo&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;apiKey&quot;</span>: <span class="string">&quot;ec961279f453459b9248f0aeb6600bbe&quot;</span>,</span><br><span class="line">        <span class="string">&quot;userId&quot;</span>: <span class="string">&quot;206379&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h5><p>URL：统一资源定位符，接口的访问地址（包含服务器地址+接口地址）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># url组成格式</span></span><br><span class="line"><span class="comment"># 协议\\: 服务器地址:端口号\资源路径?参数1=值1&amp;参数2=值2</span></span><br><span class="line">        </span><br><span class="line"><span class="comment"># URL编码</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">URL编码是一种浏览器用来打包请求参数及表单参数的格式, 参数和参数之间使用&amp;分割，非ASCII码使用%加16进制编码替换</span></span><br><span class="line"><span class="string">如：https://www.sojson.com/open/api/weather/json.shtml?city=北京</span></span><br><span class="line"><span class="string">编码后为：https://www.sojson.com/open/api/weather/json.shtml?city=%E5%8C%97%E4%BA%AC</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="请求方法"><a href="#请求方法" class="headerlink" title="请求方法"></a>请求方法</h5><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>GET</td>
+<td>请求指定的页面信息，并返回实体主体</td>
+</tr>
+<tr>
+<td>2</td>
+<td>POST</td>
+<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）数据被包含在请求体中</td>
+</tr>
+<tr>
+<td>3</td>
+<td>HEAD</td>
+<td>类似于get请求，只不过返回的响应中没有具体的内容，用于获取报头</td>
+</tr>
+<tr>
+<td>4</td>
+<td>PUT</td>
+<td>从客户端向服务器传送的数据取代指定的文档的内容</td>
+</tr>
+<tr>
+<td>5</td>
+<td>DELETE</td>
+<td>请求服务器删除指定的页面</td>
+</tr>
+<tr>
+<td>6</td>
+<td>CONNECT</td>
+<td>预留给能够将连接改为管道方式的代理服务器</td>
+</tr>
+<tr>
+<td>7</td>
+<td>OPTIONS</td>
+<td>允许客户端查看服务器的性能</td>
+</tr>
+<tr>
+<td>8</td>
+<td>TRACE</td>
+<td>回显服务器收到的请求，主要用于测试或诊断</td>
+</tr>
+</tbody></table>
+<h5 id="GET请求和POST请求的区别"><a href="#GET请求和POST请求的区别" class="headerlink" title="GET请求和POST请求的区别"></a><strong>GET请求和POST请求的区别</strong></h5><ul>
+<li>GET请求：<ul>
+<li>GET请求可被缓存</li>
+<li>GET请求保留在浏览器历史记录中</li>
+<li>GET请求可被收藏为书签</li>
+<li>GET请求不应在处理敏感数据时使用</li>
+<li>GET请求有长度限制</li>
+<li>GET请求只应当用于取回数据</li>
+</ul>
+</li>
+<li>POST请求：<ul>
+<li>POST请求不会被缓存</li>
+<li>POST请求不会保留在浏览器历史记录中</li>
+<li>POST不能被收藏为书签</li>
+<li>POST请求对数据长度没有要求</li>
+</ul>
+</li>
+</ul>
+<h5 id="请求参数（URL参数）"><a href="#请求参数（URL参数）" class="headerlink" title="请求参数（URL参数）"></a>请求参数（URL参数）</h5><p>如：<code>https://www.sojson.com/open/api/weather/json.shtml?city=北京</code></p>
+<ul>
+<li>中的<code>city=北京</code>,向接口传递一个参数“city”,参数值为“北京”</li>
+<li>不同的参数之间用&amp;隔开，非ASCII码参数会自动url encode</li>
+</ul>
+<h5 id="请求Headers（请求头）"><a href="#请求Headers（请求头）" class="headerlink" title="请求Headers（请求头）"></a>请求Headers（请求头）</h5><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/.%5Crequest%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%5C%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%AD%97%E6%AE%B5.png" alt="image-20240714231741474"></p>
+<h5 id="请求数据-又称为Request-Body-或-Data"><a href="#请求数据-又称为Request-Body-或-Data" class="headerlink" title="请求数据(又称为Request Body 或 Data)"></a>请求数据(又称为Request Body 或 Data)</h5><p>请求数据类型（Content-Type）（重点）</p>
+<ul>
+<li>application&#x2F;x-www-form-urlencoded： 网页表单格式（默认）</li>
+<li>application&#x2F;json：REST接口常用格式</li>
+<li>text&#x2F;xml：xml格式，RPC接口，Dubbo接口常用格式</li>
+<li>test&#x2F;html： html格式</li>
+<li>multipart&#x2F;form-data: 混合表单，支持上传图片</li>
+</ul>
+<p><strong>数据编码</strong></p>
+<ul>
+<li>ASCII码: 单字节，美国信息交换标准码, 包含数字，字母，英文标点及一些控制字符</li>
+<li>ISO-8859-1：又称Latin1，单字节，向下兼容ASCII，用于支持部分于欧洲使用的语言</li>
+<li>ANSI编码：单字节表示英文，双字节表示汉字，对ASCII的扩展，不同的国家和地区制定了不同的标准，中文中的GBK,GB2312属于ANSI编码</li>
+<li>Unicode编码: 采用二个字节编码（英文和中文的字符都以双字节存放），与ANSI码不兼容</li>
+<li>UTF-8：是目前互联网上使用最广泛的一种Unicode 编码方式，又称万国码</li>
+<li>Base64: 一种用64个字符来表示任意二进制数据的方法。<ul>
+<li>Base64编码的作用：由于某些系统中只能使用ASCII字符。Base64就是用来将非ASCII字符的数据转换成ASCII字符的一种方法。</li>
+<li>而且base64特别适合在http，mime协议下快速传输数据。</li>
+</ul>
+</li>
+</ul>
+<p><strong>指定请求数据编码（解决中文乱码）：</strong><br>请求Headers设置Content-Type: application&#x2F;json; charset&#x3D;utf-8</p>
+<h4 id="响应（Response"><a href="#响应（Response" class="headerlink" title="响应（Response)"></a>响应（Response)</h4><p>接口返回的信息，包含HTTP状态码，响应头和相应信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HTTP/<span class="number">1.1</span> <span class="number">200</span> OK</span><br><span class="line">Date: Thu, <span class="number">23</span> Aug <span class="number">2018</span> 06:<span class="number">32</span>:<span class="number">26</span> GMT</span><br><span class="line">Transfer-Encoding: chunked</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">&#123;<span class="string">&quot;intent&quot;</span>:&#123;<span class="string">&quot;actionName&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;code&quot;</span>:<span class="number">10005</span>,<span class="string">&quot;intentName&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;parameters&quot;</span>:&#123;<span class="string">&quot;lon&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;checkout_date&quot;</span>:<span class="string">&quot;2018-08-25&quot;</span>,<span class="string">&quot;star&quot;</span>:<span class="string">&quot;0&quot;</span>,<span class="string">&quot;city&quot;</span>:<span class="string">&quot;北京&quot;</span>,<span class="string">&quot;days&quot;</span>:<span class="string">&quot;1&quot;</span>,<span class="string">&quot;order&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;price_range&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;nearby_place&quot;</span>:<span class="string">&quot;酒店&quot;</span>,<span class="string">&quot;brand&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;checkin_date&quot;</span>:<span class="string">&quot;2018-08-24&quot;</span>,<span class="string">&quot;place&quot;</span>:<span class="string">&quot;信息路&quot;</span>,<span class="string">&quot;lat&quot;</span>:<span class="string">&quot;&quot;</span>,<span class="string">&quot;needgeo&quot;</span>:<span class="string">&quot;0&quot;</span>&#125;&#125;,<span class="string">&quot;results&quot;</span>:[&#123;<span class="string">&quot;groupType&quot;</span>:<span class="number">1</span>,<span class="string">&quot;resultType&quot;</span>:<span class="string">&quot;url&quot;</span>,<span class="string">&quot;values&quot;</span>:&#123;<span class="string">&quot;url&quot;</span>:<span class="string">&quot;http://m.elong.com/hotel/0101/nlist/#indate=2018-08-24&amp;outdate=2018-08-25&amp;keywords=%E4%BF%A1%E6%81%AF%E8%B7%AF&quot;</span>&#125;&#125;,&#123;<span class="string">&quot;groupType&quot;</span>:<span class="number">1</span>,<span class="string">&quot;resultType&quot;</span>:<span class="string">&quot;text&quot;</span>,<span class="string">&quot;values&quot;</span>:&#123;<span class="string">&quot;text&quot;</span>:<span class="string">&quot;亲，已帮你找到相关酒店信息&quot;</span>&#125;&#125;]&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>常见的响应格式</strong></p>
+<ul>
+<li>html</li>
+<li>json</li>
+<li>xml</li>
+</ul>
+<h4 id="HTTP状态码"><a href="#HTTP状态码" class="headerlink" title="HTTP状态码"></a>HTTP状态码</h4><ul>
+<li>1** 信息，服务器收到请求，需要请求者继续执行操作</li>
+<li>2** 成功，操作被成功接收并处理</li>
+<li>3** 重定向，需要进一步的操作以完成请求</li>
+<li>4** 客户端错误，请求包含语法错误或无法完成请求</li>
+<li>5** 服务器错误，服务器在处理请求的过程中发生了错误</li>
+</ul>
+<h4 id="HTTP响应码"><a href="#HTTP响应码" class="headerlink" title="HTTP响应码"></a><strong>HTTP响应码</strong></h4><ul>
+<li>200： 成功</li>
+<li>301&#x2F;302： 请求重定向到另外一个接口</li>
+<li>400: 请求语法错误</li>
+<li>403：资源没有访问权限</li>
+<li>404：资源不存在（有可能是请求url错误或参数不正确）</li>
+<li>405：请求方法不被允许（比如接口只允许Post,使用Get请求接口）</li>
+<li>500：服务器内部错误（通常是服务器挂了或接口Bug)</li>
+<li>502: 网关失效</li>
+<li>504: 网关请求超时</li>
+</ul>
+<h4 id="HTTP与HTTPS"><a href="#HTTP与HTTPS" class="headerlink" title="HTTP与HTTPS"></a>HTTP与HTTPS</h4><p>HTTP协议传输的数据都是未加密的，HTTPS协议是由HTTP+SSL协议构建的可进行加密传输、身份认证的网络协议，要比HTTP协议安全。</p>
+<p><strong>HTTPS和HTTP的区别</strong></p>
+<ul>
+<li>HTTPS协议需要到ca申请证书，一般免费证书较少，因而需要一定费用。</li>
+<li>HTTP是超文本传输协议，信息是明文传输，HTTPS则是具有安全性的SSL加密传输协议。</li>
+<li>HTTP和HTTPS使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>HTTP的连接很简单，是无状态的；HTTPS协议是由HTTP+SSL协议构建的可进行加密传输、身份认证的网络协议，比HTTP协议安全。</li>
+</ul>
+<h4 id="Cookie和Session"><a href="#Cookie和Session" class="headerlink" title="Cookie和Session"></a>Cookie和Session</h4><ul>
+<li>*<em>Cookie&#x2F;Cookies: *<em>是指某些网站为了</em>辨别用户身份*、</em>进行session跟踪<em>而</em>储存在用户本地*终端上的数据（通常经过加密）。</li>
+<li><strong>Session：</strong>服务端为客户端访问所建立和维持的会话，通常会生成一个唯一的id，会话有一定的有效期。<br>由于HTTP是无状态的，即服务器不知道用户上一次做了什么，默认也无法识别用户身份。<br>比较流行的做法是：</li>
+<li>用户访问时服务端建立会话（Session）</li>
+<li>将会话id（Session ID）随响应返回，并保存在客户端的Cookies里</li>
+<li>后续的访问中，服务器通过辨识，客户端请求时携带的Cookies内容来识别用户</li>
+</ul>
+<p><strong>Cookie和Session的区别</strong></p>
+<ul>
+<li>cookie是存在客户端（浏览器）的进程内存中和客户端所在的机器硬盘上</li>
+<li>cookie只能能够存储少量文本，大概4K大小</li>
+<li>cookie是不能在不同浏览器之间共享</li>
+<li>Session存在服务器端，存在网站进程的内存中</li>
+<li>Session在初次设置session的时候，会在session池中实例化一个session对象，以sessionid 的值作为key，同时会将key以cookie的形式保存到客户端的内存中</li>
+<li>Session的作用域只存在当前浏览器的会话中，当浏览器关闭以后就会将sessionid丢失，但是服务器的Session对象要20分钟以后才会回收</li>
+</ul>
+<h3 id="授权与加密"><a href="#授权与加密" class="headerlink" title="授权与加密"></a>授权与加密</h3><p>常见的接口安全策略：</p>
+<ol>
+<li>Session&#x2F;Cookie机制： 即需要登录，登录后可访问各个接口，最常用的一种策略，适用于内部接口。</li>
+<li>固定appid模式： 用户注册时会生成一个唯一的appid，用户调用接口时需要携带appid，适用于公开接口，安全性较差。</li>
+<li>动态token模式： token即身份令牌，用户访问接口需要使用个人appid临时申请一个token，token有一定有效期，适用于公开接口，安全性较appid模式好。</li>
+<li>开放协议： Basic Auth&#x2F; Oauth1.0 &#x2F; Oauth2.0: 适用于开放接口。</li>
+<li>数字签名： 将所有请求参数及参数值进行排列拼接，加上用户私钥，再进行Md5或其他加密生成一个请求的签名（sign）,请求是需要携带签名，服务器收到请求后，会对请求重新计算签名并核实与请求所携带签名是否一致。安全性较高，可以有效防止请求被篡改。适用于内部接口及微服务接口。</li>
+</ol>
+<p><strong>常见的加密算法</strong><br>在接口数据传输过程中常对一些敏感数据（如密码）进行Base64编码或MD5加密，以增加安全性。<br>加密算法分为对称式加密算法和非对称式加密算法，对称式加解密使用同一个秘钥，非对称式使用不同的秘钥。</p>
+<ul>
+<li>对称式加密<ul>
+<li>DES: 数据加密标准，速度较快，适用于加密大量数据的场合</li>
+<li>AES: 高级加密标准，速度快，安全级别高</li>
+</ul>
+</li>
+<li>非对称式加密<ul>
+<li>RSA: 是一个支持变长密钥的公共密钥算法， 分公钥和私钥，SSH协议使用该算法</li>
+<li>MD5: 最常用的一种加密方法，是一种摘要算法。</li>
+</ul>
+</li>
+</ul>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>HTTP 缓存机制作是 web 性能优化的重要手段，当用户第一次请求服务器资源时，服务器将资源缓存到客户端本地，在一定时间内（缓存有效期内）当用户再次向服务器请求同样的资源时，可以直接从缓存中读取，而不用从服务器下载。</p>
+<p><strong>接口测试中缓存相关注意点</strong></p>
+<ul>
+<li>在更新或调试接口是，注意是否需要清理缓存（或临时禁用缓存）</li>
+<li>缓存有一定的有效期</li>
+<li>接口性能测试中会关注缓存的命中率</li>
+</ul>
+<h2 id="接口自动化前置基础"><a href="#接口自动化前置基础" class="headerlink" title="接口自动化前置基础"></a>接口自动化前置基础</h2><h3 id="requests安装"><a href="#requests安装" class="headerlink" title="requests安装"></a>requests安装</h3><ul>
+<li>Windows: 打开cmd命令行，输入<code>pip install requests</code>，等待安装完成即可</li>
+<li>Linux: (建议使用Python3)，终端中输入<code>pip3 install requests</code>，等待安装完成即可</li>
+<li>Mac: (建议使用Python3), <code>sudo python3 -m pip install requests</code>，等待安装完成即可</li>
+</ul>
+<h3 id="requests的使用"><a href="#requests的使用" class="headerlink" title="requests的使用"></a>requests的使用</h3><h4 id="发送GET请求"><a href="#发送GET请求" class="headerlink" title="发送GET请求"></a>发送GET请求</h4><ol>
+<li>组装请求： 请求可能包含url，params(url参数)，data(请求数据)，headers(请求头)，cookies等，最少必须有url</li>
+<li>发送请求，获取响应：支持get，post等各种方法发送，返回的是一个响应对象</li>
+<li>解析响应: 输出响应文本</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入requests包</span></span><br><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 组装请求</span></span><br><span class="line">url = <span class="string">&quot;http://httpbin.org/get&quot;</span>  <span class="comment"># 这里只有url，字符串格式</span></span><br><span class="line"><span class="comment"># 2. 发送请求，获取响应</span></span><br><span class="line">res = requests.get(url) <span class="comment"># res即返回的响应对象</span></span><br><span class="line"><span class="comment"># 3. 解析响应</span></span><br><span class="line"><span class="built_in">print</span>(res.text)  <span class="comment"># 输出响应的文本</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="带参数的GET请求"><a href="#带参数的GET请求" class="headerlink" title="带参数的GET请求"></a>带参数的GET请求</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://www.tuling123.com/openapi/api?key=ec961279f453459b9248f0aeb6600bbe&amp;info=你好&quot;</span>  <span class="comment"># 参数可以写到url里</span></span><br><span class="line">res = requests.get(url=url) <span class="comment"># 第一个url指get方法的参数，第二个url指上一行我们定义的接口地址</span></span><br><span class="line"><span class="built_in">print</span>(res.text)  </span><br><span class="line"></span><br><span class="line"><span class="comment"># or</span></span><br><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://www.tuling123.com/openapi/api&quot;</span></span><br><span class="line">params = &#123;<span class="string">&quot;key&quot;</span>:<span class="string">&quot;ec961279f453459b9248f0aeb6600bbe&quot;</span>,<span class="string">&quot;info&quot;</span>:<span class="string">&quot;你好&quot;</span>&#125; <span class="comment"># 字典格式，单独提出来，方便参数的添加修改等操作</span></span><br><span class="line">res = requests.get(url=url, params=params) </span><br><span class="line"><span class="built_in">print</span>(res.text)  </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="传统表单类POST请求（x-www-form-urlencoded）"><a href="#传统表单类POST请求（x-www-form-urlencoded）" class="headerlink" title="传统表单类POST请求（x-www-form-urlencoded）"></a>传统表单类POST请求（x-www-form-urlencoded）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://httpbin.org/post&quot;</span></span><br><span class="line">data = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;hanzhichao&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125; <span class="comment"># Post请求发送的数据，字典格式</span></span><br><span class="line">res = requests.post(url=url, data=data) <span class="comment"># 这里使用post方法，参数和get方法一样</span></span><br><span class="line"><span class="built_in">print</span>(res.text)  </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="JSON类型的POST请求（application-json）"><a href="#JSON类型的POST请求（application-json）" class="headerlink" title="JSON类型的POST请求（application&#x2F;json）"></a>JSON类型的POST请求（application&#x2F;json）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://httpbin.org/post&quot;</span></span><br><span class="line">data = <span class="string">&#x27;&#x27;&#x27;&#123;</span></span><br><span class="line"><span class="string">        &quot;name&quot;: &quot;hanzhichao&quot;,</span></span><br><span class="line"><span class="string">        &quot;age&quot;: 18</span></span><br><span class="line"><span class="string">        &#125;&#x27;&#x27;&#x27;</span> <span class="comment"># 多行文本, 字符串格式，也可以单行（注意外层有引号，为字符串） data = &#x27;&#123;&quot;name&quot;: &quot;hanzhichao&quot;, &quot;age&quot;: 18&#125;&#x27;</span></span><br><span class="line">res = requests.post(url=url, data=data) <span class="comment">#  data支持字典或字符串</span></span><br><span class="line"><span class="built_in">print</span>(res.text)  </span><br></pre></td></tr></table></figure>
+
+<p>data参数支持字典格式也支持字符串格式，如果是字典格式，requests方法会将其按照默认表单urlencoded格式转换为字符串，如果是字符串则不转化<br>如果data以字符串格式传输需要遵循以下几点：</p>
+<ul>
+<li>必须是严格的JSON格式字符串，里面必须用双引号，k-v之间必须有逗号，布尔值必须是小写的true&#x2F;false等等</li>
+<li>不能有中文，直接传字符串不会自动编码</li>
+</ul>
+<p>一般来说，建议将data声明为字典格式（方便数据添加修改），然后再用json.dumps()方法把data转换为合法的JSON字符串格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"><span class="keyword">import</span> json <span class="comment"># 使用到JSON中的方法，需要提前导入</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://httpbin.org/post&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;hanzhichao&quot;</span>,</span><br><span class="line">        <span class="string">&quot;age&quot;</span>: <span class="number">18</span></span><br><span class="line">        &#125;  <span class="comment"># 字典格式，方便添加</span></span><br><span class="line">headers = &#123;<span class="string">&quot;Content-Type&quot;</span>:<span class="string">&quot;application/json&quot;</span>&#125; <span class="comment"># 严格来说，我们需要在请求头里声明我们发送的格式</span></span><br><span class="line">res = requests.post(url=url, data=json.dumps(data), headers=headers) <span class="comment">#  将字典格式的data变量转换为合法的JSON字符串传给post的data参数</span></span><br><span class="line"><span class="built_in">print</span>(res.text)  </span><br></pre></td></tr></table></figure>
+
+<p>或直接将字典格式的data数据赋给post方法的JSON参数（会自动将字典格式转为合法的JSON文本并添加headers）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://openapi.tuling123.com/openapi/api/v2&quot;</span></span><br><span class="line">data = &#123;</span><br><span class="line">	<span class="string">&quot;reqType&quot;</span>:<span class="number">0</span>,</span><br><span class="line">    <span class="string">&quot;perception&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;inputText&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;text&quot;</span>: <span class="string">&quot;附近的酒店&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;inputImage&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;url&quot;</span>: <span class="string">&quot;imageUrl&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;selfInfo&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;location&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;city&quot;</span>: <span class="string">&quot;北京&quot;</span>,</span><br><span class="line">                <span class="string">&quot;province&quot;</span>: <span class="string">&quot;北京&quot;</span>,</span><br><span class="line">                <span class="string">&quot;street&quot;</span>: <span class="string">&quot;信息路&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;userInfo&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;apiKey&quot;</span>: <span class="string">&quot;ec961279f453459b9248f0aeb6600bbe&quot;</span>,</span><br><span class="line">        <span class="string">&quot;userId&quot;</span>: <span class="string">&quot;206379&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line">res = requests.post(url=url, json=data) <span class="comment"># JSON格式的请求，将数据赋给json参数</span></span><br><span class="line"><span class="built_in">print</span>(res.text)  </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="JSON类型解析"><a href="#JSON类型解析" class="headerlink" title="JSON类型解析"></a>JSON类型解析</h3><h4 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h4><p>程序中的对象，如Python中的字典、列表、函数、类等，都是存在内存中的，一旦断电就会消失，不方便传递或存储，所以我们需要将内存中的对象转化为文本或者文件格式，来满足传输和持久化（存储）需求</p>
+<ul>
+<li>序列化： 内存对象 -&gt; 文本&#x2F;文件</li>
+<li>反序列化： 文本 -&gt; 内存对象</li>
+</ul>
+<p><strong>对象在HTTP中的传输过程</strong></p>
+<p>HTTP协议是超文本传输协议，是通过文本或二进制进行传输的，所以我们发送的请求要转化成文本进行传输，收到的响应也是文本格式，如果是JSON，一般还需要将文本格式重新转化为对象</p>
+<p>JSON对象（Python字典） -&gt; 转为文本请求 -&gt; 发送请求-&gt; 服务器收到文本请求 -&gt; 将文本请求转化为对象，获取其中的参数，处理业务-&gt; 返回文本格式的响应 -&gt; 客户端转为对象格式来从响应中取值</p>
+<h4 id="JSON对象与Python字典的区别"><a href="#JSON对象与Python字典的区别" class="headerlink" title="JSON对象与Python字典的区别"></a>JSON对象与Python字典的区别</h4><p>JSON对象是javascript object即javascript中的对象，是一种通用的格式，格式严格，不支持备注。</p>
+<p><strong>JSON文本和JSON对象的区别：</strong></p>
+<ul>
+<li>JSON文本是符合JSON格式的文本，实际上是一个字符串</li>
+<li>JSON对象是内存中一个对象，拥有属性和方法，可以通过对象获取其中的参数信息</li>
+</ul>
+<p><strong>Python的字典的格式和JSON格式，稍有不同：</strong></p>
+<ul>
+<li>字典中的引号支持单引号和双引号，JSON格式只支持双引号</li>
+<li>字典中的True&#x2F;False首字母大写，JSON格式为true&#x2F;false</li>
+<li>字典中的空值为None, JSON格式为null</li>
+</ul>
+<h4 id="JSON格式操作方法"><a href="#JSON格式操作方法" class="headerlink" title="JSON格式操作方法"></a>JSON格式操作方法</h4><ul>
+<li>序列化（字典 -&gt; 文本&#x2F;文件句柄）： json.dumps()&#x2F;json.dump()</li>
+<li>反序列化（文本&#x2F;文件句柄 -&gt; 字典) : json.loads()&#x2F;json.load()</li>
+</ul>
+<p><strong>序列化</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json <span class="comment"># 需要导入JSON包</span></span><br><span class="line"></span><br><span class="line">data = &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;张三&#x27;</span>, <span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;123456&#x27;</span>, <span class="string">&quot;male&quot;</span>: <span class="literal">True</span>, <span class="string">&quot;money&quot;</span>: <span class="literal">None</span>&#125; <span class="comment"># 字典格式</span></span><br><span class="line">str_data = json.dumps(data) <span class="comment"># 序列化，转化为合法的JSON文本（方便HTTP传输）</span></span><br><span class="line"><span class="built_in">print</span>(str_data)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">res = requests.post(<span class="string">&quot;http://www.tuling123.com/openapi/api?key=ec961279f453459b9248f0aeb6600bbe&amp;info=怎么又是你&quot;</span>) </span><br><span class="line"><span class="built_in">print</span>(res.text) <span class="comment"># 输出为一行文本</span></span><br><span class="line"></span><br><span class="line">res_dict = res.json() <span class="comment"># 将响应转为json对象（字典）等同于`json.loads(res.text)`</span></span><br><span class="line"><span class="built_in">print</span>(json.dumps(res_dict, indent=<span class="number">2</span>, sort_keys=<span class="literal">True</span>, ensure_ascii=<span class="literal">False</span>)) <span class="comment"># 重新转为文本</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">json.dumps() 参数</span></span><br><span class="line"><span class="string">indent: 缩进空格数，indent=0输出为一行</span></span><br><span class="line"><span class="string">sork_keys=True: 将json结果的key按ascii码排序</span></span><br><span class="line"><span class="string">ensure_ascii=Fasle: 不确保ascii码，如果返回格式为utf-8包含中文，不转化为\u...</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>反序列化</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">res_text = <span class="string">&#x27;&#123;&quot;name&quot;: &quot;\u5f20\u4e09&quot;, &quot;password&quot;: &quot;123456&quot;, &quot;male&quot;: true, &quot;money&quot;: null&#125;&#x27;</span>  <span class="comment"># JSON文本格式的响应信息</span></span><br><span class="line">res_dict = json.loads(res_text) <span class="comment"># 转化为字典 </span></span><br><span class="line"><span class="built_in">print</span>(res_dict[<span class="string">&#x27;name&#x27;</span>])  <span class="comment"># 方便获取其中的参数值</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>文件的序列化与反序列化</strong></p>
+<ol>
+<li>序列化：字典 -&gt; 文件句柄</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">res_dict = &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;张三&#x27;</span>, <span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;123456&#x27;</span>, <span class="string">&quot;male&quot;</span>: <span class="literal">True</span>, <span class="string">&quot;money&quot;</span>: <span class="literal">None</span>&#125; <span class="comment"># 字典格式</span></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;demo1.json&quot;</span>,<span class="string">&quot;w&quot;</span>)</span><br><span class="line">json.dump(res_dict, f)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>序列化： 文件句柄 -&gt; 字典</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// json 数据</span><br><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;张三&quot;,</span><br><span class="line">  &quot;password&quot;: &quot;123456&quot;,</span><br><span class="line">  &quot;male&quot;: true,</span><br><span class="line">  &quot;money&quot;: null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">f = <span class="built_in">open</span>(<span class="string">&quot;demo.JSON&quot;</span>,<span class="string">&quot;r&quot;</span>, encoding=<span class="string">&quot;utf-8&quot;</span>)  <span class="comment"># 文件中有中文需要指定编码</span></span><br><span class="line">f_dict = json.load(f) <span class="comment"># 反序列化将文件句柄转化为字典</span></span><br><span class="line"><span class="built_in">print</span>(f[<span class="string">&#x27;name&#x27;</span>]) <span class="comment"># 读取其中参数</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+
+<p><strong>什么时候使用JSON对象（字典）什么时候使用JSON文本？</strong><br>一般在组装data参数时，建议使用字典格式，发送请求时用<code>json.dumps(data)</code>转化为文本发送，收到请求后使用<code>json.loads(res.text)</code>转化为字典，方便我们获取其中的参数信息</p>
+<h3 id="requests库详解"><a href="#requests库详解" class="headerlink" title="requests库详解"></a>requests库详解</h3><h4 id="请求方法-1"><a href="#请求方法-1" class="headerlink" title="请求方法"></a>请求方法</h4><ul>
+<li>equests.get()</li>
+<li>requests.post()</li>
+<li>requests.put()<br>…</li>
+<li>requests.session(): 用于保持会话（session）<br>除了requests.session()外，其他请求方法的参数都差不多，都包含url，params, data, headers, cookies, files, auth, timeout等等</li>
+</ul>
+<h4 id="请求参数"><a href="#请求参数" class="headerlink" title="请求参数"></a>请求参数</h4><ul>
+<li>url: 字符串格式，参数也可以直接写到url中</li>
+<li>params：url参数，字典格式</li>
+<li>data: 请求数据，字典或字符串格式</li>
+<li>headers: 请求头，字典格式</li>
+<li>cookies: 字典格式，可以通过携带cookies绕过登录</li>
+<li>files: 字典格式，用于混合表单（form-data）中上传文件</li>
+<li>auth: Basic Auth授权，数组格式 <code>auth=(user,password)</code></li>
+<li>timeout: 超时时间（防止请求一直没有响应，最长等待时间），数字格式，单位为秒</li>
+</ul>
+<h4 id="响应解析"><a href="#响应解析" class="headerlink" title="响应解析"></a>响应解析</h4><ul>
+<li>res.status_code: 响应的HTTP状态码</li>
+<li>res.reason: 响应的状态码含义</li>
+<li>req.text：响应的文本格式，按req.encoding解码</li>
+<li>req.content: 响应的二进制格式</li>
+<li>req.encoding: 解码格式，可以通过修改<code>req.encoding=&#39;utf-8&#39;</code>来解决一部分中文乱码问题</li>
+<li>req.apparent_encoding：真实编码，由chardet库提供的明显编码</li>
+<li>req.json(): （注意，有括号），响应的json对象（字典）格式，慎用！如果响应文本不是合法的json文本，或报错</li>
+<li>req.headers: 响应头</li>
+<li>req.cookies: 响应的cookieJar对象，可以通过<code>req.cookies.get(key)</code>来获取响应cookies中某个key对应的值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests </span><br><span class="line"></span><br><span class="line">res = requests.get(<span class="string">&quot;https://www.baidu.com&quot;</span>) </span><br><span class="line"><span class="built_in">print</span>(res.status_code, res.reason) <span class="comment"># 200 OK</span></span><br><span class="line"><span class="built_in">print</span>(res.text) <span class="comment"># 文本格式，有乱码</span></span><br><span class="line"><span class="built_in">print</span>(res.content) <span class="comment"># 二进制格式</span></span><br><span class="line"><span class="built_in">print</span>(res.encoding) <span class="comment"># 查看解码格式 ISO-8859-1</span></span><br><span class="line"><span class="built_in">print</span>(res.apparent_encoding) <span class="comment"># utf-8</span></span><br><span class="line">res.encoding=<span class="string">&#x27;utf-8&#x27;</span> <span class="comment"># 手动设置解码格式为utf-8</span></span><br><span class="line"><span class="built_in">print</span>(res.text) <span class="comment"># 乱码问题被解决</span></span><br><span class="line"><span class="built_in">print</span>(res.cookies.items()) <span class="comment"># cookies中的所有的项 [(&#x27;BDORZ&#x27;, &#x27;27315&#x27;)]</span></span><br><span class="line"><span class="built_in">print</span>(res.cookies.get(<span class="string">&quot;BDORZ&quot;</span>)) <span class="comment"># 获取cookies中BDORZ所对应的值 27315</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="带安全认证的请求"><a href="#带安全认证的请求" class="headerlink" title="带安全认证的请求"></a>带安全认证的请求</h3><h4 id="需要登录的请求（Cookie-Session认证）"><a href="#需要登录的请求（Cookie-Session认证）" class="headerlink" title="需要登录的请求（Cookie&#x2F;Session认证）"></a>需要登录的请求（Cookie&#x2F;Session认证）</h4><ol>
+<li>使用会话保持</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">s = requests.session() <span class="comment"># 新建一个会话</span></span><br><span class="line">s.post(url=<span class="string">&quot;https://demo.fastadmin.net/admin/index/login.html&quot;</span>,data=&#123;<span class="string">&quot;username&quot;</span>:<span class="string">&quot;admin&quot;</span>,<span class="string">&quot;password&quot;</span>:<span class="string">&quot;123456&quot;</span>&#125;) <span class="comment"># 发送登录请求</span></span><br><span class="line">res = s.get(<span class="string">&quot;https://demo.fastadmin.net/admin/dashboard?ref=addtabs&quot;</span>) <span class="comment"># 使用同一个会话发送get请求，可以保持登录状态</span></span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>抓取cookies</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://demo.fastadmin.net/admin/dashboard?ref=addtabs&quot;</span></span><br><span class="line"><span class="comment"># 抓取cookie</span></span><br><span class="line">cookies = &#123;<span class="string">&quot;PHPSESSID&quot;</span>:<span class="string">&quot;9bf6b19ddb09938cf73d55a094b36726&quot;</span>&#125;</span><br><span class="line">res = requests.get(url=url, cookies=cookies) <span class="comment"># 携带cookies发送请求</span></span><br><span class="line"><span class="built_in">print</span>(res.text)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>两种方式的对比</strong></p>
+<ul>
+<li>使用session方式：每次都要发送两次请求，效率较低</li>
+<li>使用携带cookies方式：需要获取cookie，提取组装，cookies中是session有一定有效期，过期之后要重新抓取和更换cookies</li>
+<li>如果很多或所有请求都需要登录，可以发一次请求，保持该session为全局变量，其他接口都使用该session发送请求（同样要注意登录过期时间）</li>
+</ul>
+<h3 id="appid或token方式"><a href="#appid或token方式" class="headerlink" title="appid或token方式"></a>appid或token方式</h3><ul>
+<li>appid: 系统为合法用户赋予的访问id，固定的字符串，一般经过加密以确保HTTP传输中的安全</li>
+<li>token: 即令牌，固定或需要动态申请（有一定有效期），一般由用户信息及申请时间计算加密而成，用于验证接口访问的权限</li>
+</ul>
+<p><strong>token与session的区别</strong></p>
+<ul>
+<li>session是存在服务器的，服务端通过验证客户端的请求所携带的session值在服务会话中是否存在，来验证用户是否合法</li>
+<li>token: 是按一定算法加密计算出来的，服务端通过解密客户端所携带的token值来验证用户是否合法<br>**示例： **</li>
+<li>访问百度AI开发者平台：<a target="_blank" rel="noopener" href="http://ai.baidu.com/%EF%BC%8C%E6%B3%A8%E5%86%8C%E5%B9%B6%E7%99%BB%E5%BD%95%EF%BC%8C%E6%88%90%E4%B8%BA%E5%BC%80%E5%8F%91%E8%80%85%EF%BC%8C%E9%80%89%E6%8B%A9%E6%96%87%E5%AD%97%E8%AF%86%E5%88%AB">http://ai.baidu.com/，注册并登录，成为开发者，选择文字识别</a></li>
+<li>文字识别开发者文档：<a target="_blank" rel="noopener" href="http://ai.baidu.com/docs#/OCR-API/top">http://ai.baidu.com/docs#/OCR-API/top</a></li>
+<li>根据文档新建应用，查看自己的App Key和Secret Key</li>
+</ul>
+<h2 id="操作数据库"><a href="#操作数据库" class="headerlink" title="操作数据库"></a>操作数据库</h2><p>​		在功能、接口测试中常常需要通过数据库的操作，来准备数据、检测环境及核对功能、接口的数据库操作是否正确<br>​		在自动化测试中，就需要我们用代码连接数据库自动完成数据准备、环境检查及数据库断言的功能。<br>​		使用Python操作MySQL数据库这里我们需要用到三方库<code>PyMySQl</code></p>
+<h3 id="安装pymysql"><a href="#安装pymysql" class="headerlink" title="安装pymysql"></a>安装pymysql</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pymysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h3><ol>
+<li>建立数据库连接 <code>conn = pymysql.connect()</code></li>
+<li>从连接建立操作游标 <code>cur = conn.cursor()</code></li>
+<li>使用游标执行sql（读&#x2F;写） <code>cur.execute(sql)</code></li>
+<li>获取结果（读）&#x2F; 提交更改（写） <code>cur.fetchall()</code> &#x2F; <code>conn.commit()</code></li>
+<li>关闭游标及连接 <code>cur.close();conn.close()</code></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 建立连接</span></span><br><span class="line">conn = pymysql.connect(host=<span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">                    port=<span class="number">3306</span>,</span><br><span class="line">                    user=<span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">                    passwd=<span class="string">&#x27;123456&#x27;</span>,   <span class="comment"># password也可以</span></span><br><span class="line">                    db=<span class="string">&#x27;api_test&#x27;</span>,</span><br><span class="line">                    charset=<span class="string">&#x27;utf8&#x27;</span>)   <span class="comment"># 如果查询有中文需要指定数据库编码</span></span><br><span class="line">                    </span><br><span class="line"><span class="comment"># 2. 从连接建立游标（有了游标才能操作数据库）</span></span><br><span class="line">cur = conn.cursor()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 查询数据库（读）</span></span><br><span class="line">cur.execute(<span class="string">&quot;select * from user where name=&#x27;张三&#x27;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 获取查询结果</span></span><br><span class="line">result = cur.fetchall()</span><br><span class="line"><span class="built_in">print</span>(result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 更改数据库（写）</span></span><br><span class="line">cur.execute(<span class="string">&quot;delete from user where name=&#x27;李四&#x27;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 提交更改</span></span><br><span class="line">conn.commit()  <span class="comment"># 注意是用的conn不是cur</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 5. 关闭游标及连接</span></span><br><span class="line">cur.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+<h4 id="查询操作"><a href="#查询操作" class="headerlink" title="查询操作"></a><strong>查询操作</strong></h4><p>使用cur.execute(), 执行数据库查询后无返回的是影响的行数，而非查询结果。我们要使用<code>cur.fetchone()/cur.fetchmany()/cur.fetchall()</code>来获取查询结果</p>
+<ul>
+<li>cur.fetchone(): 获取一条数据（同时获取的数据会从结果集删除），返回元祖<code>(&#39;张三&#39;,&#39;123456&#39;)</code></li>
+<li>cur.fetchmany(3): 获取多条数据，返回嵌套元祖<code>((&#39;张三&#39;,&#39;123456&#39;),(&#39;李四&#39;,&#39;123456&#39;),(&quot;王五&quot;,&quot;123456&quot;))</code></li>
+<li>cur.fetchall(): 获取所有数据，返回嵌套元祖，<code>((&#39;张三&#39;,&#39;123456&#39;),)</code>（只有一条数据时）</li>
+</ul>
+<p><strong>注意：</strong> 获取完数据后，数据会从数据集中删除，再次获取获取不到，如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">cur.execute(select * <span class="keyword">from</span> user where name=<span class="string">&#x27;张三&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(cur.fetchone()) <span class="comment"># 结果： (&#x27;张三&#x27;,&#x27;123456&#x27;)</span></span><br><span class="line"><span class="built_in">print</span>(cur.fetchone()) <span class="comment"># 结果：None</span></span><br><span class="line"><span class="built_in">print</span>(cur.fetchall()) <span class="comment"># 结果：()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 所以我们需要重复使用查询结果时，需要将查询结果赋给某个变量</span></span><br><span class="line">cur.execute(select * <span class="keyword">from</span> user where name=<span class="string">&#x27;张三&#x27;</span>)</span><br><span class="line">result = cur.fetchall()</span><br><span class="line"><span class="built_in">print</span>(result)  <span class="comment"># 结果： (&#x27;张三&#x27;,&#x27;123456&#x27;)</span></span><br><span class="line"><span class="built_in">print</span>(result)  <span class="comment"># 结果： (&#x27;张三&#x27;,&#x27;123456&#x27;)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="修改操作"><a href="#修改操作" class="headerlink" title="修改操作"></a><strong>修改操作</strong></h4><p>执行修改数据库的操作后不立即生效，使用连接<code>conn.commit()</code>提交后才生效，支持事物及回滚</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    cur.execute(<span class="string">&quot;insert into user (name,password) values (&#x27;张三&#x27;, &#x27;123456&#x27;)&quot;</span>)</span><br><span class="line">    cur.execute(<span class="string">&quot;insert into user (name, passwd) values (&#x27;李四&#x27;), &#x27;123456&#x27;&quot;</span>) <span class="comment"># 此处sql出错</span></span><br><span class="line">    conn.commit()  <span class="comment"># 使用连接提交所有更改</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    conn.rollback()  <span class="comment"># 回滚所有更改（注意用的是conn)</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">str</span>(e))</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="封装数据库操作"><a href="#封装数据库操作" class="headerlink" title="封装数据库操作"></a>封装数据库操作</h3><p>由于经常要使用到数据库操作，建议将所有数据库操作封装成公用的数据库模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># db.py</span></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DB</span>:</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    数据库连接信息建议写到配置文件中，从配置文件中读取</span></span><br><span class="line"><span class="string">    sql语句建议先在手工测试一下没有语法问题再进行封装</span></span><br><span class="line"><span class="string">    通过封装各种sql可以完成各种业务操作</span></span><br><span class="line"><span class="string">    更改数据库有风险，操作需谨慎！！！</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.conn = pymysql.connect(host=<span class="string">&#x27;127.0.0.1&#x27;</span>,</span><br><span class="line">                    port=<span class="number">3306</span>,</span><br><span class="line">                    user=<span class="string">&#x27;root&#x27;</span>,</span><br><span class="line">                    passwd=<span class="string">&#x27;123456&#x27;</span>,   <span class="comment"># passwd 不是 password</span></span><br><span class="line">                    db=<span class="string">&#x27;api_test&#x27;</span>)</span><br><span class="line">        self.cur = self.conn.cursor()</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__del__</span>(<span class="params">self</span>): <span class="comment"># 析构函数，实例删除时触发</span></span><br><span class="line">        self.cur.close()</span><br><span class="line">        self.conn.close()</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">query</span>(<span class="params">self, sql</span>):</span><br><span class="line">        self.cur.execute(sql)</span><br><span class="line">        <span class="keyword">return</span> self.cur.fetchall()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">exec</span>(<span class="params">self, sql</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            self.cur.execute(sql)</span><br><span class="line">            self.conn.commit()</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            self.conn.rollback()</span><br><span class="line">            <span class="built_in">print</span>(<span class="built_in">str</span>(e))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">check_user</span>(<span class="params">self,name</span>):</span><br><span class="line">        result = self.query(<span class="string">&quot;select * from user where name=&#x27;&#123;&#125;&#x27;&quot;</span>.<span class="built_in">format</span>(name))</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span> <span class="keyword">if</span> result <span class="keyword">else</span> <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">add_user</span>(<span class="params">name, password</span>):</span><br><span class="line">    sql = <span class="string">&quot;insert into user (name, passwd) values (&#x27;&#123;&#125;&#x27;,&#x27;&#123;&#125;&#x27;)&quot;</span>.<span class="built_in">format</span>(name, password)</span><br><span class="line">    change_db(sql)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">del_user</span>(<span class="params">self, name</span>)</span><br><span class="line">        self.<span class="built_in">exec</span>(<span class="string">&quot;delete from user where name=&#x27;&#123;&#125;&#x27;&quot;</span>.<span class="built_in">format</span>(name))</span><br><span class="line">        </span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h2 id="使用unittest测试框架"><a href="#使用unittest测试框架" class="headerlink" title="使用unittest测试框架"></a>使用unittest测试框架</h2><h3 id="用例编写"><a href="#用例编写" class="headerlink" title="用例编写"></a>用例编写</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> unittest  <span class="comment"># 导入unittest</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestUserLogin</span>(unittest.TestCase):  <span class="comment"># 类必须Test开头，继承TestCase才能识别为用例类</span></span><br><span class="line">    url = <span class="string">&#x27;http://115.28.108.130:5000/api/user/login/&#x27;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_login_normal</span>(<span class="params">self</span>):   <span class="comment"># 一条测试用例，必须test_开头</span></span><br><span class="line">        data = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>&#125;</span><br><span class="line">        res = requests.post(url=self.url, data=data)</span><br><span class="line">        self.assertIn(<span class="string">&#x27;登录成功&#x27;</span>, res.text)  <span class="comment"># 断言</span></span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_login_password_wrong</span>(<span class="params">self</span>):</span><br><span class="line">        data = &#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>, <span class="string">&quot;password&quot;</span>: <span class="string">&quot;1234567&quot;</span>&#125;</span><br><span class="line">        res = requests.post(url=self.url, data=data)</span><br><span class="line">        self.assertIn(<span class="string">&#x27;登录失败&#x27;</span>, res.text)  <span class="comment"># 断言</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:  <span class="comment"># 如果是直接从当前模块执行（非别的模块调用本模块）</span></span><br><span class="line">	unittest.main(verbosity=<span class="number">2</span>)    <span class="comment"># 运行本测试类所有用例,verbosity为结果显示级别</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="完整的接口测试用例"><a href="#完整的接口测试用例" class="headerlink" title="完整的接口测试用例"></a>完整的接口测试用例</h3><p>一条完整的测试接口用例需要包含：</p>
+<ol>
+<li>数据准备：准备测试数据，可手工准备，也可使用代码准备（通常涉及数据库操作）</li>
+<li>环境检查：如果手工准备的数据，连接数据库进行环境检查会使用例更健壮</li>
+<li>发送请求：发送接口请求</li>
+<li>响应断言&#x2F;数据库断言：响应断言后，还需要进行数据库断言，以确保接口数据库操作的正确性</li>
+<li>数据清理：如果接口有更数据库操作，断言结束后需要还原更改</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test_user_reg.py</span></span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> db <span class="keyword">import</span> *   <span class="comment"># 导入db.py文件，见封装数据库篇</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据准备</span></span><br><span class="line">NOT_EXIST_USER = <span class="string">&#x27;范冰冰&#x27;</span></span><br><span class="line">EXIST_USER = <span class="string">&#x27;张三&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestUserReg</span>(unittest.TestCase):</span><br><span class="line">    url = <span class="string">&#x27;http://127.0.0.1:5000/api/user/reg/&#x27;</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_reg_normal</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 环境检查</span></span><br><span class="line">        <span class="keyword">if</span> check_user(NOT_EXIST_USER):</span><br><span class="line">            del_user(NOT_EXIST_USER)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 发送请求</span></span><br><span class="line">        data = &#123;<span class="string">&#x27;name&#x27;</span>: NOT_EXIST_USER, <span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;123456&#x27;</span>&#125;</span><br><span class="line">        res = requests.post(url=self.url, json=data)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 期望响应结果，注意字典格式和json格式的区别（如果有true/false/null要转化为字典格式）</span></span><br><span class="line">        except_res = &#123;</span><br><span class="line">                        <span class="string">&quot;code&quot;</span>: <span class="string">&quot;100000&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;msg&quot;</span>: <span class="string">&quot;成功&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">                                    <span class="string">&quot;name&quot;</span>: NOT_EXIST_USER,</span><br><span class="line">                                    <span class="string">&quot;password&quot;</span>: <span class="string">&quot;e10adc3949ba59abbe56e057f20f883e&quot;</span></span><br><span class="line">                                &#125;</span><br><span class="line">                      &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 响应断言（整体断言）</span></span><br><span class="line">        self.assertDictEqual(res.json(), except_res)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 数据库断言</span></span><br><span class="line">        self.assertTrue(check_user(NOT_EXIST_USER))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 环境清理（由于注册接口向数据库写入了用户信息）</span></span><br><span class="line">        del_user(NOT_EXIST_USER)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_reg_exist</span>(<span class="params">self</span>):</span><br><span class="line">         <span class="comment"># 环境检查</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> check_user(EXIST_USER):</span><br><span class="line">            add_user(EXIST_USER)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 发送请求</span></span><br><span class="line">        data = &#123;<span class="string">&#x27;name&#x27;</span>: EXIST_USER, <span class="string">&#x27;password&#x27;</span>: <span class="string">&#x27;123456&#x27;</span>&#125;</span><br><span class="line">        res = requests.post(url=self.url, json=data)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 期望响应结果，注意字典格式和json格式的区别（如果有true/false/null要转化为字典格式）</span></span><br><span class="line">        except_res = &#123;</span><br><span class="line">                        <span class="string">&quot;code&quot;</span>: <span class="string">&quot;100001&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;msg&quot;</span>: <span class="string">&quot;失败，用户已存在&quot;</span>,</span><br><span class="line">                        <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">                                    <span class="string">&quot;name&quot;</span>: EXIST_USER,</span><br><span class="line">                                    <span class="string">&quot;password&quot;</span>: <span class="string">&quot;e10adc3949ba59abbe56e057f20f883e&quot;</span></span><br><span class="line">                                &#125;</span><br><span class="line">                      &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 响应断言（整体断言）</span></span><br><span class="line">        self.assertDictEqual(res.json(), except_res)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 数据库断言(没有注册成功，数据库没有添加新用户)</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 环境清理（无需清理）</span></span><br><span class="line">        </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main(verbosity=<span class="number">2</span>)   <span class="comment"># 运行所有用例</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="数据分离-从Excel中读取数据"><a href="#数据分离-从Excel中读取数据" class="headerlink" title="数据分离 - 从Excel中读取数据"></a>数据分离 - 从Excel中读取数据</h2><p>之前的用例中，测试数据直接写在代码文件里，不利于修改和构造数据<br>这里我们使用Excel保存测试数据，实现代码和数据的分离</p>
+<p><strong>excel格式为</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/.%5Crequest%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%5Cexcel%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE.png" alt="image-20240715012538450"></p>
+<p><strong>Excel读取方法：</strong><br>Python我们使用三方库xlrd来读取Excel</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line">wb = xlrd.open_workbook(<span class="string">&quot;test_user_data.xlsx&quot;</span>)  <span class="comment"># 打开excel</span></span><br><span class="line">sh = wb.sheet_by_name(<span class="string">&quot;TestUserLogin&quot;</span>)  <span class="comment"># 按工作簿名定位工作表</span></span><br><span class="line"><span class="built_in">print</span>(sh.nrows)  <span class="comment"># 有效数据行数</span></span><br><span class="line"><span class="built_in">print</span>(sh.ncols)  <span class="comment"># 有效数据列数</span></span><br><span class="line"><span class="built_in">print</span>(sh.cell(<span class="number">0</span>, <span class="number">0</span>).value)  <span class="comment"># 输出第一行第一列的值`case_name`</span></span><br><span class="line"><span class="built_in">print</span>(sh.row_values(<span class="number">0</span>))  <span class="comment"># 输出第1行的所有值（列表格式）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将数据和标题组装成字典，使数据更清晰</span></span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">dict</span>(<span class="built_in">zip</span>(sh.row_values(<span class="number">0</span>), sh.row_values(<span class="number">1</span>))))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历excel,打印所有的数据</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(sh.nrows):</span><br><span class="line">    <span class="built_in">print</span>(sh.row_values(i))</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">3</span></span><br><span class="line"><span class="string">5</span></span><br><span class="line"><span class="string">case_name</span></span><br><span class="line"><span class="string">[&#x27;case_name&#x27;, &#x27;url&#x27;, &#x27;method&#x27;, &#x27;data&#x27;, &#x27;expect_res&#x27;]</span></span><br><span class="line"><span class="string">&#123;&#x27;case_name&#x27;: &#x27;test_user_login_normal&#x27;, &#x27;url&#x27;: &#x27;http://115.28.108.130:5000/api/user/login/&#x27;, &#x27;method&#x27;: &#x27;POST&#x27;, &#x27;data&#x27;: &#x27;&#123;&quot;name&quot;: &quot;张三&quot;,&quot;password&quot;:&quot;123456&quot;&#125;&#x27;, &#x27;expect_res&#x27;: &#x27;&lt;h1&gt;登录成功&lt;/h1&gt;&#x27;&#125;</span></span><br><span class="line"><span class="string">[&#x27;case_name&#x27;, &#x27;url&#x27;, &#x27;method&#x27;, &#x27;data&#x27;, &#x27;expect_res&#x27;]</span></span><br><span class="line"><span class="string">[&#x27;test_user_login_normal&#x27;, &#x27;http://115.28.108.130:5000/api/user/login/&#x27;, &#x27;POST&#x27;, &#x27;&#123;&quot;name&quot;: &quot;张三&quot;,&quot;password&quot;:&quot;123456&quot;&#125;&#x27;, &#x27;&lt;h1&gt;登录成功&lt;/h1&gt;&#x27;]</span></span><br><span class="line"><span class="string">[&#x27;test_user_login_password_wrong&#x27;, &#x27;http://115.28.108.130:5000/api/user/login/&#x27;, &#x27;POST&#x27;, &#x27;&#123;&quot;name&quot;: &quot;张三&quot;,&quot;password&quot;:&quot;1234567&quot;&#125;&#x27;, &#x27;&lt;h1&gt;失败，用户不存在&lt;/h1&gt;&#x27;]</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>封装读取excel操作：</strong></p>
+<p>我们的目的是获取某条用例的数据，需要3个参数，excel数据文件名（data_file），工作簿名（sheet），用例名（case_name）<br>如果我们只封装一个函数，每次调用（每条用例）都要打开一次excel并遍历一次，这样效率比较低。<br>我们可以拆分成两个函数，一个函数<code>excel_to_list(data_file, sheet)</code>，一次获取一个工作表的所有数据，另一个函数<code>get_test_data(data_list, case_name)</code>从所有数据中去查找到该条用例的数据。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># read_excel.py</span></span><br><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">excel_to_list</span>(<span class="params">data_file, sheet</span>):</span><br><span class="line">    data_list = []  <span class="comment"># 新建个空列表，来乘装所有的数据</span></span><br><span class="line">    wb = xlrd.open_workbook(data_file)  <span class="comment"># 打开excel</span></span><br><span class="line">    sh = wb.sheet_by_name(sheet)  <span class="comment"># 获取工作簿</span></span><br><span class="line">    header = sh.row_values(<span class="number">0</span>)  <span class="comment"># 获取标题行数据</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, sh.nrows):  <span class="comment"># 跳过标题行，从第二行开始取数据</span></span><br><span class="line">        d = <span class="built_in">dict</span>(<span class="built_in">zip</span>(header, sh.row_values(i)))  <span class="comment"># 将标题和每行数据组装成字典</span></span><br><span class="line">        data_list.append(d)</span><br><span class="line">    <span class="keyword">return</span> data_list  <span class="comment"># 列表嵌套字典格式，每个元素是一个字典</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_test_data</span>(<span class="params">data_list, case_name</span>):</span><br><span class="line">    <span class="keyword">for</span> case_data <span class="keyword">in</span> data_list:</span><br><span class="line">        <span class="keyword">if</span> case_name == case_data[<span class="string">&#x27;case_name&#x27;</span>]:  <span class="comment"># 如果字典数据中case_name与参数一致</span></span><br><span class="line">            <span class="keyword">return</span> case_data</span><br><span class="line">            <span class="comment"># 如果查询不到会返回None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:   <span class="comment"># 测试一下自己的代码</span></span><br><span class="line">    data_list = excel_to_list(<span class="string">&quot;test_user_data.xlsx&quot;</span>, <span class="string">&quot;TestUserLogin&quot;</span>)  <span class="comment"># 读取excel，TestUserLogin工作簿的所有数据</span></span><br><span class="line">    case_data = get_test_data(data_list, <span class="string">&#x27;test_user_login_normal&#x27;</span>)  <span class="comment"># 查找用例&#x27;test_user_login_normal&#x27;的数据</span></span><br><span class="line">    <span class="built_in">print</span>(case_data)</span><br></pre></td></tr></table></figure>
+
+<p>测试用例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test_user_login.py</span></span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> read_excel <span class="keyword">import</span> *  <span class="comment"># 导入read_excel中的方法</span></span><br><span class="line"><span class="keyword">import</span> json  <span class="comment"># 用来转化excel中的json字符串为字典</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestUserLogin</span>(unittest.TestCase):</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):   <span class="comment"># 整个测试类只执行一次</span></span><br><span class="line">        cls.data_list = excel_to_list(<span class="string">&quot;test_user_data.xlsx&quot;</span>, <span class="string">&quot;TestUserLogin&quot;</span>)  <span class="comment"># 读取该测试类所有用例数据</span></span><br><span class="line">        <span class="comment"># cls.data_list 同 self.data_list 都是该类的公共属性</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_login_normal</span>(<span class="params">self</span>):</span><br><span class="line">        case_data = get_test_data(self.data_list, <span class="string">&#x27;test_user_login_normal&#x27;</span>)   <span class="comment"># 从数据列表中查找到该用例数据</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> case_data:   <span class="comment"># 有可能为None</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;用例数据不存在&quot;</span>)</span><br><span class="line">        url = case_data.get(<span class="string">&#x27;url&#x27;</span>)   <span class="comment"># 从字典中取数据，excel中的标题也必须是小写url</span></span><br><span class="line">        data = case_data.get(<span class="string">&#x27;data&#x27;</span>)  <span class="comment"># 注意字符串格式，需要用json.loads()转化为字典格式</span></span><br><span class="line">        expect_res = case_data.get(<span class="string">&#x27;expect_res&#x27;</span>)  <span class="comment"># 期望数据</span></span><br><span class="line"></span><br><span class="line">        res = requests.post(url=url, data=json.loads(data))  <span class="comment"># 表单请求，数据转为字典格式</span></span><br><span class="line">        self.assertEqual(res.text, expect_res)  <span class="comment"># 改为assertEqual断言</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:   <span class="comment"># 非必要，用于测试我们的代码</span></span><br><span class="line">    unittest.main(verbosity=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>增加log功能</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line">logging.basicConfig(level=logging.DEBUG,  <span class="comment"># log level</span></span><br><span class="line">                    <span class="built_in">format</span>=<span class="string">&#x27;[%(asctime)s] %(levelname)s [%(funcName)s: %(filename)s, %(lineno)d] %(message)s&#x27;</span>,  <span class="comment"># log格式</span></span><br><span class="line">                    datefmt=<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>,  <span class="comment"># 日期格式</span></span><br><span class="line">                    filename=<span class="string">&#x27;log.txt&#x27;</span>,  <span class="comment"># 日志输出文件</span></span><br><span class="line">                    filemode=<span class="string">&#x27;a&#x27;</span>)  <span class="comment"># 追加模式</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    logging.info(<span class="string">&quot;hello&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Log Level:</strong></p>
+<ul>
+<li>CRITICAL: 用于输出严重错误信息</li>
+<li>ERROR: 用于输出错误信息</li>
+<li>WARNING: 用于输出警示信息</li>
+<li>INFO: 用于输出一些提升信息</li>
+<li>DEBUG: 用于输出一些调试信息</li>
+</ul>
+<p><strong>日志格式:</strong></p>
+<ul>
+<li>%(levelno)s: 打印日志级别的数值</li>
+<li>%(levelname)s: 打印日志级别名称</li>
+<li>%(pathname)s: 打印当前执行程序的路径，其实就是sys.argv[0]</li>
+<li>%(filename)s: 打印当前执行程序名</li>
+<li>%(funcName)s: 打印日志的当前函数</li>
+<li>%(lineno)d: 打印日志的当前行号</li>
+<li>%(asctime)s: 打印日志的时间</li>
+<li>%(thread)d: 打印线程ID</li>
+<li>%(threadName)s: 打印线程名称</li>
+<li>%(process)d: 打印进程ID</li>
+<li>%(message)s: 打印日志信息</li>
+</ul>
+<p><strong>项目使用log</strong><br>将所有print改为log，如<code>db.py</code> 部分</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># db.py</span></span><br><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 封装数据库查询操作</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">query_db</span>(<span class="params">sql</span>):</span><br><span class="line">    conn = get_db_conn()</span><br><span class="line">    cur = conn.cursor()  </span><br><span class="line">    logging.debug(sql)    <span class="comment"># 输出执行的sql</span></span><br><span class="line">    cur.execute(sql)</span><br><span class="line">    conn.commit()</span><br><span class="line">    result = cur.fetchall() </span><br><span class="line">    logging.debug(result)  <span class="comment"># 输出查询结果</span></span><br><span class="line">    cur.close() </span><br><span class="line">    conn.close() </span><br><span class="line">    <span class="keyword">return</span> result </span><br><span class="line"></span><br><span class="line"><span class="comment"># 封装更改数据库操作</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">change_db</span>(<span class="params">sql</span>):</span><br><span class="line">    conn = get_db_conn() </span><br><span class="line">    cur = conn.cursor()</span><br><span class="line">    logging.debug(sql)  <span class="comment"># 输出执行的sql</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cur.execute(sql) </span><br><span class="line">        conn.commit() </span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        conn.rollback() </span><br><span class="line">        logging.error(<span class="built_in">str</span>(e))  <span class="comment"># 输出错误信息</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        cur.close() </span><br><span class="line">        conn.close()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test_user_login.py</span></span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> read_excel <span class="keyword">import</span> *  <span class="comment"># 导入read_excel中的方法</span></span><br><span class="line"><span class="keyword">import</span> json  <span class="comment"># 用来转化excel中的json字符串为字典</span></span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestUserLogin</span>(unittest.TestCase):</span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):   <span class="comment"># 整个测试类只执行一次</span></span><br><span class="line">        cls.data_list = excel_to_list(<span class="string">&quot;test_user_data.xlsx&quot;</span>, <span class="string">&quot;TestUserLogin&quot;</span>)  <span class="comment"># 读取该测试类所有用例数据</span></span><br><span class="line">        <span class="comment"># cls.data_list 同 self.data_list 都是该类的公共属性</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_login_normal</span>(<span class="params">self</span>):</span><br><span class="line">        case_data = get_test_data(self.data_list, <span class="string">&#x27;test_user_login_normal&#x27;</span>)   <span class="comment"># 从数据列表中查找到该用例数据</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> case_data:   <span class="comment"># 有可能为None</span></span><br><span class="line">            logging.error(<span class="string">&quot;用例数据不存在&quot;</span>)</span><br><span class="line">        url = case_data.get(<span class="string">&#x27;url&#x27;</span>)   <span class="comment"># excel中的标题也必须是小写url</span></span><br><span class="line">        data = case_data.get(<span class="string">&#x27;data&#x27;</span>)  <span class="comment"># 注意字符串格式，需要用json.loads()转化为字典格式</span></span><br><span class="line">        expect_res = case_data.get(<span class="string">&#x27;expect_res&#x27;</span>)  <span class="comment"># 期望数据</span></span><br><span class="line"></span><br><span class="line">        res = requests.post(url=url, data=json.loads(data))  <span class="comment"># 表单请求，数据转为字典格式</span></span><br><span class="line">        <span class="comment"># 这段logger打印可以单独封装出去，后期可以其他case调用</span></span><br><span class="line">        logging.info(<span class="string">&quot;测试用例：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">&#x27;test_user_login_normal&#x27;</span>))</span><br><span class="line">        logging.info(<span class="string">&quot;url：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(url))</span><br><span class="line">        logging.info(<span class="string">&quot;请求参数：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(data))</span><br><span class="line">        logging.info(<span class="string">&quot;期望结果：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(expect_res))</span><br><span class="line">        logging.info(<span class="string">&quot;实际结果：&#123;&#125;&quot;</span>.<span class="built_in">format</span>(res.text)</span><br><span class="line">        self.assertEqual(res.text, expect_res)  <span class="comment"># 断言</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    unittest.main(verbosity=<span class="number">2</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="更简单的用例编写"><a href="#更简单的用例编写" class="headerlink" title="更简单的用例编写"></a>更简单的用例编写</h2><h3 id="使用用例基类"><a href="#使用用例基类" class="headerlink" title="使用用例基类"></a>使用用例基类</h3><p>因为每条用例都需要从excel中读取数据，解析数据，发送请求，断言响应结果，我们可以封装一个<code>BaseCase</code>的用例基础类，对一些方法进行封装，来简化用例编写</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># baseCase.py</span></span><br><span class="line"><span class="keyword">import</span> unittest</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.path.append(<span class="string">&quot;../..&quot;</span>)   <span class="comment"># 统一将包的搜索路径提升到项目根目录下</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lib.read_excel <span class="keyword">import</span> *  </span><br><span class="line"><span class="keyword">from</span> lib.case_log <span class="keyword">import</span> log_case_info </span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BaseCase</span>(unittest.TestCase):   <span class="comment"># 继承unittest.TestCase</span></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">setUpClass</span>(<span class="params">cls</span>):</span><br><span class="line">        <span class="keyword">if</span> cls.__name__ != <span class="string">&#x27;BaseCase&#x27;</span>:</span><br><span class="line">            cls.data_list = excel_to_list(data_file, cls.__name__)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_case_data</span>(<span class="params">self, case_name</span>):</span><br><span class="line">        <span class="keyword">return</span> get_test_data(self.data_list, case_name)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">send_request</span>(<span class="params">self, case_data</span>):</span><br><span class="line">        case_name = case_data.get(<span class="string">&#x27;case_name&#x27;</span>)</span><br><span class="line">        url = case_data.get(<span class="string">&#x27;url&#x27;</span>)</span><br><span class="line">        args = case_data.get(<span class="string">&#x27;args&#x27;</span>)</span><br><span class="line">        headers = case_data.get(<span class="string">&#x27;headers&#x27;</span>)</span><br><span class="line">        expect_res = case_data.get(<span class="string">&#x27;expect_res&#x27;</span>)</span><br><span class="line">        method = case_data.get(<span class="string">&#x27;method&#x27;</span>)</span><br><span class="line">        data_type = case_data.get(<span class="string">&#x27;data_type&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> method.upper() == <span class="string">&#x27;GET&#x27;</span>:   <span class="comment"># GET类型请求</span></span><br><span class="line">            res = requests.get(url=url, params=json.loads(args))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> data_type.upper() == <span class="string">&#x27;FORM&#x27;</span>:   <span class="comment"># 表单格式请求</span></span><br><span class="line">            res = requests.post(url=url, data=json.loads(args), headers=json.loads(headers))</span><br><span class="line">            log_case_info(case_name, url, args, expect_res, res.text)</span><br><span class="line">            self.assertEqual(res.text, expect_res)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            res = requests.post(url=url, json=json.loads(args), headers=json.loads(headers))   <span class="comment"># JSON格式请求</span></span><br><span class="line">            log_case_info(case_name, url, args, json.dumps(json.loads(expect_res), sort_keys=<span class="literal">True</span>),</span><br><span class="line">                          json.dumps(res.json(), ensure_ascii=<span class="literal">False</span>, sort_keys=<span class="literal">True</span>))</span><br><span class="line">            self.assertDictEqual(res.json(), json.loads(expect_res))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># test_user_login.py</span></span><br><span class="line"><span class="keyword">from</span> test.<span class="keyword">case</span>.basecase <span class="keyword">import</span> BaseCase</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestUserLogin</span>(<span class="title class_ inherited__">BaseCase</span>):   <span class="comment"># 这里直接继承BaseCase</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_login_normal</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;level1:正常登录&quot;&quot;&quot;</span></span><br><span class="line">        case_data = self.get_case_data(<span class="string">&quot;test_user_login_normal&quot;</span>)</span><br><span class="line">        self.send_request(case_data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_login_password_wrong</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;密码错误登录&quot;&quot;&quot;</span></span><br><span class="line">        case_data = self.get_case_data(<span class="string">&quot;test_user_login_password_wrong&quot;</span>)</span><br><span class="line">        self.send_request(case_data)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="按用例标签运行"><a href="#按用例标签运行" class="headerlink" title="按用例标签运行"></a>按用例标签运行</h3><p>unittest并没有tag相关功能，一种实现方案是添加自定义装饰器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">tag</span>(<span class="params">tag</span>):</span><br><span class="line">    <span class="keyword">if</span> tag==OptionParser.options.tag:   <span class="comment"># 运行的命令行参数</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">lambda</span> func: func    <span class="comment"># 如果用例的tag==命令行指定的tag参数，返回用例本身</span></span><br><span class="line">    <span class="keyword">return</span> unittest.skip(<span class="string">&quot;跳过不包含该tag的用例&quot;</span>)    <span class="comment">#  否则跳过用例</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用装饰器进行标记</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">这种方法在最后的报告中会出现很多skipped的用例，可能会干扰到因其他（如环境）原因需要跳过的用例</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="meta">@tag(<span class="params"><span class="string">&quot;level1&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_a</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>用例标记方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TestUserLogin</span>(<span class="title class_ inherited__">BaseCase</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_user_login_normal</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;level1:正常登录&quot;&quot;&quot;</span>    <span class="comment"># level1及是一个标签，放到docstring哪里都可以</span></span><br><span class="line">        case_data = self.get_case_data(<span class="string">&quot;test_user_login_normal&quot;</span>)</span><br><span class="line">        self.send_request(case_data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过获取docstring方式</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">makesuite_by_tag</span>(<span class="params">tag</span>):</span><br><span class="line">    suite = unittest.TestSuite()</span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">case</span> <span class="keyword">in</span> collect():</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">case</span>._testMethodDoc <span class="keyword">and</span> tag <span class="keyword">in</span> <span class="keyword">case</span>._testMethodDoc:  <span class="comment"># 如果用例方法存在docstring,并且docstring中包含本标签</span></span><br><span class="line">            suite.addTest(<span class="keyword">case</span>)</span><br><span class="line">    <span class="keyword">return</span> suite    </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="重新运行上次失败用例"><a href="#重新运行上次失败用例" class="headerlink" title="重新运行上次失败用例"></a>重新运行上次失败用例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_failures</span>(<span class="params">result, file</span>):   <span class="comment"># file为序列化保存的文件名，配置在config/config.py中</span></span><br><span class="line">    suite = unittest.TestSuite()</span><br><span class="line">    <span class="keyword">for</span> case_result <span class="keyword">in</span> result.failures:   <span class="comment"># 组装TestSuite</span></span><br><span class="line">        suite.addTest(case_result[<span class="number">0</span>])   <span class="comment"># case_result是个元祖，第一个元素是用例对象，后面是失败原因等等</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        pickle.dump(suite, f)    <span class="comment"># 序列化到指定文件</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rerun_fails</span>():  <span class="comment"># 失败用例重跑方法</span></span><br><span class="line">    sys.path.append(test_case_path)   <span class="comment"># 需要将用例路径添加到包搜索路径中，不然反序列化TestSuite会找不到用例</span></span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(last_fails_file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        suite = pickle.load(f)    <span class="comment"># 反序列化得到TestSuite</span></span><br><span class="line">    run(suite)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="使用命令行参数"><a href="#使用命令行参数" class="headerlink" title="使用命令行参数"></a>使用命令行参数</h3><p>​	为测试执行添加其他自定义命令行参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 命令行选项</span></span><br><span class="line">parser = OptionParser()</span><br><span class="line"></span><br><span class="line">parser.add_option(<span class="string">&#x27;--collect-only&#x27;</span>, action=<span class="string">&#x27;store_true&#x27;</span>, dest=<span class="string">&#x27;collect_only&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;仅列出所有用例&#x27;</span>)</span><br><span class="line">parser.add_option(<span class="string">&#x27;--rerun-fails&#x27;</span>, action=<span class="string">&#x27;store_true&#x27;</span>, dest=<span class="string">&#x27;rerun_fails&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;运行上次失败的用例&#x27;</span>)</span><br><span class="line">parser.add_option(<span class="string">&#x27;--testlist&#x27;</span>, action=<span class="string">&#x27;store_true&#x27;</span>, dest=<span class="string">&#x27;testlist&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;运行test/testlist.txt列表指定用例&#x27;</span>)</span><br><span class="line"></span><br><span class="line">parser.add_option(<span class="string">&#x27;--testsuite&#x27;</span>, action=<span class="string">&#x27;store&#x27;</span>, dest=<span class="string">&#x27;testsuite&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;运行指定的TestSuite&#x27;</span>)</span><br><span class="line">parser.add_option(<span class="string">&#x27;--tag&#x27;</span>, action=<span class="string">&#x27;store&#x27;</span>, dest=<span class="string">&#x27;tag&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;运行指定tag的用例&#x27;</span>)</span><br><span class="line"></span><br><span class="line">(options, args) = parser.parse_args()  <span class="comment"># 应用选项（使生效）</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Mock-Server"><a href="#Mock-Server" class="headerlink" title="Mock Server"></a>Mock Server</h2><p><strong>Mock</strong> 即模拟，就是在测试过程中，对于某些不容易构造或者不容易获取的对象，用一个虚拟的对象来创建以便测试的测试方法，其最大的优势就是降级前后端耦合度，使前端工程师可以不依赖后端返回数据，先开发前端样式以及逻辑处理</p>
+<p><strong>Mock Server</strong> 即Mock接口服务器，可以通过配置快速Mock出新的接口</p>
+<p><strong>Mock Server的使用范围</strong></p>
+<ul>
+<li>前后端分离项目</li>
+<li>所测接口依赖第三方系统（还未具备）</li>
+<li>所测接口依赖复杂或依赖的接口不稳定，并不作为主要验证对象</li>
+</ul>
+<h3 id="Postman还可以基于Collection建立Mock-Server，这里不再详述"><a href="#Postman还可以基于Collection建立Mock-Server，这里不再详述" class="headerlink" title="Postman还可以基于Collection建立Mock Server，这里不再详述"></a>Postman还可以基于Collection建立Mock Server，这里不再详述</h3><h3 id="Python-Flask自己搭建Mock接口"><a href="#Python-Flask自己搭建Mock接口" class="headerlink" title="Python+Flask自己搭建Mock接口"></a><strong>Python+Flask自己搭建Mock接口</strong></h3><h4 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install flask</span><br></pre></td></tr></table></figure>
+
+<h4 id="生成mock接口数据"><a href="#生成mock接口数据" class="headerlink" title="生成mock接口数据"></a>生成mock接口数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, jsonify, abort</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">app = Flask(__name__) <span class="comment"># 实例化一个Flask对象</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/api/user/reg/&quot;</span>, methods=[<span class="string">&quot;POST&quot;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">reg</span>():</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> request.json <span class="keyword">or</span> <span class="keyword">not</span> <span class="string">&#x27;name&#x27;</span> <span class="keyword">in</span> request.json <span class="keyword">or</span> <span class="keyword">not</span> <span class="string">&#x27;password&#x27;</span> <span class="keyword">in</span> request.json:</span><br><span class="line">        abort(<span class="number">404</span>) </span><br><span class="line">    res = [</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;code&quot;</span>: <span class="string">&quot;100000&quot;</span>,</span><br><span class="line">                <span class="string">&quot;msg&quot;</span>: <span class="string">&quot;成功&quot;</span>,</span><br><span class="line">                <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">                  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;李六&quot;</span>,</span><br><span class="line">                  <span class="string">&quot;password&quot;</span>: <span class="string">&quot;e10adc3949ba59abbe56e057f20f883e&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">              &#125;,</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;code&quot;</span>: <span class="string">&quot;100001&quot;</span>,</span><br><span class="line">                <span class="string">&quot;msg&quot;</span>: <span class="string">&quot;失败，用户已存在&quot;</span>,</span><br><span class="line">                <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">                  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;李六&quot;</span>,</span><br><span class="line">                  <span class="string">&quot;password&quot;</span>: <span class="string">&quot;e10adc3949ba59abbe56e057f20f883e&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">              &#125;,</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;code&quot;</span>: <span class="string">&quot;100002&quot;</span>,</span><br><span class="line">                <span class="string">&quot;msg&quot;</span>: <span class="string">&quot;失败，添加用户失败&quot;</span>,</span><br><span class="line">                <span class="string">&quot;data&quot;</span>: &#123;</span><br><span class="line">                  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;李六&quot;</span>,</span><br><span class="line">                  <span class="string">&quot;password&quot;</span>: <span class="string">&quot;e10adc3949ba59abbe56e057f20f883e&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          ]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> jsonify(random.choice(res))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python</a><a class="post-meta__tags" href="/tags/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/">接口自动化</a><a class="post-meta__tags" href="/tags/request/">request</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/08/unittest-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Unittest-单元测试框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.cdec886aa56cb9ef7f6fdc573a54d212?rik=V3DSkUYGhvqEow&amp;riu=http%3a%2f%2fimg.itest.info%2funittest%2fcourse-unittest.jpg&amp;ehk=TQpvcu0I2YcBLtoLcPTp%2f9mDJe7Ea0dqGT2DKjasQn0%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Unittest-单元测试框架</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="Selenium-Web自动化测试工具"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Selenium-Web自动化测试工具</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/14/python%E5%9F%BA%E7%A1%80/" title="Python基础"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.dSMliGMR1gP-nfkwknp26QHaDt?w=314&h=175&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">Python基础</div></div></a></div><div><a href="/2023/12/21/Flask%E6%A1%86%E6%9E%B6/" title="Flask框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.aYKhp2p8j4T7TXmV73jzmAHaDt?w=320&h=175&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-21</div><div class="title">Flask框架</div></div></a></div><div><a href="/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="Selenium-Web自动化测试工具"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-23</div><div class="title">Selenium-Web自动化测试工具</div></div></a></div><div><a href="/2024/03/29/pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Pytest测试框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C._mSAAIu-LtTpte92lrJCSwHaFj?w=233&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-29</div><div class="title">Pytest测试框架</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fafafa</div><div class="author-info__description">记录笔记日志</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/fafafabaobei@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=728831102&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">接口测试基础知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E6%A6%82%E5%BF%B5"><span class="toc-number">1.0.1.</span> <span class="toc-text">接口测试概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84"><span class="toc-number">1.0.2.</span> <span class="toc-text">接口测试目的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B"><span class="toc-number">1.0.3.</span> <span class="toc-text">接口测试一般流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%85%B3%E6%B3%A8%E7%82%B9"><span class="toc-number">1.0.4.</span> <span class="toc-text">接口测试关注点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%8E%A5%E5%8F%A3%E7%A7%8D%E7%B1%BB"><span class="toc-number">1.0.5.</span> <span class="toc-text">常见接口种类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.0.6.</span> <span class="toc-text">常见接口数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8%E9%AA%8C%E8%AF%81%E6%96%B9%E5%BC%8F"><span class="toc-number">1.0.7.</span> <span class="toc-text">常见接口安全验证方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%8E%A5%E5%8F%A3%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95-RESTful%E8%A7%84%E8%8C%83"><span class="toc-number">1.0.8.</span> <span class="toc-text">常见接口请求方法(RESTful规范)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">1.0.9.</span> <span class="toc-text">常见状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E4%B8%9A%E5%8A%A1%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.0.10.</span> <span class="toc-text">接口业务类型</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%A6%82%E5%BF%B5"><span class="toc-number">2.</span> <span class="toc-text">接口概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%8E%A5%E5%8F%A3%E7%B1%BB%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">常见接口类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%EF%BC%9F"><span class="toc-number">2.2.</span> <span class="toc-text">什么是接口测试？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%81%9A%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%EF%BC%9F"><span class="toc-number">2.2.1.</span> <span class="toc-text">为什么要做接口测试？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E9%83%BD%E6%B5%8B%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.2.2.</span> <span class="toc-text">接口测试都测什么？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%8E%E6%A0%B7%E6%8E%8C%E6%8F%A1%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%EF%BC%9F"><span class="toc-number">2.2.3.</span> <span class="toc-text">怎样掌握接口测试？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E9%87%8D%E9%9A%BE%E7%82%B9"><span class="toc-number">2.2.4.</span> <span class="toc-text">接口测试重难点</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%9AIP-%E5%9F%9F%E5%90%8D-DNS%E5%8F%8A%E7%AB%AF%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">网络基础知识：IP,域名, DNS及端口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#IP%E5%9C%B0%E5%9D%80"><span class="toc-number">3.1.</span> <span class="toc-text">IP地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8BIP%E5%91%BD%E4%BB%A4"><span class="toc-number">3.1.1.</span> <span class="toc-text">查看IP命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Python%E7%BB%83%E4%B9%A0%EF%BC%9A%E6%A3%80%E6%9F%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%98%AF%E5%90%A6ip"><span class="toc-number">3.1.2.</span> <span class="toc-text">Python练习：检查字符串是否ip</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3"><span class="toc-number">3.2.</span> <span class="toc-text">端口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.1.</span> <span class="toc-text">端口类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E8%BD%AF%E4%BB%B6%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3"><span class="toc-number">3.2.2.</span> <span class="toc-text">常见软件默认端口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%AB%AF%E5%8F%A3%E5%91%BD%E4%BB%A4"><span class="toc-number">3.2.3.</span> <span class="toc-text">查看端口命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98"><span class="toc-number">3.2.4.</span> <span class="toc-text">解决端口占用问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%9F%E5%90%8D%E5%8F%8ADNS"><span class="toc-number">3.3.</span> <span class="toc-text">域名及DNS</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8B%E5%9F%9F%E5%90%8D%E6%89%80%E5%AF%B9%E4%BA%8E%E7%9A%84ip%EF%BC%9F"><span class="toc-number">3.3.0.1.</span> <span class="toc-text">如何查看域名所对于的ip？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DNS"><span class="toc-number">3.3.0.2.</span> <span class="toc-text">DNS</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86%EF%BC%9AOSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E5%8F%8ATCP%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.</span> <span class="toc-text">网络基础知识：OSI七层模型及TCP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B"><span class="toc-number">4.1.</span> <span class="toc-text">OSI七层模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OSI%E4%B8%83%E5%B1%82%E6%A8%A1%E5%9E%8B%E5%8F%8A%E5%90%84%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.2.</span> <span class="toc-text">OSI七层模型及各层协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP%E5%8F%8AUDP%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.2.1.</span> <span class="toc-text">TCP及UDP协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E5%8D%8F%E8%AE%AE"><span class="toc-number">4.2.2.</span> <span class="toc-text">HTTP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82"><span class="toc-number">4.2.2.1.</span> <span class="toc-text">请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#URL"><span class="toc-number">4.2.2.2.</span> <span class="toc-text">URL</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.2.3.</span> <span class="toc-text">请求方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#GET%E8%AF%B7%E6%B1%82%E5%92%8CPOST%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.2.2.4.</span> <span class="toc-text">GET请求和POST请求的区别</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%EF%BC%88URL%E5%8F%82%E6%95%B0%EF%BC%89"><span class="toc-number">4.2.2.5.</span> <span class="toc-text">请求参数（URL参数）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82Headers%EF%BC%88%E8%AF%B7%E6%B1%82%E5%A4%B4%EF%BC%89"><span class="toc-number">4.2.2.6.</span> <span class="toc-text">请求Headers（请求头）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%95%B0%E6%8D%AE-%E5%8F%88%E7%A7%B0%E4%B8%BARequest-Body-%E6%88%96-Data"><span class="toc-number">4.2.2.7.</span> <span class="toc-text">请求数据(又称为Request Body 或 Data)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%EF%BC%88Response"><span class="toc-number">4.2.3.</span> <span class="toc-text">响应（Response)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-number">4.2.4.</span> <span class="toc-text">HTTP状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E5%93%8D%E5%BA%94%E7%A0%81"><span class="toc-number">4.2.5.</span> <span class="toc-text">HTTP响应码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E4%B8%8EHTTPS"><span class="toc-number">4.2.6.</span> <span class="toc-text">HTTP与HTTPS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cookie%E5%92%8CSession"><span class="toc-number">4.2.7.</span> <span class="toc-text">Cookie和Session</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%88%E6%9D%83%E4%B8%8E%E5%8A%A0%E5%AF%86"><span class="toc-number">4.3.</span> <span class="toc-text">授权与加密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%93%E5%AD%98"><span class="toc-number">4.4.</span> <span class="toc-text">缓存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%89%8D%E7%BD%AE%E5%9F%BA%E7%A1%80"><span class="toc-number">5.</span> <span class="toc-text">接口自动化前置基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#requests%E5%AE%89%E8%A3%85"><span class="toc-number">5.1.</span> <span class="toc-text">requests安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#requests%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">5.2.</span> <span class="toc-text">requests的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E9%80%81GET%E8%AF%B7%E6%B1%82"><span class="toc-number">5.2.1.</span> <span class="toc-text">发送GET请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84GET%E8%AF%B7%E6%B1%82"><span class="toc-number">5.2.2.</span> <span class="toc-text">带参数的GET请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%A0%E7%BB%9F%E8%A1%A8%E5%8D%95%E7%B1%BBPOST%E8%AF%B7%E6%B1%82%EF%BC%88x-www-form-urlencoded%EF%BC%89"><span class="toc-number">5.2.3.</span> <span class="toc-text">传统表单类POST请求（x-www-form-urlencoded）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSON%E7%B1%BB%E5%9E%8B%E7%9A%84POST%E8%AF%B7%E6%B1%82%EF%BC%88application-json%EF%BC%89"><span class="toc-number">5.2.4.</span> <span class="toc-text">JSON类型的POST请求（application&#x2F;json）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JSON%E7%B1%BB%E5%9E%8B%E8%A7%A3%E6%9E%90"><span class="toc-number">5.3.</span> <span class="toc-text">JSON类型解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">5.3.1.</span> <span class="toc-text">序列化和反序列化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSON%E5%AF%B9%E8%B1%A1%E4%B8%8EPython%E5%AD%97%E5%85%B8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">5.3.2.</span> <span class="toc-text">JSON对象与Python字典的区别</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#JSON%E6%A0%BC%E5%BC%8F%E6%93%8D%E4%BD%9C%E6%96%B9%E6%B3%95"><span class="toc-number">5.3.3.</span> <span class="toc-text">JSON格式操作方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#requests%E5%BA%93%E8%AF%A6%E8%A7%A3"><span class="toc-number">5.4.</span> <span class="toc-text">requests库详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95-1"><span class="toc-number">5.4.1.</span> <span class="toc-text">请求方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0"><span class="toc-number">5.4.2.</span> <span class="toc-text">请求参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E8%A7%A3%E6%9E%90"><span class="toc-number">5.4.3.</span> <span class="toc-text">响应解析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%AE%89%E5%85%A8%E8%AE%A4%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="toc-number">5.5.</span> <span class="toc-text">带安全认证的请求</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E7%99%BB%E5%BD%95%E7%9A%84%E8%AF%B7%E6%B1%82%EF%BC%88Cookie-Session%E8%AE%A4%E8%AF%81%EF%BC%89"><span class="toc-number">5.5.1.</span> <span class="toc-text">需要登录的请求（Cookie&#x2F;Session认证）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#appid%E6%88%96token%E6%96%B9%E5%BC%8F"><span class="toc-number">5.6.</span> <span class="toc-text">appid或token方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">6.</span> <span class="toc-text">操作数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85pymysql"><span class="toc-number">6.1.</span> <span class="toc-text">安装pymysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">6.2.</span> <span class="toc-text">数据库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E6%93%8D%E4%BD%9C"><span class="toc-number">6.2.1.</span> <span class="toc-text">查询操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%93%8D%E4%BD%9C"><span class="toc-number">6.2.2.</span> <span class="toc-text">修改操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">6.3.</span> <span class="toc-text">封装数据库操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8unittest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6"><span class="toc-number">7.</span> <span class="toc-text">使用unittest测试框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E7%BC%96%E5%86%99"><span class="toc-number">7.1.</span> <span class="toc-text">用例编写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%9A%84%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">7.2.</span> <span class="toc-text">完整的接口测试用例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E7%A6%BB-%E4%BB%8EExcel%E4%B8%AD%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">8.</span> <span class="toc-text">数据分离 - 从Excel中读取数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E7%AE%80%E5%8D%95%E7%9A%84%E7%94%A8%E4%BE%8B%E7%BC%96%E5%86%99"><span class="toc-number">9.</span> <span class="toc-text">更简单的用例编写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%94%A8%E4%BE%8B%E5%9F%BA%E7%B1%BB"><span class="toc-number">9.1.</span> <span class="toc-text">使用用例基类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E7%94%A8%E4%BE%8B%E6%A0%87%E7%AD%BE%E8%BF%90%E8%A1%8C"><span class="toc-number">9.2.</span> <span class="toc-text">按用例标签运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E8%BF%90%E8%A1%8C%E4%B8%8A%E6%AC%A1%E5%A4%B1%E8%B4%A5%E7%94%A8%E4%BE%8B"><span class="toc-number">9.3.</span> <span class="toc-text">重新运行上次失败用例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="toc-number">9.4.</span> <span class="toc-text">使用命令行参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mock-Server"><span class="toc-number">10.</span> <span class="toc-text">Mock Server</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Postman%E8%BF%98%E5%8F%AF%E4%BB%A5%E5%9F%BA%E4%BA%8ECollection%E5%BB%BA%E7%AB%8BMock-Server%EF%BC%8C%E8%BF%99%E9%87%8C%E4%B8%8D%E5%86%8D%E8%AF%A6%E8%BF%B0"><span class="toc-number">10.1.</span> <span class="toc-text">Postman还可以基于Collection建立Mock Server，这里不再详述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python-Flask%E8%87%AA%E5%B7%B1%E6%90%AD%E5%BB%BAMock%E6%8E%A5%E5%8F%A3"><span class="toc-number">10.2.</span> <span class="toc-text">Python+Flask自己搭建Mock接口</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">10.2.1.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90mock%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE"><span class="toc-number">10.2.2.</span> <span class="toc-text">生成mock接口数据</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/04/26/jenkins/" title="Jenkins"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://dwglogo.com/wp-content/uploads/2017/11/1500px_Jenkins_logo-1024x705.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Jenkins"/></a><div class="content"><a class="title" href="/2024/04/26/jenkins/" title="Jenkins">Jenkins</a><time datetime="2024-04-26T13:36:30.000Z" title="发表于 2024-04-26 21:36:30">2024-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="Selenium-Web自动化测试工具"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Selenium-Web自动化测试工具"/></a><div class="content"><a class="title" href="/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="Selenium-Web自动化测试工具">Selenium-Web自动化测试工具</a><time datetime="2024-04-23T11:47:04.000Z" title="发表于 2024-04-23 19:47:04">2024-04-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" title="Request使用+接口自动化"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.fellowship-church.ca/wp-content/uploads/2019/02/prayer-requests.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Request使用+接口自动化"/></a><div class="content"><a class="title" href="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" title="Request使用+接口自动化">Request使用+接口自动化</a><time datetime="2024-04-16T12:11:24.000Z" title="发表于 2024-04-16 20:11:24">2024-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/08/unittest-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Unittest-单元测试框架"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.cdec886aa56cb9ef7f6fdc573a54d212?rik=V3DSkUYGhvqEow&amp;riu=http%3a%2f%2fimg.itest.info%2funittest%2fcourse-unittest.jpg&amp;ehk=TQpvcu0I2YcBLtoLcPTp%2f9mDJe7Ea0dqGT2DKjasQn0%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unittest-单元测试框架"/></a><div class="content"><a class="title" href="/2024/04/08/unittest-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Unittest-单元测试框架">Unittest-单元测试框架</a><time datetime="2024-04-08T12:57:51.000Z" title="发表于 2024-04-08 20:57:51">2024-04-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/29/pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Pytest测试框架"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C._mSAAIu-LtTpte92lrJCSwHaFj?w=233&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;dpr=1.3&amp;pid=1.7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest测试框架"/></a><div class="content"><a class="title" href="/2024/03/29/pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Pytest测试框架">Pytest测试框架</a><time datetime="2024-03-29T13:17:12.000Z" title="发表于 2024-03-29 21:17:12">2024-03-29</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://www.fellowship-church.ca/wp-content/uploads/2019/02/prayer-requests.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By fafafa</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.14.0-b3"></script><script src="/js/main.js?v=4.14.0-b3"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.5/dist/lazyload.iife.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const runMermaid = (ele) => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from(ele).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+    
+    codeMermaidEle.forEach(ele => {
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.innerHTML = `<pre class="mermaid-src" hidden>${ele.textContent}</pre>`
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+  
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.14.0-b3"></script></div></div></body></html>

@@ -1,0 +1,587 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Selenium-Web自动化测试工具 | fafafabaobei</title><meta name="author" content="fafafa"><meta name="copyright" content="fafafa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="UI自动化测试工具 - SeleniumSelenium的安装 安装Python3（默认安装pip并添加环境变量）  pip install selenium  安装最新版本的Chrome  下载对应chrome浏览器的驱动chromedriver.exe，放到Python安装目录的Scripts文件夹下，或者其他有环境变量的地方  脚本测试 1234from selenium import we">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Selenium-Web自动化测试工具">
+<meta property="og:url" content="https://fafafabaobei.github.io/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="fafafabaobei">
+<meta property="og:description" content="UI自动化测试工具 - SeleniumSelenium的安装 安装Python3（默认安装pip并添加环境变量）  pip install selenium  安装最新版本的Chrome  下载对应chrome浏览器的驱动chromedriver.exe，放到Python安装目录的Scripts文件夹下，或者其他有环境变量的地方  脚本测试 1234from selenium import we">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp">
+<meta property="article:published_time" content="2024-04-23T11:47:04.000Z">
+<meta property="article:modified_time" content="2024-04-23T11:47:04.000Z">
+<meta property="article:author" content="fafafa">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="Selenium">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp"><link rel="shortcut icon" href="/img/blog.png"><link rel="canonical" href="https://fafafabaobei.github.io/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><link rel="stylesheet" href="/css/index.css?v=4.14.0-b3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>(()=>{
+      const saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+      
+      window.btf = {
+        saveToLocal: saveToLocal,
+        getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+          script.src = url
+          script.async = true
+          script.onerror = reject
+          script.onload = script.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            script.onload = script.onreadystatechange = null
+            resolve()
+          }
+
+          Object.keys(attr).forEach(key => {
+            script.setAttribute(key, attr[key])
+          })
+
+          document.head.appendChild(script)
+        }),
+
+        getCSS: (url, id = false) => new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          if (id) link.id = id
+          link.onerror = reject
+          link.onload = link.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            link.onload = link.onreadystatechange = null
+            resolve()
+          }
+          document.head.appendChild(link)
+        }),
+
+        addGlobalFn: (key, fn, name = false, parent = window) => {
+          const pjaxEnable = false
+          if (!pjaxEnable && key.startsWith('pjax')) return
+
+          const globalFn = parent.globalFn || {}
+          const keyObj = globalFn[key] || {}
+    
+          if (name && keyObj[name]) return
+    
+          name = name || Object.keys(keyObj).length
+          keyObj[name] = fn
+          globalFn[key] = keyObj
+          parent.globalFn = globalFn
+        }
+      }
+    
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+      
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })()</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Selenium-Web自动化测试工具',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-04-23 19:47:04'
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', () => { preloader.initLoading() }, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', () => { preloader.endLoading() }, 'preloader_end')
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp')"><nav id="nav"><span id="blog-info"><a href="/" title="fafafabaobei"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/blog.png" alt="Logo"/><span class="site-name">fafafabaobei</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Selenium-Web自动化测试工具<a class="post-edit-link" href="null_posts/Selenium-Web自动化测试工具.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-23T11:47:04.000Z" title="发表于 2024-04-23 19:47:04">2024-04-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-23T11:47:04.000Z" title="更新于 2024-04-23 19:47:04">2024-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/">python</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/Selenium/">Selenium</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Selenium-Web自动化测试工具"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="UI自动化测试工具-Selenium"><a href="#UI自动化测试工具-Selenium" class="headerlink" title="UI自动化测试工具 - Selenium"></a>UI自动化测试工具 - Selenium</h2><h3 id="Selenium的安装"><a href="#Selenium的安装" class="headerlink" title="Selenium的安装"></a>Selenium的安装</h3><ul>
+<li><p>安装Python3（默认安装pip并添加环境变量）</p>
+</li>
+<li><p>pip install selenium</p>
+</li>
+<li><p>安装最新版本的Chrome</p>
+</li>
+<li><p>下载对应chrome浏览器的驱动chromedriver.exe，放到Python安装目录的Scripts文件夹下，或者其他有环境变量的地方</p>
+</li>
+<li><p>脚本测试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"></span><br><span class="line">dr = webdriver.Chrome()</span><br><span class="line">dr.get(<span class="string">&quot;http://www.baidu.com&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="Webdriver的工作原理"><a href="#Webdriver的工作原理" class="headerlink" title="Webdriver的工作原理"></a>Webdriver的工作原理</h3><p>Webdriver会在本地启动一套WebService服务并绑定一个动态端口，脚本运行时通过selenium将请求发送到Webdriver服务端，然后经过不同的浏览器驱动，转换为浏览器指令。</p>
+<h3 id="浏览器基本操作"><a href="#浏览器基本操作" class="headerlink" title="浏览器基本操作"></a>浏览器基本操作</h3><ul>
+<li>方法<ul>
+<li>get()：打开网页</li>
+<li>forward()：前进</li>
+<li>back()： 后退</li>
+<li>refresh()： 刷新页面</li>
+<li>maximize_window()：最大化窗口</li>
+<li>set_window_size()：设置窗口大小</li>
+<li>close()： 关闭当前页面</li>
+<li>quit(): 退出浏览器</li>
+</ul>
+</li>
+<li>属性<ul>
+<li>title：标题</li>
+<li>current_url：当前网址</li>
+<li>page_source：网页源代码</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()  <span class="comment"># 打开Chrome</span></span><br><span class="line"><span class="comment"># browser = webdriver.Firefox()  # 打开Firefox</span></span><br><span class="line"><span class="comment"># browser = webdriver.Edge()  # 打开Edge</span></span><br><span class="line"><span class="comment"># browser = webdriver.Ie()  # 打开Ie</span></span><br><span class="line"></span><br><span class="line">browser.get(<span class="string">&quot;http://www.baidu.com&quot;</span>) <span class="comment"># 打开网页</span></span><br><span class="line">browser.maximize_window()  <span class="comment"># 窗口最大化</span></span><br><span class="line"><span class="built_in">print</span>(browser.title)  <span class="comment"># 当前页面的标题</span></span><br><span class="line"><span class="built_in">print</span>(browser.current_url)  <span class="comment"># 当前url</span></span><br><span class="line"><span class="built_in">print</span>(browser.page_source)  <span class="comment"># 网页源代码</span></span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">browser.get(<span class="string">&quot;http://115.28.108.130/control.html&quot;</span>)</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">browser.back()  <span class="comment"># 后退</span></span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">browser.forward()  <span class="comment"># 前进</span></span><br><span class="line">browser.refresh()  <span class="comment"># 刷新</span></span><br><span class="line"></span><br><span class="line">sleep(<span class="number">3</span>)</span><br><span class="line">browser.quit()  <span class="comment"># 退出</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="页面元素定位"><a href="#页面元素定位" class="headerlink" title="页面元素定位"></a>页面元素定位</h3><h4 id="8种基本定位方式"><a href="#8种基本定位方式" class="headerlink" title="8种基本定位方式"></a>8种基本定位方式</h4><ul>
+<li>通过id定位: find_element_by_id()</li>
+<li>通过name定位: find_element_by_name()</li>
+<li>通过class定位: find_element_by_class_name()</li>
+<li>通过tag定位: find_element_by_tag_name()</li>
+<li>通过link定位: find_element_by_link_text()</li>
+<li>通过partial link定位: find_element_by_partial_link_text()</li>
+<li>通过xpath定位: find_element_by_xpath()</li>
+<li>通过css定位: find_element_by_css_selector()</li>
+</ul>
+<p>find_element_by_*()方法的使用上。这个方法已经被弃用，建议使用find_element()或find_elements()方法替代。</p>
+<p>!!! 需要额外导入  from selenium.webdriver.common.by import By</p>
+<ul>
+<li>通过id定位: element &#x3D; driver.find_element(By.ID, ‘element_id’)</li>
+<li>通过name定位: element &#x3D; driver.find_element(By.NAME, ‘element_name’)</li>
+<li>通过class定位: element &#x3D; driver.find_element(By.CLASS_NAME, ‘element_class’)</li>
+<li>通过tag定位: element &#x3D; driver.find_element(By.TAG_NAME, ‘element_tag’)</li>
+<li>通过link定位: element &#x3D; driver.find_element(By.LINK_TEXT, ‘link_text’)</li>
+<li>通过partial link定位: element &#x3D; driver.find_element(By.PARTIAL_LINK_TEXT, ‘partial_link_text’)</li>
+<li>通过xpath定位: element &#x3D; driver.find_element(By.XPATH, ‘xpath_expression’)</li>
+<li>通过css定位: element &#x3D; driver.find_element(By.CSS_SELECTOR, ‘css_selector’)</li>
+</ul>
+<h4 id="定位一组元素"><a href="#定位一组元素" class="headerlink" title="定位一组元素"></a>定位一组元素</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.maximize_window()</span><br><span class="line">browser.get(<span class="string">&quot;http://115.28.108.130/control.html&quot;</span>)</span><br><span class="line"></span><br><span class="line">l = browser.find_element(By.ID, <span class="string">&quot;u&quot;</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> l:</span><br><span class="line">    i.click()</span><br><span class="line">l[<span class="number">2</span>].click()</span><br><span class="line"></span><br><span class="line">lables = browser.find_element(By.TAG_NAME, <span class="string">&quot;label&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(lables[<span class="number">2</span>].text)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="分层定位"><a href="#分层定位" class="headerlink" title="分层定位"></a>分层定位</h4><p>当一个元素不好定位时，可以先定位到容易定位的父级&#x2F;祖先级元素，然后使用父级&#x2F;祖先级元素继续定位</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.maximize_window()</span><br><span class="line">browser.get(<span class="string">&quot;http://115.28.108.130/control.html&quot;</span>)</span><br><span class="line">fardiv = browser.find_element(By.CLASS_NAME, <span class="string">&quot;fathdiv&quot;</span>)  <span class="comment"># 先定位到父级元素</span></span><br><span class="line">labels = fardiv.find_element(By.TAG_NAME,<span class="string">&quot;label&quot;</span>)  <span class="comment"># 使用父级元素向下定位</span></span><br><span class="line"><span class="built_in">print</span>(labels[<span class="number">2</span>].text)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="页面元素操作"><a href="#页面元素操作" class="headerlink" title="页面元素操作"></a>页面元素操作</h4><ul>
+<li>link 链接<ul>
+<li>click()</li>
+</ul>
+</li>
+<li>input 输入框<ul>
+<li>send_keys()： 输入</li>
+<li>clear()： 清空输入框</li>
+<li>get_attribute(“value”): 获取输入框的值</li>
+</ul>
+</li>
+<li>button 按钮<ul>
+<li>click()：</li>
+<li>isEnabled(): 是否可用</li>
+<li>submit()：type&#x3D;submit的按钮可以使用submit()同click()用于提交表单</li>
+</ul>
+</li>
+<li>radio&#x2F;checkbox 单选&#x2F;复选框<ul>
+<li>click(): 定位到选框可直接点击</li>
+<li>is_displayed(): 是否展示</li>
+<li>is_selected(): 是否选中状态</li>
+</ul>
+</li>
+<li>select 下拉框(需要用Select)<ul>
+<li>select_by_index(): 按索引选择选项</li>
+<li>select_by_value(): 按value值选择选项</li>
+<li>select_by_visiable_text(): 按选项名选择选项</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.maximize_window()</span><br><span class="line">browser.get(<span class="string">&quot;http://115.28.108.130/control.html&quot;</span>)</span><br><span class="line">area = Select(browser.find_element(By.ID, <span class="string">&quot;areaID&quot;</span>))</span><br><span class="line">area.select_by_visible_text(<span class="string">&quot;上海&quot;</span>)</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">area.select_by_index(<span class="number">1</span>)</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">area.select_by_value(<span class="string">&quot;1&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="万能的XPath"><a href="#万能的XPath" class="headerlink" title="万能的XPath"></a>万能的XPath</h4><p>XPath即XML路径语言，支持从xml或html中查找元素节点，使用XPath完全可以替代其他定位放式</p>
+<ul>
+<li><code>driver.find_element(By.XPATH，&#39;//*[@id=&quot;&quot;]&#39;)</code>等同于<code>find_element_by_id(&quot;&quot;)</code></li>
+<li><code>driver.find_element(By.XPATH, &#39;//*[@name=&quot;&quot;]&#39;)</code>等同于<code>find_element_by_name(&quot;&quot;)</code></li>
+<li><code>driver.find_element(By.XPATH, &#39;//*[@class=&quot;&quot;]&#39;)</code>等同于<code>find_element_by_class_name(&quot;&quot;)</code></li>
+<li><code>driver.find_element(By.XPATH, &#39;//标签名&#39;)</code>等同于<code>find_element_by_tag_name(&quot;标签名&quot;)</code></li>
+<li>&#96;&#96;driver.find_element(By.XPATH, ‘&#x2F;&#x2F;a[contains(text(),””)]’)<code>等同于</code>find_element_by_link_text(“”)&#96;</li>
+<li><code>driver.find_element(By.XPATH, &#39;//*[@id=&quot;&quot;]&#39;)</code>等同于<code>find_element_by_partial_link_text(&quot;&quot;)</code></li>
+</ul>
+<p>定位标签</p>
+<ol>
+<li>绝对路径+索引 &#x2F;html&#x2F;body&#x2F;div&#x2F;form&#x2F;div[3] 逐层写 结合index index从1开始</li>
+<li>相对路径+属性(推荐) &#x2F;&#x2F;div[@id&#x3D;”firstdiv”] 支持多属性结合定位</li>
+<li>通过子标签 &#x2F;&#x2F;div[a] 包含链接的div</li>
+<li>通过文本定位 &#x2F;&#x2F;<em>[text()&#x3D;”第二个div”] 包含 &#x2F;&#x2F;</em>[contains(text(), “username”)]</li>
+<li>通过相对位置 &#x2F;&#x2F;*[text()&#x3D;”第二个div”]&#x2F;..&#x2F;table</li>
+<li>轴 &#x2F;&#x2F;<em>[text()&#x3D;”王五”]&#x2F;following::a following后面的<br>&#x2F;&#x2F;</em>[text()&#x3D;”用户名”]&#x2F;following::input 用户名后的第一个输入框</li>
+</ol>
+<h4 id="XPath-语法"><a href="#XPath-语法" class="headerlink" title="XPath 语法"></a>XPath 语法</h4><h5 id="路径"><a href="#路径" class="headerlink" title="路径"></a>路径</h5><ul>
+<li>绝对路径： &#x2F;html&#x2F;body&#x2F;div</li>
+<li>&#x2F;&#x2F;相对路径： &#x2F;&#x2F;div&#x2F;form &#x2F;&#x2F;*&#x2F;form 路径中可以使用 *代表任意标签</li>
+<li>.当前路径： &#x2F;&#x2F;div&#x2F;form&#x2F;. 等同于&#x2F;&#x2F;div&#x2F;form</li>
+<li>..上级路径: &#x2F;&#x2F;div&#x2F;form&#x2F;.. 等同于&#x2F;&#x2F;div</li>
+</ul>
+<h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><ul>
+<li>从1开始： &#x2F;html&#x2F;body&#x2F;div[2] &#x2F;&#x2F;div[1]&#x2F;form</li>
+</ul>
+<h5 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h5><ul>
+<li>@属性名：定位包含特定属性名的标签, 如<code>//input[@class]</code></li>
+<li>@属性名&#x3D;”属性值”：定位特定属性名&#x3D;属性值的标签，如<code>//input[@id=&quot;kw&quot;]</code></li>
+<li>@*&#x3D;”属性值”：定位任意属性名&#x3D;属性值的标签, 如 <code>//input[@*=&#39;kw&#39;]</code></li>
+<li>多属性结合定位：<code>//input[@id=&quot;kw&quot; and @class=&#39;kw-class&#39;]</code>或<code>//input[@id=&quot;kw&quot;][@class=&quot;kw-class&quot;]</code> (and处也支持使用or，表示或)</li>
+</ul>
+<h5 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h5><ul>
+<li>text()：标签中的文本值，如<code>//a[text()=&quot;百度首页走起~&quot;]</code></li>
+<li>contains(): 包含，如<code>//a[contains(text(), &quot;百度首页&quot;)]</code></li>
+<li>starts-with(): 以**开头，如<code>//a[starts-with(text(), &quot;百度&quot;]</code></li>
+<li>last(): 最后一个， 如<code>//div[last()]</code></li>
+</ul>
+<h5 id="轴"><a href="#轴" class="headerlink" title="轴"></a>轴</h5><ul>
+<li>parent: 父标签</li>
+<li>child：子标签</li>
+<li>following: 后面的，如：<code>//*[text()=&quot;用户名&quot;]/following::input[1] # 紧邻文本为用户名的输入框</code></li>
+<li>preceding：前面的</li>
+</ul>
+<h4 id="CSS-selector"><a href="#CSS-selector" class="headerlink" title="CSS selector"></a>CSS selector</h4><p>css选择器, 比xpath快<br>find_element(By.CSS_SELECTOR, “#firstdiv”)</p>
+<h5 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h5><ol>
+<li>id #firstdiv</li>
+<li>class .stuname</li>
+<li>标签名 div <code>*</code>可以标识任意标签</li>
+</ol>
+<h5 id="位置-不支持向上"><a href="#位置-不支持向上" class="headerlink" title="位置 不支持向上"></a>位置 不支持向上</h5><ol>
+<li>下级 #firstdiv&gt;form&gt;div &gt;或空格</li>
+<li><ul>
+<li>同级元素</li>
+</ul>
+</li>
+<li>索引: :first-child() :nth-child(n) #firstdiv&gt;form&gt;div:nth-child(3)</li>
+</ol>
+<h5 id="属性-不支持判断文本"><a href="#属性-不支持判断文本" class="headerlink" title="属性 不支持判断文本"></a>属性 不支持判断文本</h5><ol>
+<li>属性 [type&#x3D;”password”] [name&#x3D;””]</li>
+<li>属性 ^&#x3D; 以 开头 $&#x3D; 以 结尾 *&#x3D; 包含</li>
+<li>input 常见属性: checked enabled</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line">driver.maximize_window()</span><br><span class="line">driver.get(<span class="string">&quot;http://115.28.108.130/control.html&quot;</span>)</span><br><span class="line"></span><br><span class="line">div = driver.find_element(By.CSS_SELECTOR, <span class="string">&quot;#firstdiv&gt;form&gt;div:nth-child(2)&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(div.text)</span><br><span class="line">table = driver.find_element(By.CSS_SELECTOR, <span class="string">&quot;#firstdiv&gt;form&gt;div+table&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(table.tag_name)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="切换窗口"><a href="#切换窗口" class="headerlink" title="切换窗口"></a>切换窗口</h4><ol>
+<li>switch_to.alert(): 切到弹出框</li>
+<li>switch_to.frame(): 切入框架</li>
+<li>switch_to.window(): 切换窗口<ul>
+<li>window_handles: 所有窗口句柄 列表</li>
+<li>current_window_handle: 当前窗口句柄</li>
+</ul>
+</li>
+</ol>
+<h5 id="只有两个窗口"><a href="#只有两个窗口" class="headerlink" title="只有两个窗口"></a>只有两个窗口</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">all</span> = driver.window_handles  <span class="comment"># 所有窗口句柄</span></span><br><span class="line">old = driver.current_window_handle  <span class="comment"># 当前窗口出版</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> h <span class="keyword">in</span> <span class="built_in">all</span>:  <span class="comment"># h 是当前从all中取出来的句柄</span></span><br><span class="line">    <span class="keyword">if</span> h != old:  <span class="comment"># 如果取出来的不等于老窗口</span></span><br><span class="line">        driver.switch_to.window(h)   <span class="comment"># 切换到新窗口</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="多个窗口"><a href="#多个窗口" class="headerlink" title="多个窗口"></a>多个窗口</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">all</span> = driver.window_handles</span><br><span class="line"><span class="keyword">for</span> h <span class="keyword">in</span> <span class="built_in">all</span>:</span><br><span class="line">    driver.switch_to.window(h)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;腾讯课堂&quot;</span> <span class="keyword">in</span> driver.title:</span><br><span class="line">        <span class="keyword">break</span>  <span class="comment"># 跳出循环</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="动作链-模拟鼠标操作"><a href="#动作链-模拟鼠标操作" class="headerlink" title="动作链 模拟鼠标操作"></a>动作链 模拟鼠标操作</h4><ul>
+<li>click(): 单击</li>
+<li>double_click(): 双击</li>
+<li>context_click(): 右击</li>
+<li>move_to_element(a): 移动到元素a</li>
+<li>drag_and_drop(a,b): 拖放,将a拖动到b元素位置</li>
+<li>click_and_hold(): 单击并按住鼠标左键 release(): 松开鼠标</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.action_chains <span class="keyword">import</span> ActionChains</span><br><span class="line">...</span><br><span class="line">menu = driver.find_element(By,XPATH, <span class="string">&quot;//input[@value=&#x27;下拉菜单&#x27;]&quot;</span>)</span><br><span class="line">ActionChains(driver).move_to_element(menu).perform()</span><br><span class="line">driver.find_element(By.LINK_TEST, <span class="string">&quot;submit&quot;</span>).click()</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">ActionChains(driver): 创建一个 ActionChains 对象，该对象用于执行各种鼠标和键盘操作。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.move_to_element(menu): 使用 move_to_element 方法将鼠标移动到指定的元素上，其中 menu 是要移动到的目标元素。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">.perform(): 执行该操作。在这里表示实际触发鼠标移动事件，使得浏览器中的光标移动到指定元素上。</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Keys模拟键盘"><a href="#Keys模拟键盘" class="headerlink" title="Keys模拟键盘"></a>Keys模拟键盘</h4><p>​	!!! 键盘模拟需要额外导入库 from selenium.webdriver.common.keys import Keys</p>
+<ul>
+<li><p>Keys模拟键盘</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在输入框中输入文本，并按下回车 , 输入问本是可选参数</span></span><br><span class="line">element.send_keys(<span class="string">&quot;Hello&quot;</span>, Keys.ENTER)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Keys.TAB</code>: 模拟 Tab 键</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 向输入框中追加文本并按下 Tab 键，输入问本是可选参数</span></span><br><span class="line">element.send_keys(<span class="string">&quot;World&quot;</span>, Keys.TAB)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Keys.SPACE</code>: 模拟空格键，常用于触发按钮点击或选择复选框等操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 模拟 Ctrl+A （全选）</span></span><br><span class="line">element.send_keys(Keys.CONTROL, <span class="string">&#x27;a&#x27;</span>)</span><br><span class="line"><span class="comment"># 模拟 Ctrl+C （复制）</span></span><br><span class="line">element.send_keys(Keys.CONTROL, <span class="string">&#x27;c&#x27;</span>)</span><br><span class="line"><span class="comment"># 模拟 Ctrl+V （粘贴）</span></span><br><span class="line">element.send_keys(Keys.CONTROL, <span class="string">&#x27;v&#x27;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Keys.BACK_SPACE</code>: 删除一个字符（退格键）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除输入框中的最后一个字符（相当于按一次退格键）</span></span><br><span class="line">element.send_keys(Keys.BACK_SPACE)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Keys.DELETE</code>: 删除一个字符（删除键）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除输入框中的第一个字符（相当于按一次删除键）</span></span><br><span class="line">element.send_keys(Keys.DELETE)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Keys.ARROW_DOWN</code>, <code>Keys.ARROW_UP</code>, <code>keys.ARROW_LEFT</code>, <code>keys.ARROW_RIGHT</code>: 分别模拟向下、向上、向左、向右箭头方向键</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium.webdriver.common.keys <span class="keyword">import</span> Keys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在下拉列表中选择第一项，使用箭头向下定位到目标选项然后再按 Enter 键确认选择。</span></span><br><span class="line">input_element = driver.find_element(By.ID,<span class="string">&#x27;dropdown&#x27;</span>)</span><br><span class="line">input_element.click()</span><br><span class="line">input_element.send_keys(Keys.ENTER)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="下拉框定位选择"><a href="#下拉框定位选择" class="headerlink" title="下拉框定位选择"></a>下拉框定位选择</h4><p><strong>使用Select 方法</strong></p>
+<ol>
+<li>定位到下拉列表的元素。</li>
+<li>使用 <code>Select</code> 类来操作下拉列表。</li>
+<li>使用 <code>select_by_*</code> 方法选择相应的选项。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.ui <span class="keyword">import</span> Select</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 WebDriver 对象</span></span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开网页</span></span><br><span class="line">driver.get(<span class="string">&quot;http://example.com&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定位下拉列表元素</span></span><br><span class="line">select_element = driver.find_element_by_id(<span class="string">&quot;dropdown&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 Select 对象</span></span><br><span class="line">select = Select(select_element)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过索引选择选项（索引从 0 开始）</span></span><br><span class="line">select.select_by_index(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过可见文本选择选项</span></span><br><span class="line">select.select_by_visible_text(<span class="string">&quot;Option 2&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过值选择选项</span></span><br><span class="line">select.select_by_value(<span class="string">&quot;option2&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭浏览器</span></span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="弹出框处理"><a href="#弹出框处理" class="headerlink" title="弹出框处理"></a>弹出框处理</h4><h5 id="allert警告框"><a href="#allert警告框" class="headerlink" title="allert警告框"></a>allert警告框</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alert = driver.switch_to.alert()</span><br><span class="line">alert.accept()  <span class="comment"># 确认 或alert.dismiss() 关闭</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="confirm确认框"><a href="#confirm确认框" class="headerlink" title="confirm确认框"></a>confirm确认框</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">confirm = driver.switch_to.alert()</span><br><span class="line">confirm.accept()  <span class="comment"># 确认 或alert.dismiss() 取消</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="propmt提示框"><a href="#propmt提示框" class="headerlink" title="propmt提示框"></a>propmt提示框</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">propmt = driver.switch_to.alert()</span><br><span class="line">propmt.send_keys() 输入</span><br><span class="line">propmt.accept()  <span class="comment"># 确认 或alert.dismiss() 关闭</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="框架页面处理-iframe"><a href="#框架页面处理-iframe" class="headerlink" title="框架页面处理 - iframe"></a>框架页面处理 - iframe</h4><ul>
+<li>iframe: 嵌入在网页body中的单独框架（框架拥有一套独立的html代码）</li>
+<li>frameset: 框架组，包含多个frame</li>
+<li>frame：每个frame引用一个独立的网页</li>
+</ul>
+<p>因为frame&#x2F;iframe框架是一套独立的网页，因此frame&#x2F;iframe中的元素不能直接定位到</p>
+<ul>
+<li>driver.switch_to.frame(name&#x2F;id&#x2F;index&#x2F;Element)<ul>
+<li>name: frame&#x2F;iframe的name属性</li>
+<li>id: frame&#x2F;iframe的id属性</li>
+<li>index: 如：0，第一个frame</li>
+<li>Element: 定位到的frame&#x2F;iframe，再切换到指定frame</li>
+</ul>
+</li>
+<li>driver.switch_to.parent_frame(): 切换到父级frame, 子frame之间不能相互切换</li>
+<li>driver.switch_to.default_content(): 跳出所有frame</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line">browser = webdriver.Chrome()</span><br><span class="line">browser.maximize_window()</span><br><span class="line">browser.get(<span class="string">&quot;http://www.w3school.com.cn/tiy/t.asp?f=html_frame_mix&quot;</span>)</span><br><span class="line"></span><br><span class="line">browser.switch_to.frame(<span class="string">&quot;i&quot;</span>)  <span class="comment">#总的frame</span></span><br><span class="line">browser.switch_to.frame(<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(browser.find_element(By.TAG_NAME, <span class="string">&quot;h3&quot;</span>).text)</span><br><span class="line">browser.switch_to.parent_frame()</span><br><span class="line">browser.switch_to.frame(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(browser.find_element(By.TAG_NAME, <span class="string">&quot;h3&quot;</span>).text)</span><br><span class="line">browser.switch_to.parent_frame()</span><br><span class="line">browser.switch_to.frame(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(browser.find_element(By.TAG_NAME, <span class="string">&quot;h3&quot;</span>).text)</span><br><span class="line">browser.switch_to.default_content()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="使用期望条件-except-conditions"><a href="#使用期望条件-except-conditions" class="headerlink" title="使用期望条件(except_conditions)"></a>使用期望条件(except_conditions)</h4><ul>
+<li>presence_of_element_located((By.XPATH,””)): 直到元素出现并能定位到</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">view = wait.until(EC.presence_of_element_located((By.XPATH,<span class="string">&#x27;//td[text()=&quot;王五&quot;]/../td[4]/a&#x27;</span>)))</span><br><span class="line">view.click()</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="修改js，修改网页"><a href="#修改js，修改网页" class="headerlink" title="修改js，修改网页"></a>修改js，修改网页</h4><ol>
+<li><p>隐藏元素<br>selenium默认定位不到隐藏元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 移除相应属性</span></span><br><span class="line">driver.execute_script(</span><br><span class="line">    document.querySelector(<span class="string">&quot;#hd1&quot;</span>).removeAttribute(<span class="string">&quot;hidden&quot;</span>);</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>不可输入&#x2F;点击(移除readonly&#x2F;disable属性)</p>
+</li>
+<li><p>拖动滚动条(流加载页面) document.documentElement.scrollTop&#x3D;10000;</p>
+</li>
+<li><p>富文本框</p>
+</li>
+<li><p>更改元素样式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过js修改</span></span><br><span class="line">js2 = <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">var q = document.getElementById(&quot;buttonID&quot;);</span></span><br><span class="line"><span class="string">q.value=&quot;hello&quot;;</span></span><br><span class="line"><span class="string">q.style.backgroundColor=&quot;red&quot;;</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">driver.execute_script(js2)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为一些不好定位的元素添加id</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">q = document.querySelector(<span class="string">&quot;#firstdiv&gt;form&gt;table&quot;</span>);</span><br><span class="line">q.<span class="built_in">id</span> = <span class="string">&quot;table1&quot;</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="日期控件"><a href="#日期控件" class="headerlink" title="日期控件"></a>日期控件</h4><ol>
+<li>逐个点击</li>
+<li>用js修改为可输入,输入时间</li>
+</ol>
+<h4 id="上传下载"><a href="#上传下载" class="headerlink" title="上传下载"></a>上传下载</h4><ol>
+<li>上传直接输入(不能输入用js修改), 下载直接点击</li>
+<li>借助其他工具</li>
+</ol>
+<h3 id="常见错误怎么处理"><a href="#常见错误怎么处理" class="headerlink" title="常见错误怎么处理"></a>常见错误怎么处理</h3><ol>
+<li>看报什么错 1. 元素定位不到 2. 元素不可见</li>
+<li>看有没有frame&#x2F;iframe</li>
+<li>操作前 sleep()</li>
+<li>看看元素或者上级&#x2F;上上级元素是否不可及</li>
+</ol>
+<h3 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h3><p>rameset: 框架组,用来布局框架<br>frame: 具体的一个框架,一般放在frameset中<br>iframe: 内联框架, 可以嵌入到其他网页的body中</p>
+<h4 id="切入-层层切入"><a href="#切入-层层切入" class="headerlink" title="切入 层层切入"></a>切入 层层切入</h4><p>switch_to.frame() # 只用切 iframe&#x2F;frame 不用切frameset</p>
+<ol>
+<li>id</li>
+<li>name</li>
+<li>index</li>
+<li>定位到的frame元素 find_element_by_id(“parent”)</li>
+</ol>
+<h5 id="切出"><a href="#切出" class="headerlink" title="切出"></a>切出</h5><ul>
+<li>switch_to.parent_frame() # 跳到上级 多层框架推荐使用</li>
+<li>switch_to.defaut_content() # 跳出所有 一层框架推荐使用 </li>
+<li>也可以用switch_to.parent_frame()跳出框架</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line">driver = webdriver.Chrome()</span><br><span class="line">driver.maximize_window()</span><br><span class="line">driver.get(<span class="string">&quot;http://115.28.108.130/control.html&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># iframe: 内联框架, 可以嵌入到其他网页的正文中,</span></span><br><span class="line"><span class="comment"># frameset: 框架组,用来布局,可以嵌套,不能嵌入到body中,</span></span><br><span class="line"><span class="comment"># frame,框架,需要放到frameset中</span></span><br><span class="line"><span class="comment"># 只用切iframe及frame, frameset是用来布局的,不用切</span></span><br><span class="line">driver.switch_to.frame(<span class="string">&quot;parent_frame&quot;</span>)</span><br><span class="line">driver.switch_to.frame(<span class="string">&quot;left&quot;</span>)</span><br><span class="line">driver.find_element(By.LINK_TEST, <span class="string">&quot;链接1&quot;</span>).click()</span><br><span class="line"></span><br><span class="line">driver.switch_to.parent_frame()  <span class="comment"># 这里不用swith_to.default_content(),不然还要再切到parent_frame</span></span><br><span class="line">driver.switch_to.frame(<span class="string">&quot;main&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(driver.find_element(By.TAG_NAME, <span class="string">&quot;h2&quot;</span>).text)</span><br><span class="line"><span class="comment"># print(driver.find_element(By.XPATH, &quot;/html/body/h2&quot;).text)</span></span><br><span class="line"></span><br><span class="line">sleep(<span class="number">5</span>)</span><br><span class="line">driver.quit()</span><br></pre></td></tr></table></figure>
+
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python</a><a class="post-meta__tags" href="/tags/Selenium/">Selenium</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" title="Request使用+接口自动化"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.fellowship-church.ca/wp-content/uploads/2019/02/prayer-requests.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Request使用+接口自动化</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/26/jenkins/" title="Jenkins"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://dwglogo.com/wp-content/uploads/2017/11/1500px_Jenkins_logo-1024x705.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Jenkins</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/14/python%E5%9F%BA%E7%A1%80/" title="Python基础"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse2-mm.cn.bing.net/th/id/OIP-C.dSMliGMR1gP-nfkwknp26QHaDt?w=314&h=175&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-14</div><div class="title">Python基础</div></div></a></div><div><a href="/2023/12/21/Flask%E6%A1%86%E6%9E%B6/" title="Flask框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.aYKhp2p8j4T7TXmV73jzmAHaDt?w=320&h=175&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-21</div><div class="title">Flask框架</div></div></a></div><div><a href="/2024/03/29/pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Pytest测试框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C._mSAAIu-LtTpte92lrJCSwHaFj?w=233&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-29</div><div class="title">Pytest测试框架</div></div></a></div><div><a href="/2024/04/08/unittest-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Unittest-单元测试框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.cdec886aa56cb9ef7f6fdc573a54d212?rik=V3DSkUYGhvqEow&riu=http%3a%2f%2fimg.itest.info%2funittest%2fcourse-unittest.jpg&ehk=TQpvcu0I2YcBLtoLcPTp%2f9mDJe7Ea0dqGT2DKjasQn0%3d&risl=&pid=ImgRaw&r=0" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-08</div><div class="title">Unittest-单元测试框架</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fafafa</div><div class="author-info__description">记录笔记日志</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">33</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">20</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/fafafabaobei@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=728831102&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#UI%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7-Selenium"><span class="toc-number">1.</span> <span class="toc-text">UI自动化测试工具 - Selenium</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Selenium%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">Selenium的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Webdriver%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">Webdriver的工作原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">浏览器基本操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.4.</span> <span class="toc-text">页面元素定位</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8%E7%A7%8D%E5%9F%BA%E6%9C%AC%E5%AE%9A%E4%BD%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">8种基本定位方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E4%B8%80%E7%BB%84%E5%85%83%E7%B4%A0"><span class="toc-number">1.4.2.</span> <span class="toc-text">定位一组元素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%B1%82%E5%AE%9A%E4%BD%8D"><span class="toc-number">1.4.3.</span> <span class="toc-text">分层定位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.4.</span> <span class="toc-text">页面元素操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%87%E8%83%BD%E7%9A%84XPath"><span class="toc-number">1.4.5.</span> <span class="toc-text">万能的XPath</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#XPath-%E8%AF%AD%E6%B3%95"><span class="toc-number">1.4.6.</span> <span class="toc-text">XPath 语法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84"><span class="toc-number">1.4.6.1.</span> <span class="toc-text">路径</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95"><span class="toc-number">1.4.6.2.</span> <span class="toc-text">索引</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7"><span class="toc-number">1.4.6.3.</span> <span class="toc-text">属性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.6.4.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BD%B4"><span class="toc-number">1.4.6.5.</span> <span class="toc-text">轴</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS-selector"><span class="toc-number">1.4.7.</span> <span class="toc-text">CSS selector</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC"><span class="toc-number">1.4.7.1.</span> <span class="toc-text">基本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%90%91%E4%B8%8A"><span class="toc-number">1.4.7.2.</span> <span class="toc-text">位置 不支持向上</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7-%E4%B8%8D%E6%94%AF%E6%8C%81%E5%88%A4%E6%96%AD%E6%96%87%E6%9C%AC"><span class="toc-number">1.4.7.3.</span> <span class="toc-text">属性 不支持判断文本</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E6%8D%A2%E7%AA%97%E5%8F%A3"><span class="toc-number">1.4.8.</span> <span class="toc-text">切换窗口</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E6%9C%89%E4%B8%A4%E4%B8%AA%E7%AA%97%E5%8F%A3"><span class="toc-number">1.4.8.1.</span> <span class="toc-text">只有两个窗口</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E7%AA%97%E5%8F%A3"><span class="toc-number">1.4.8.2.</span> <span class="toc-text">多个窗口</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8A%A8%E4%BD%9C%E9%93%BE-%E6%A8%A1%E6%8B%9F%E9%BC%A0%E6%A0%87%E6%93%8D%E4%BD%9C"><span class="toc-number">1.4.9.</span> <span class="toc-text">动作链 模拟鼠标操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Keys%E6%A8%A1%E6%8B%9F%E9%94%AE%E7%9B%98"><span class="toc-number">1.4.10.</span> <span class="toc-text">Keys模拟键盘</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8B%E6%8B%89%E6%A1%86%E5%AE%9A%E4%BD%8D%E9%80%89%E6%8B%A9"><span class="toc-number">1.4.11.</span> <span class="toc-text">下拉框定位选择</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%B9%E5%87%BA%E6%A1%86%E5%A4%84%E7%90%86"><span class="toc-number">1.4.12.</span> <span class="toc-text">弹出框处理</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#allert%E8%AD%A6%E5%91%8A%E6%A1%86"><span class="toc-number">1.4.12.1.</span> <span class="toc-text">allert警告框</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#confirm%E7%A1%AE%E8%AE%A4%E6%A1%86"><span class="toc-number">1.4.12.2.</span> <span class="toc-text">confirm确认框</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#propmt%E6%8F%90%E7%A4%BA%E6%A1%86"><span class="toc-number">1.4.12.3.</span> <span class="toc-text">propmt提示框</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6%E9%A1%B5%E9%9D%A2%E5%A4%84%E7%90%86-iframe"><span class="toc-number">1.4.13.</span> <span class="toc-text">框架页面处理 - iframe</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%9F%E6%9C%9B%E6%9D%A1%E4%BB%B6-except-conditions"><span class="toc-number">1.4.14.</span> <span class="toc-text">使用期望条件(except_conditions)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9js%EF%BC%8C%E4%BF%AE%E6%94%B9%E7%BD%91%E9%A1%B5"><span class="toc-number">1.4.15.</span> <span class="toc-text">修改js，修改网页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A5%E6%9C%9F%E6%8E%A7%E4%BB%B6"><span class="toc-number">1.4.16.</span> <span class="toc-text">日期控件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD"><span class="toc-number">1.4.17.</span> <span class="toc-text">上传下载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="toc-number">1.5.</span> <span class="toc-text">常见错误怎么处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6"><span class="toc-number">1.6.</span> <span class="toc-text">框架</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E5%85%A5-%E5%B1%82%E5%B1%82%E5%88%87%E5%85%A5"><span class="toc-number">1.6.1.</span> <span class="toc-text">切入 层层切入</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%87%E5%87%BA"><span class="toc-number">1.6.1.1.</span> <span class="toc-text">切出</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/04/26/jenkins/" title="Jenkins"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://dwglogo.com/wp-content/uploads/2017/11/1500px_Jenkins_logo-1024x705.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Jenkins"/></a><div class="content"><a class="title" href="/2024/04/26/jenkins/" title="Jenkins">Jenkins</a><time datetime="2024-04-26T13:36:30.000Z" title="发表于 2024-04-26 21:36:30">2024-04-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="Selenium-Web自动化测试工具"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Selenium-Web自动化测试工具"/></a><div class="content"><a class="title" href="/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="Selenium-Web自动化测试工具">Selenium-Web自动化测试工具</a><time datetime="2024-04-23T11:47:04.000Z" title="发表于 2024-04-23 19:47:04">2024-04-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" title="Request使用+接口自动化"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.fellowship-church.ca/wp-content/uploads/2019/02/prayer-requests.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Request使用+接口自动化"/></a><div class="content"><a class="title" href="/2024/04/16/request%E4%BD%BF%E7%94%A8-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/" title="Request使用+接口自动化">Request使用+接口自动化</a><time datetime="2024-04-16T12:11:24.000Z" title="发表于 2024-04-16 20:11:24">2024-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/08/unittest-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Unittest-单元测试框架"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.cdec886aa56cb9ef7f6fdc573a54d212?rik=V3DSkUYGhvqEow&amp;riu=http%3a%2f%2fimg.itest.info%2funittest%2fcourse-unittest.jpg&amp;ehk=TQpvcu0I2YcBLtoLcPTp%2f9mDJe7Ea0dqGT2DKjasQn0%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unittest-单元测试框架"/></a><div class="content"><a class="title" href="/2024/04/08/unittest-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Unittest-单元测试框架">Unittest-单元测试框架</a><time datetime="2024-04-08T12:57:51.000Z" title="发表于 2024-04-08 20:57:51">2024-04-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/03/29/pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Pytest测试框架"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C._mSAAIu-LtTpte92lrJCSwHaFj?w=233&amp;h=180&amp;c=7&amp;r=0&amp;o=5&amp;dpr=1.3&amp;pid=1.7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest测试框架"/></a><div class="content"><a class="title" href="/2024/03/29/pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Pytest测试框架">Pytest测试框架</a><time datetime="2024-03-29T13:17:12.000Z" title="发表于 2024-03-29 21:17:12">2024-03-29</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By fafafa</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.14.0-b3"></script><script src="/js/main.js?v=4.14.0-b3"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.5/dist/lazyload.iife.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const runMermaid = (ele) => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from(ele).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+    
+    codeMermaidEle.forEach(ele => {
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.innerHTML = `<pre class="mermaid-src" hidden>${ele.textContent}</pre>`
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+  
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.14.0-b3"></script></div></div></body></html>
