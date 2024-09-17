@@ -1,0 +1,728 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Pytest-Hooks | fafafabaobei</title><meta name="author" content="fafafa"><meta name="copyright" content="fafafa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Pytest测试框架的扩展(钩子)机制 - hooks 引用可由conftest.py文件实现的所有钩子函数。  ​		钩子函数(Hooks)是一种特殊的函数，可以在执行过程中“顺带”执行一些自定义的操作。Pytest测试框架提供了许多钩子函数，可以在测试过程的不同阶段执行自定义的操作。 Hooks初始化类型钩子函数  conftest.py由于pytest[在启动期间发现插件的方式,此函数应仅在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytest-Hooks">
+<meta property="og:url" content="https://fafafabaobei.github.io/2024/09/12/pytest-hooks/index.html">
+<meta property="og:site_name" content="fafafabaobei">
+<meta property="og:description" content="Pytest测试框架的扩展(钩子)机制 - hooks 引用可由conftest.py文件实现的所有钩子函数。  ​		钩子函数(Hooks)是一种特殊的函数，可以在执行过程中“顺带”执行一些自定义的操作。Pytest测试框架提供了许多钩子函数，可以在测试过程的不同阶段执行自定义的操作。 Hooks初始化类型钩子函数  conftest.py由于pytest[在启动期间发现插件的方式,此函数应仅在">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2024-09-12T07:38:15.000Z">
+<meta property="article:modified_time" content="2024-09-12T07:38:15.000Z">
+<meta property="article:author" content="fafafa">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="pytest">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/blog.png"><link rel="canonical" href="https://fafafabaobei.github.io/2024/09/12/pytest-hooks/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><link rel="stylesheet" href="/css/index.css?v=4.14.0-b3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>(()=>{
+      const saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+      
+      window.btf = {
+        saveToLocal: saveToLocal,
+        getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+          script.src = url
+          script.async = true
+          script.onerror = reject
+          script.onload = script.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            script.onload = script.onreadystatechange = null
+            resolve()
+          }
+
+          Object.keys(attr).forEach(key => {
+            script.setAttribute(key, attr[key])
+          })
+
+          document.head.appendChild(script)
+        }),
+
+        getCSS: (url, id = false) => new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          if (id) link.id = id
+          link.onerror = reject
+          link.onload = link.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            link.onload = link.onreadystatechange = null
+            resolve()
+          }
+          document.head.appendChild(link)
+        }),
+
+        addGlobalFn: (key, fn, name = false, parent = window) => {
+          const pjaxEnable = false
+          if (!pjaxEnable && key.startsWith('pjax')) return
+
+          const globalFn = parent.globalFn || {}
+          const keyObj = globalFn[key] || {}
+    
+          if (name && keyObj[name]) return
+    
+          name = name || Object.keys(keyObj).length
+          keyObj[name] = fn
+          globalFn[key] = keyObj
+          parent.globalFn = globalFn
+        }
+      }
+    
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+      
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })()</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Pytest-Hooks',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-12 15:38:15'
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', () => { preloader.initLoading() }, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', () => { preloader.endLoading() }, 'preloader_end')
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">32</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="fafafabaobei"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/blog.png" alt="Logo"/><span class="site-name">fafafabaobei</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Pytest-Hooks<a class="post-edit-link" href="null_posts/pytest-hooks.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-09-12T07:38:15.000Z" title="发表于 2024-09-12 15:38:15">2024-09-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-09-12T07:38:15.000Z" title="更新于 2024-09-12 15:38:15">2024-09-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/">python</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/pytest/">pytest</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python/pytest/hooks/">hooks</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Pytest-Hooks"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="Pytest测试框架的扩展-钩子-机制-hooks"><a href="#Pytest测试框架的扩展-钩子-机制-hooks" class="headerlink" title="Pytest测试框架的扩展(钩子)机制 - hooks"></a>Pytest测试框架的扩展(钩子)机制 - hooks</h3><blockquote>
+<p>引用可由conftest.py文件实现的所有钩子函数。</p>
+</blockquote>
+<p>​		钩子函数(Hooks)是一种特殊的函数，可以在执行过程中“顺带”执行一些自定义的操作。Pytest测试框架提供了许多钩子函数，可以在测试过程的不同阶段执行自定义的操作。</p>
+<h3 id="Hooks"><a href="#Hooks" class="headerlink" title="Hooks"></a>Hooks</h3><h4 id="初始化类型钩子函数"><a href="#初始化类型钩子函数" class="headerlink" title="初始化类型钩子函数"></a>初始化类型钩子函数</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/09/12/pytest-hooks/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20240913135532258.png" alt="image-20240913135532258"></p>
+<blockquote>
+<p><code>conftest.py</code>由于pytest[在启动期间发现插件的方式,此函数应仅在位于测试根目录的插件或文件中实现。</p>
+</blockquote>
+<h5 id="pytest-addhooks-pluginmanager-添加自定义钩子函数"><a href="#pytest-addhooks-pluginmanager-添加自定义钩子函数" class="headerlink" title="pytest_addhooks(pluginmanager) - 添加自定义钩子函数"></a>pytest_addhooks(pluginmanager) - 添加自定义钩子函数</h5><p>pass</p>
+<h5 id="pytest-addoption-parser-添加参数"><a href="#pytest-addoption-parser-添加参数" class="headerlink" title="pytest_addoption(parser) - 添加参数"></a>pytest_addoption(<em>parser</em>) - 添加参数</h5><blockquote>
+<p>可以给pytest执行添加更多的额外参数，提供测试扩展信息</p>
+</blockquote>
+<ul>
+<li><p>参数</p>
+<ul>
+<li><strong>parser</strong>(<em>_pytest.config.Parser</em>) - 要添加命令行选项,请调用<code>parser.addoption(...)</code>。添加ini文件值调用<code>parser.addini(...)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># conftest.py</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_addoption</span>(<span class="params">parser</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    parser.addoption(...) 拓展命令行参数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 单选项</span></span><br><span class="line">    parser.addoption(<span class="string">&quot;--env&quot;</span>, action=<span class="string">&quot;store&quot;</span>, default=<span class="string">&quot;dev&quot;</span>, <span class="built_in">help</span>=<span class="string">&quot;specify the test environment&quot;</span>)</span><br><span class="line">    <span class="comment"># 选项组	将具有共同主题或作用的选项放在一起，使得管理更加方便</span></span><br><span class="line">    group_up = parser.getgroup(<span class="string">&#x27;upgrade&#x27;</span>)</span><br><span class="line">    group_up.addoption(<span class="string">&#x27;--upgrade&#x27;</span>, action=<span class="string">&#x27;store_true&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;Upgrade location before testcase execution&#x27;</span>)</span><br><span class="line">    group_up.addoption(<span class="string">&#x27;--up-fw&#x27;</span>, action=<span class="string">&#x27;store&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;FW version to upgrade&#x27;</span>)</span><br><span class="line">    group_up.addoption(<span class="string">&#x27;--up-branch&#x27;</span>, action=<span class="string">&#x27;store&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;Branch name you want to get FW from&#x27;</span>)</span><br><span class="line">    group_up.addoption(<span class="string">&#x27;--up-build-id&#x27;</span>, action=<span class="string">&#x27;store&#x27;</span>, <span class="built_in">help</span>=<span class="string">&#x27;Build number&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    parser.addini(...) 拓展pytest.ini配置项</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    parser.addini(<span class="string">&quot;project_name&quot;</span>, <span class="built_in">type</span>=<span class="string">&quot;string&quot;</span>, default=<span class="string">&quot;MyProject&quot;</span>,  </span><br><span class="line">                  <span class="built_in">help</span>=<span class="string">&quot;Name of the project for testing&quot;</span>)  </span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>后续可以使用<code>config.</code>getoption() 和<code> config.getini()</code> 获取对应属性值</p>
+<ul>
+<li><p><code>config.getoption(name)</code>可以在钩子函数中检索命令行选项的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># conftest.py pytest_configure钩子函数中获取</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_configure</span>(<span class="params">config</span>):</span><br><span class="line">    env = config.getoption(<span class="string">&quot;--env&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(env)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>request.config.getoption(name) </code>可以在测试用例中可以使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AddHooks</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_01_addHooks</span>(<span class="params">self, request</span>):</span><br><span class="line">        env = request.config.getoption(<span class="string">&quot;--env&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(env)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-configure-config"><a href="#pytest-configure-config" class="headerlink" title="pytest_configure(config)"></a>pytest_configure(config)</h5><blockquote>
+<p>允许插件和conftest文件执行初始配置。在解析了命令行选项后,为每个插件和初始conftest文件调用此钩子函数。之后,在导入钩子时会调用其他conftest文件。可以使用这个钩子函数来设置一些全局的配置，注册自定义插件或者执行一些初始化操作。</p>
+</blockquote>
+<ul>
+<li><p>参数：</p>
+<ul>
+<li><strong>config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</li>
+</ul>
+</li>
+<li><p>案例</p>
+<ul>
+<li>在conftest.py 中pytest_configure钩子函数config对象定义一个添加属性</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytest  </span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_configure</span>(<span class="params">config</span>):  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Running pytest_configure hook...&quot;</span>)  </span><br><span class="line">    config.my_custom_setting = <span class="string">&quot;Custom setting value&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>测试用例中使用自定义值</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestConfig</span>:</span><br><span class="line"><span class="meta">    @pytest.mark.config</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_config_setting</span>(<span class="params">self,request</span>):</span><br><span class="line">        <span class="keyword">from</span> _pytest.config <span class="keyword">import</span> Config</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">isinstance</span>(request.config,Config))</span><br><span class="line">        <span class="built_in">print</span>(request.config.my_setting)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="pytest-unconfigure-config"><a href="#pytest-unconfigure-config" class="headerlink" title="pytest_unconfigure(config)"></a>pytest_unconfigure(config)</h5><blockquote>
+<p>测试会话结束之后，程序退出之前被调用，用于执行一些清理工作或结果处理逻辑</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-sessionstart-session"><a href="#pytest-sessionstart-session" class="headerlink" title="pytest_sessionstart(session)"></a>pytest_sessionstart(session)</h5><blockquote>
+<p>在<code>Session</code>创建对象之后以及执行收集和进入运行测试循环之前调用。函数接收一个session对象作为参数，通过session对象可以获取到测试会话的信息和配置。</p>
+</blockquote>
+<ul>
+<li><p>参数：</p>
+<ul>
+<li><strong>session</strong>(<em>_pytest.main.Session</em>) - pytest会话对象</li>
+</ul>
+</li>
+<li><p>问题：</p>
+<ul>
+<li>在 pytest_sessionstart(session) 钩子函数中，通过 session.items 获取收集到的测试用例信息是一个正确的方法。如果你在实际使用中发现获取到的是空对象，可能是因为在 pytest_sessionstart(session) 钩子函数运行时，测试用例还没有被收集，导致 session.items 是空的。</li>
+<li>一个解决方法是将逻辑延迟到 pytest_collection_modifyitems 函数中，因为这个钩子函数会在测试用例收集之后，用例被修改之前被调用。你可以在这个钩子函数中查看收集到的测试用例信息或者自定义收集条件。</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-sessionfinish-session-exitstatus"><a href="#pytest-sessionfinish-session-exitstatus" class="headerlink" title="pytest_sessionfinish(session, exitstatus)"></a>pytest_sessionfinish(session, exitstatus)</h5><blockquote>
+<p>在整个测试运行完成之后，,在将退出状态返回到系统之前调用。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>session</strong>(<em>_pytest.main.Session</em>) - pytest会话对象</li>
+<li><strong>exitstatus</strong>(<em>int</em>) - pytest将返回系统的状态</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-plugin-registered-plugin-manager-注册插件"><a href="#pytest-plugin-registered-plugin-manager-注册插件" class="headerlink" title="pytest_plugin_registered(plugin,manager) - 注册插件"></a>pytest_plugin_registered(<em>plugin</em>,<em>manager</em>) - 注册插件</h5><blockquote>
+<p>在 pytest 加载并注册插件时被调用。这个钩子允许你在插件被注册时执行一些定制的逻辑。例如，你可以使用这个钩子来监控哪些插件被注册，或者在特定插件被注册时执行一些特定的操作。</p>
+</blockquote>
+<ul>
+<li><p>参数：</p>
+<ul>
+<li><strong>插件</strong>- 插件模块或实例</li>
+<li><strong>manager</strong>(<em>_pytest.config.PytestPluginManager</em>) - pytest插件管理器</li>
+</ul>
+</li>
+<li><p>功能 - 可以拦截注册插件进行额外逻辑操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_plugin_registered</span>(<span class="params">plugin, manager</span>):  </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Plugin &#x27;<span class="subst">&#123;plugin&#125;</span>&#x27; registered&quot;</span>)  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> plugin == <span class="string">&#x27;pytest-html&#x27;</span>:  </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;pytest-html plugin registered! Enabling HTML report...&quot;</span>)  </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="启动时的钩子函数"><a href="#启动时的钩子函数" class="headerlink" title="启动时的钩子函数"></a>启动时的钩子函数</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/09/12/pytest-hooks/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20240913135613514.png" alt="image-20240913135613514"></p>
+<blockquote>
+<p>启动时的钩子函数要求尽早注册插件(内部和setuptools插件)。</p>
+</blockquote>
+<h5 id="pytest-load-initial-conftests-early-config-parser-args"><a href="#pytest-load-initial-conftests-early-config-parser-args" class="headerlink" title="pytest_load_initial_conftests(early_config,parser,args)"></a>pytest_load_initial_conftests(<em>early_config</em>,<em>parser</em>,<em>args</em>)</h5><blockquote>
+<p>在命令行选项解析之前实现初始conftest文件的加载。用于加载 pytest 的初始配置。在这个钩子中，你可以对 pytest 的配置进行一些初始的定制和设置。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>early_config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</li>
+<li><strong>args</strong>(<em>list</em><em>]</em>) - 在命令行上传递的参数列表</li>
+<li><strong>parser</strong>(<em>_pytest.config.Parser</em>) - 添加命令行选项</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-cmdline-preparse-config-args"><a href="#pytest-cmdline-preparse-config-args" class="headerlink" title="pytest_cmdline_preparse(config,args)"></a>pytest_cmdline_preparse(<em>config</em>,<em>args</em>)</h5><blockquote>
+<p>(<strong>不推荐</strong>)在选项解析之前修改命令行参数。<br>此钩子被认为已弃用,将在未来的pytest版本中删除。考虑<code>pytest_load_initial_conftests()</code>改用。</p>
+</blockquote>
+<p>参数：</p>
+<ul>
+<li><strong>config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</li>
+<li><strong>args</strong>(<em>list</em><em>]</em>) - 在命令行上传递的参数列表</li>
+</ul>
+<h5 id="pytest-cmdline-parse-pluginmanager-args"><a href="#pytest-cmdline-parse-pluginmanager-args" class="headerlink" title="pytest_cmdline_parse(pluginmanager,args)"></a>pytest_cmdline_parse(<em>pluginmanager</em>,<em>args</em>)</h5><blockquote>
+<p>返回初始化的配置对象,解析指定的args。<br>在第一个非空结果处停止,请参见: firstresult：在第一个非空结果处停止</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>pluginmanager</strong>(<em>_pytest.config.PytestPluginManager</em>) - pytest插件管理器</li>
+<li><strong>args</strong>(<em>list</em><em>]</em>) - 在命令行上传递的参数列表</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-cmdline-main-config"><a href="#pytest-cmdline-main-config" class="headerlink" title="pytest_cmdline_main(config)"></a>pytest_cmdline_main(<em>config</em>)</h5><blockquote>
+<p>用于处理 pytest 命令行执行之后的逻辑。这个钩子函数允许你在 pytest 执行完命令行操作后进行一些自定义的处理，例如输出额外的信息、保存测试结果等。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</li>
+</ul>
+</li>
+</ul>
+<h4 id="收集用例时的钩子函数"><a href="#收集用例时的钩子函数" class="headerlink" title="收集用例时的钩子函数"></a>收集用例时的钩子函数</h4><h5 id="pytest-collection-session"><a href="#pytest-collection-session" class="headerlink" title="pytest_collection(session)"></a>pytest_collection(<em>session</em>)</h5><blockquote>
+<p>执行给定会话的收集协议。用于执行测试用例的收集和组织操作。在 pytest 运行过程中，该函数会组织并收集所有的测试用例，以便后续执行测试。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>session</strong>(<em>_pytest.main.Session</em>) - pytest会话对象</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-ignore-collect-path-config"><a href="#pytest-ignore-collect-path-config" class="headerlink" title="pytest_ignore_collect(path,config)"></a>pytest_ignore_collect(<em>path</em>,<em>config</em>)</h5><blockquote>
+<p>用于在收集测试文件和测试函数之前决定是否忽略特定的文件或目录。该函数接受两个参数 <code>path</code> 和 <code>config</code>，其中 <code>path</code> 是要收集的文件或目录的路径，<code>config</code> 是当前的配置对象。<br>通过在 <code>pytest_ignore_collect()</code> 钩子函数中返回 <code>True</code> 或 <code>False</code>，可以指示 pytest 是否忽略指定的文件或目录。如果返回 <code>True</code>，pytest 将忽略该文件或目录，不会对其进行测试用例收集。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>path</strong>(<em>str</em>) - 要分析的路径</li>
+<li><strong>config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-collect-file-path-parent"><a href="#pytest-collect-file-path-parent" class="headerlink" title="pytest_collect_file(path,parent)"></a>pytest_collect_file(<em>path</em>,<em>parent</em>)</h5><blockquote>
+<p>收集测试文件时可以每个文件进行检索操作。该函数接收两个参数 <code>path</code> 和 <code>parent</code>，其中 <code>path</code> 表示要收集的测试文件的路径，<code>parent</code> 表示该文件的父节点对象。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>path</strong>(<em>str</em>) - 要收集的路径</li>
+<li><strong>parent</strong>(<em>str</em>) - 该文件的父节点对象</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-pycollect-makemodule-path-parent"><a href="#pytest-pycollect-makemodule-path-parent" class="headerlink" title="pytest_pycollect_makemodule(path,parent)"></a>pytest_pycollect_makemodule(<em>path</em>,<em>parent</em>)</h5><blockquote>
+<p>收集测试模块时可以对每个测试模块进行操作。该函数接收两个参数 <code>path</code> 和 <code>parent</code>，其中 <code>path</code> 表示要收集的测试文件的路径，<code>parent</code> 表示该文件的父节点对象。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>path</strong>(<em>str</em>) - 要收集的路径</li>
+<li><strong>parent</strong>(<em>str</em>) - 该文件的父节点对象</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-generate-tests-metafunc"><a href="#pytest-generate-tests-metafunc" class="headerlink" title="pytest_generate_tests(metafunc)"></a>pytest_generate_tests(<em>metafunc</em>)</h5><blockquote>
+<p>用于生成测试用例。当 pytest 收集到测试函数时，会调用 <code>pytest_generate_tests</code> 钩子函数来生成实际的测试用例，这样可以动态地生成测试用例，比如根据参数化的数据生成多个测试用例。</p>
+</blockquote>
+<ul>
+<li><p>参数</p>
+<ul>
+<li><code>metafunc</code> - 参数是一个函数参数化对象，可以访问测试函数的签名、参数等信息，并根据需要为测试函数提供参数化数据。</li>
+</ul>
+</li>
+<li><p>功能</p>
+<ul>
+<li><p>metafunc.function.__name__ : 可以获取测试用例函数名</p>
+</li>
+<li><p>metafunc.module.____name__： 可以获取测试用例模块名</p>
+</li>
+<li><p>参数化测试函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytest  </span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_addition</span>(<span class="params">metafunc</span>):  </span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;input_data&#x27;</span> <span class="keyword">in</span> metafunc.fixturenames:  </span><br><span class="line">        <span class="keyword">for</span> x, y, expected_result <span class="keyword">in</span> [(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>), (<span class="number">4</span>, <span class="number">5</span>, <span class="number">9</span>)]:  </span><br><span class="line">            metafunc.parametrize(<span class="string">&quot;input_data&quot;</span>, [(x, y, expected_result)])  </span><br><span class="line">    </span><br><span class="line">    x, y, expected_result = metafunc.function_args[<span class="string">&quot;input_data&quot;</span>]  </span><br><span class="line">    <span class="keyword">assert</span> x + y == expected_result  </span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-make-parametrize-id-config-val-argname"><a href="#pytest-make-parametrize-id-config-val-argname" class="headerlink" title="pytest_make_parametrize_id(config,val,argname)"></a>pytest_make_parametrize_id(<em>config</em>,<em>val</em>,<em>argname</em>)</h5><blockquote>
+<p>用于自定义参数化后的测试用例的 ID。它接收三个参数：<code>config</code> 表示 pytest 的配置对象，<code>val</code> 表示参数化中的值，<code>argname</code> 表示被参数化的参数名称。<br>这个钩子函数可以在参数化测试用例时自定义测试用例的 ID，以便更好地显示在测试报告中，提高测试结果的可读性。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</li>
+<li><strong>val</strong>- 参数化值</li>
+<li><strong>argname</strong>(<em>str</em>) - pytest生成的自动参数名称</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_make_parametrize_id</span>(<span class="params">config, val, argname</span>):  </span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&quot;<span class="subst">&#123;argname&#125;</span>_<span class="subst">&#123;val&#125;</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="pytest-collection-modifyitems-session-config-items"><a href="#pytest-collection-modifyitems-session-config-items" class="headerlink" title="pytest_collection_modifyitems(session,config,items)"></a>pytest_collection_modifyitems(<em>session</em>,<em>config</em>,<em>items</em>)</h5><blockquote>
+<p>用例收集的所有case，这个钩子函数接收两个参数：<code>session</code> 表示当前的 pytest 会话对象，<code>config</code> 表示 pytest 的配置对象。可以实现对收集到的测试用例进行排序、过滤、添加标记等操作，从而对测试用例进行进一步的定制化处理</p>
+</blockquote>
+<ul>
+<li><p>参数：</p>
+<ul>
+<li><strong>session</strong>(<em>_pytest.main.Session</em>) - pytest会话对象</li>
+<li><strong>config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</li>
+<li><strong>items</strong>(<em>List</em><em><strong>_pytest.nodes.Item</strong>]</em>) - 项目对象列表</li>
+</ul>
+</li>
+<li><p>可以处理收集的case</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># conftest.py  </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_collection_modifyitems</span>(<span class="params">config, items</span>):  </span><br><span class="line">    <span class="comment"># 对测试用例按文件名进行排序  </span></span><br><span class="line">    items.sort(key=<span class="keyword">lambda</span> x: x.fspath)  </span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据标记选择性运行测试用例  </span></span><br><span class="line">    selected_items = []  </span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> items:  </span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;slow&quot;</span> <span class="keyword">in</span> item.keywords:  </span><br><span class="line">            selected_items.append(item)  </span><br><span class="line">    config.hook.pytest_deselected(items=items)  </span><br><span class="line">    items[:] = selected_items</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="pytest-deselected-items"><a href="#pytest-deselected-items" class="headerlink" title="pytest_deselected(items):"></a>pytest_deselected(items):</h5><blockquote>
+<p>收集到，但没有被执行的case</p>
+</blockquote>
+<ul>
+<li>collected 54 items &#x2F; 52 deselected &#x2F; 2 selected <ul>
+<li>collected - 总共收集到的所有case</li>
+<li>deselected - 当前执行项，不被执行的case</li>
+<li>selected - 执行的case</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-report-collectionfinish-config-startdir-items"><a href="#pytest-report-collectionfinish-config-startdir-items" class="headerlink" title="pytest_report_collectionfinish(config, startdir, items)"></a>pytest_report_collectionfinish(config, startdir, items)</h5><blockquote>
+<p>收集到且需要执行的用例的case</p>
+</blockquote>
+<h5 id="pytest-collection-finish-session"><a href="#pytest-collection-finish-session" class="headerlink" title="pytest_collection_finish(session)"></a>pytest_collection_finish(<em>session</em>)</h5><blockquote>
+<p>这个钩子函数接收一个参数 <code>session</code>，表示当前的 pytest 会话对象。<br>该钩子函数会在测试用例收集过程的最后被调用</p>
+</blockquote>
+<ul>
+<li><p>参数</p>
+<ul>
+<li><strong>session</strong>(<em>_pytest.main.Session</em>) - pytest会话对象</li>
+</ul>
+</li>
+<li><p>案例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">pytest_collection_finish</span>(<span class="params">session</span>):</span><br><span class="line">    total_tests = <span class="built_in">len</span>(session.items)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Total number of collected tests: <span class="subst">&#123;total_tests&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="执行用例时的钩子函数"><a href="#执行用例时的钩子函数" class="headerlink" title="执行用例时的钩子函数"></a>执行用例时的钩子函数</h4><h5 id="pytest-runtestloop-session"><a href="#pytest-runtestloop-session" class="headerlink" title="pytest_runtestloop(session)"></a>pytest_runtestloop(<em>session</em>)</h5><blockquote>
+<p>执行主运行测试循环(收集完成后)。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>session</strong>(<em>_pytest.main.Session</em>) - pytest会话对象</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-runtest-protocol-item-nextitem"><a href="#pytest-runtest-protocol-item-nextitem" class="headerlink" title="pytest_runtest_protocol(item,nextitem)"></a>pytest_runtest_protocol(<em>item</em>,<em>nextitem</em>)</h5><blockquote>
+<p>用于当前单个执行测试用例的运行协议。这个钩子函数接收两个参数：<code>item</code> 表示当前要运行的测试用例对象，<code>nextitem</code> 表示下一个要运行的测试用例对象。<br>可以在测试用例执行过程中进行一些自定义的操作或修改行为。例如，可以在执行测试用例前后记录日志、统计执行时间、处理异常等。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>item</strong>- 为其执行运行测试协议的测试项目。</li>
+<li><strong>nextitem</strong>- 预定下一个测试项目(如果这是我朋友的结束,则为无)。这个论点被传递给了<br><code>pytest_runtest_teardown()</code>。</li>
+</ul>
+</li>
+<li>在执行测试用例时，pytest 将会按照以下流程执行 <code>pytest_runtest_protocol</code> 钩子函数：<ol>
+<li>执行当前测试用例 <code>item</code> 的所有 fixture 函数（如 setup 函数）。</li>
+<li>执行当前测试用例 <code>item</code> 的测试函数。</li>
+<li>执行 <code>pytest_runtest_protocol</code> 钩子函数，并传入当前测试用例 <code>item</code> 和下一个测试用例 <code>nextitem</code>。</li>
+<li>根据需要，执行下一个测试用例 <code>nextitem</code> 的 fixture 函数。</li>
+</ol>
+</li>
+</ul>
+<h5 id="pytest-runtest-logstart-nodeid-location"><a href="#pytest-runtest-logstart-nodeid-location" class="headerlink" title="pytest_runtest_logstart(nodeid,location)"></a>pytest_runtest_logstart(<em>nodeid</em>,<em>location</em>)</h5><blockquote>
+<p>用于记录当前该测试用例开始执行时的日志信息。这个钩子函数在测试用例开始执行时被调用，可以用来记录当前测试用例的开始执行信息。</p>
+</blockquote>
+<ul>
+<li><p>参数：</p>
+<ul>
+<li><p><strong>nodeid</strong>(<em>str</em>) - 项目的完整测试路径</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;test/test_01/test_02_configset.py::TestConfig::test_config_setting&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>location</strong>- (filename,linenum,testname)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;&#x27;&#x27;(&#x27;test\\test_01\\test_02_configset.py&#x27;, 12, &#x27;TestConfig.test_config_setting&#x27;)&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-runtest-logfinish-nodeid-location"><a href="#pytest-runtest-logfinish-nodeid-location" class="headerlink" title="pytest_runtest_logfinish(nodeid,location)"></a>pytest_runtest_logfinish(<em>nodeid</em>,<em>location</em>)</h5><blockquote>
+<p>用于记录当前该测试用例执行后的日志信息。这个钩子函数在每个测试用例执行之后被调用，可以用来记录当前测试用例的执行之后的信息。</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>nodeid</strong>(<em>str</em>) - 项目的完整测试路径</li>
+<li><strong>location</strong>- (filename,linenum,testname)</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-runtest-setup-item"><a href="#pytest-runtest-setup-item" class="headerlink" title="pytest_runtest_setup(item)"></a>pytest_runtest_setup(<em>item</em>)</h5><blockquote>
+<p>通过使用这两个钩子函数，我们可以在测试用例的设置和执行阶段进行一些自定义的操作，以满足特定的测试需求或进行定制化的处理。在setup测试夹具之前执行</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>item</strong>: 测试项的信息</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-runtest-call-item"><a href="#pytest-runtest-call-item" class="headerlink" title="pytest_runtest_call(item)"></a>pytest_runtest_call(<em>item</em>)</h5><blockquote>
+<p>通过使用这两个钩子函数，我们可以在测试用例的设置和执行阶段进行一些自定义的操作，以满足特定的测试需求或进行定制化的处理。在测试夹具之后，用例执行之前执行</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>item</strong>: 测试项的信息</li>
+</ul>
+</li>
+</ul>
+<h5 id="def-pytest-runtest-teardown-item-nextitem"><a href="#def-pytest-runtest-teardown-item-nextitem" class="headerlink" title="def pytest_runtest_teardown(item,nextitem)"></a>def pytest_runtest_teardown(item,nextitem)</h5><blockquote>
+<p>每个测试用例出结果后执行，teardown测试夹具之前执行</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li><strong>item</strong>: 测试项的信息</li>
+<li><strong>nextitem</strong>- 计划下一个测试项目(如果没有安排其他测试项目,则为None)。这个参数可以用来执行精确的拆卸,即调用足够的终结器,以便nextitem只需要调用setup-functions</li>
+</ul>
+</li>
+</ul>
+<h5 id="pytest-runtest-makereport-item-call"><a href="#pytest-runtest-makereport-item-call" class="headerlink" title="pytest_runtest_makereport(item,call)"></a>pytest_runtest_makereport(<em>item</em>,<em>call</em>)</h5><blockquote>
+<p>该钩子函数会在每个测试用例的pytest_runtest_setup(item)，pytest_runtest_call(<em>item</em>)，def pytest_runtest_teardown(item,nextitem) 三个钩子函数之后执行</p>
+</blockquote>
+<ul>
+<li>参数<ul>
+<li><strong>item</strong>: 测试项的信息</li>
+<li><strong>call</strong>：记录了每个执行状态信息<ul>
+<li><code>&lt;CallInfo when=&#39;setup&#39; result: None&gt;</code> setup 之后执行</li>
+<li><code>&lt;CallInfo when=&#39;call&#39; result: None&gt;</code> call 之后执行</li>
+<li><code>&lt;CallInfo when=&#39;teardown&#39; result: None&gt;</code> teardown之后执行</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="生成测试结果时的钩子函数"><a href="#生成测试结果时的钩子函数" class="headerlink" title="生成测试结果时的钩子函数"></a>生成测试结果时的钩子函数</h4><h5 id="与会话报告相关的钩子函数"><a href="#与会话报告相关的钩子函数" class="headerlink" title="与会话报告相关的钩子函数"></a>与会话报告相关的钩子函数</h5><h6 id="pytest-collectstart-collector-pytest-make-collect-report-collector"><a href="#pytest-collectstart-collector-pytest-make-collect-report-collector" class="headerlink" title="pytest_collectstart(collector) &#x2F; pytest_make_collect_report(collector)"></a>pytest_collectstart(<em>collector</em>) &#x2F; pytest_make_collect_report(<em>collector</em>)</h6><blockquote>
+<p>查找用例模块。pytest_collectstart(<em>collector</em>)先执行，pytest_make_collect_report(<em>collector</em>)随后执行</p>
+</blockquote>
+<ul>
+<li>参数<ul>
+<li><em>collector</em></li>
+</ul>
+</li>
+</ul>
+<h6 id="pytest-itemcollected-item"><a href="#pytest-itemcollected-item" class="headerlink" title="pytest_itemcollected(item)"></a>pytest_itemcollected(<em>item</em>)</h6><blockquote>
+<p>查找所有用例</p>
+</blockquote>
+<p>itemcollected</p>
+<h6 id="pytest-deselected-items-1"><a href="#pytest-deselected-items-1" class="headerlink" title="pytest_deselected(items)"></a>pytest_deselected(<em>items</em>)</h6><blockquote>
+<p>收集了但未被执行的用例 </p>
+</blockquote>
+<h6 id="pytest-report-teststatus-report-config"><a href="#pytest-report-teststatus-report-config" class="headerlink" title="pytest_report_teststatus(report, config)"></a>pytest_report_teststatus(<em>report</em>, <em>config</em>)</h6><blockquote>
+<p>该钩子函数会在每个测试用例的pytest_runtest_setup(item)，pytest_runtest_call(<em>item</em>)，def pytest_runtest_teardown(item,nextitem) 三个钩子函数之后执行，且在pytest_runtest_makereport(<em>item</em>,<em>call</em>)之后。</p>
+</blockquote>
+<ul>
+<li>参数<ul>
+<li><strong>report</strong> - 返回pytest_runtest_setup(item)，pytest_runtest_call(<em>item</em>)，def pytest_runtest_teardown(item,nextitem) 3个钩子函数执行状态</li>
+<li><strong>config</strong> -  pytest配置对象</li>
+</ul>
+</li>
+</ul>
+<h6 id="pytest-terminal-summary-terminalreporter-exitstatus-config"><a href="#pytest-terminal-summary-terminalreporter-exitstatus-config" class="headerlink" title="pytest_terminal_summary(terminalreporter,exitstatus,config)"></a>pytest_terminal_summary(<em>terminalreporter</em>,<em>exitstatus</em>,<em>config</em>)</h6><blockquote>
+<p>用于在测试运行结束后生成测试结果的总结信息并显示在终端中。</p>
+</blockquote>
+<ul>
+<li>参数<ul>
+<li><code>terminalreporter</code>: 表示 pytest 的终端报告器对象，可以使用其中的方法来输出信息到终端。</li>
+<li><code>exitstatus</code>: 表示测试运行的退出状态，通常为 0 表示测试运行成功，非 0 表示测试运行失败。</li>
+<li><code>config</code>: 表示包含了 pytest 配置信息的对象，可以获取和设置 pytest 的配置选项。</li>
+</ul>
+</li>
+</ul>
+<h6 id="pytest-fixture-setup-fixturedef-request"><a href="#pytest-fixture-setup-fixturedef-request" class="headerlink" title="pytest_fixture_setup(fixturedef,request)"></a>pytest_fixture_setup(fixturedef,request)</h6><blockquote>
+<p>执行Fixture前置处理方法设置执行,调用fixture函数的返回值,在pytest_runtest_setup(<em>item</em>) 之后，setup夹具方法之前执行，每一个前置处理器都会执行一次</p>
+</blockquote>
+<h6 id="pytest-fixture-post-finalizer-fixturedef-request"><a href="#pytest-fixture-post-finalizer-fixturedef-request" class="headerlink" title="pytest_fixture_post_finalizer(fixturedef,request)"></a>pytest_fixture_post_finalizer(<em>fixturedef</em>,<em>request</em>)</h6><blockquote>
+<p>执行Fixture后置处理方法设置执行,调用fixture函数的返回值,在后置处理函数 之后，pytest_runtest_makereport方法之前执行，每一个后置处理器都会执行一次</p>
+</blockquote>
+<h6 id="pytest-runtest-logreport-report"><a href="#pytest-runtest-logreport-report" class="headerlink" title="pytest_runtest_logreport(report)"></a>pytest_runtest_logreport(report)</h6><blockquote>
+<p>pytest_runtest_setup(item)，pytest_runtest_call(<em>item</em>)，def pytest_runtest_teardown(item,nextitem) 三个钩子函数之后执行，且在pytest_report_teststatus后执行</p>
+</blockquote>
+<h5 id="断言相关钩子函数"><a href="#断言相关钩子函数" class="headerlink" title="断言相关钩子函数"></a>断言相关钩子函数</h5><h6 id="pytest-assertrepr-compare-config-op-left-right"><a href="#pytest-assertrepr-compare-config-op-left-right" class="headerlink" title="pytest_assertrepr_compare(config,op,left,right)"></a>pytest_assertrepr_compare(config,op,left,right)</h6><blockquote>
+<p>断言失败后调用</p>
+</blockquote>
+<h6 id="pytest-assertion-pass-item-lineno-orig-expl"><a href="#pytest-assertion-pass-item-lineno-orig-expl" class="headerlink" title="pytest_assertion_pass(item, lineno, orig, expl)"></a>pytest_assertion_pass(item, lineno, orig, expl)</h6><blockquote>
+<p>断言通过时调用</p>
+</blockquote>
+<ul>
+<li><p>使用前提 - 需要开启配置<code>enable_assertion_pass_hook</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[pytest]</span></span><br><span class="line"><span class="attr">enable_assertion_pass_hook</span>=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>参数</p>
+<ul>
+<li>参数：<ul>
+<li><strong>item</strong>(_pytest.nodes.Item) - 当前测试的pytest项目对象</li>
+<li><strong>lineno</strong>(int) - 断言语句的行号</li>
+<li><strong>orig</strong>(string) - 带有原始断言的字符串</li>
+<li><strong>expl</strong>(string) - 带有断言解释的字符串</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="调试-交互钩子函数"><a href="#调试-交互钩子函数" class="headerlink" title="调试&#x2F;交互钩子函数"></a>调试&#x2F;交互钩子函数</h4><h5 id="pytest-internalerror-excrepr-excinfo"><a href="#pytest-internalerror-excrepr-excinfo" class="headerlink" title="pytest_internalerror(excrepr,excinfo)"></a>pytest_internalerror(<em>excrepr</em>,<em>excinfo</em>)</h5><blockquote>
+<p>内部出错时调用。</p>
+</blockquote>
+<h5 id="pytest-keyboard-interrupt-excinfo"><a href="#pytest-keyboard-interrupt-excinfo" class="headerlink" title="pytest_keyboard_interrupt(excinfo)"></a>pytest_keyboard_interrupt(<em>excinfo</em>)</h5><blockquote>
+<p>键盘中断时调用。</p>
+</blockquote>
+<h5 id="pytest-exception-interact-node-call-report"><a href="#pytest-exception-interact-node-call-report" class="headerlink" title="pytest_exception_interact(node,call,report)"></a>pytest_exception_interact(<em>node</em>,<em>call</em>,<em>report</em>)</h5><blockquote>
+<p>在引发异常时调用,可以交互式处理。只有在引发的异常不是内部异常, 如<code>skip.Exception</code>时才会调用此钩子函数。</p>
+</blockquote>
+<h5 id="pytest-enter-pdb-config-pdb"><a href="#pytest-enter-pdb-config-pdb" class="headerlink" title="pytest_enter_pdb(config,pdb)"></a>pytest_enter_pdb(<em>config</em>,<em>pdb</em>)</h5><blockquote>
+<p>调用pdb.set_trace()时,插件可以使用插件在python调试器进入交互模式之前采取特殊操作。</p>
+</blockquote>
+<ul>
+<li><p>参数：</p>
+<ul>
+<li><p><strong>config</strong>(<em>_pytest.config.Config</em>) - pytest配置对象</p>
+</li>
+<li><p><strong>pdb</strong>(<em>pdb.Pdb</em>) - Pdb实例</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="整个hooks运行流程顺序"><a href="#整个hooks运行流程顺序" class="headerlink" title="整个hooks运行流程顺序"></a>整个hooks运行流程顺序</h3><ul>
+<li>初始化</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/09/12/pytest-hooks/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20240912174846499.png" alt="image-20240912174846499"></p>
+<ul>
+<li>命令行解析</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/09/12/pytest-hooks/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20240912174906721.png" alt="image-20240912174906721"></p>
+<ul>
+<li>运行用例</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/09/12/pytest-hooks/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20240912175144375.png" alt="image-20240912175144375"></p>
+<ul>
+<li>结束</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2024/09/12/pytest-hooks/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20240912175201730.png" alt="image-20240912175201730"></p>
+<h3 id="声明新的钩子函数"><a href="#声明新的钩子函数" class="headerlink" title="声明新的钩子函数"></a>声明新的钩子函数</h3><h3 id="使用第三方插件的钩子函数"><a href="#使用第三方插件的钩子函数" class="headerlink" title="使用第三方插件的钩子函数"></a>使用第三方插件的钩子函数</h3></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python</a><a class="post-meta__tags" href="/tags/pytest/">pytest</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2024/08/29/Jmeter-ant%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/" title="Jmeter+ant接口测试"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Jmeter+ant接口测试</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/03/29/pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Pytest测试框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C._mSAAIu-LtTpte92lrJCSwHaFj?w=233&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-29</div><div class="title">Pytest测试框架</div></div></a></div><div><a href="/2023/12/21/Flask%E6%A1%86%E6%9E%B6/" title="Flask框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://tse1-mm.cn.bing.net/th/id/OIP-C.aYKhp2p8j4T7TXmV73jzmAHaDt?w=320&h=175&c=7&r=0&o=5&dpr=1.3&pid=1.7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-21</div><div class="title">Flask框架</div></div></a></div><div><a href="/2024/04/23/Selenium-Web%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="Selenium-Web自动化测试工具"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://www.bugraptors.com/blog/storage/app/public/logo/why-we-choose-selenium-webdriver-over-selenium-ide-dyvpg-1000x700.webp" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-23</div><div class="title">Selenium-Web自动化测试工具</div></div></a></div><div><a href="/2024/08/28/appium-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Appnium-移动端自动化测试框架"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-08-28</div><div class="title">Appnium-移动端自动化测试框架</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fafafa</div><div class="author-info__description">记录笔记日志</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">32</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/fafafabaobei@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=728831102&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pytest%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E6%89%A9%E5%B1%95-%E9%92%A9%E5%AD%90-%E6%9C%BA%E5%88%B6-hooks"><span class="toc-number">1.</span> <span class="toc-text">Pytest测试框架的扩展(钩子)机制 - hooks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hooks"><span class="toc-number">2.</span> <span class="toc-text">Hooks</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%B1%BB%E5%9E%8B%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">初始化类型钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-addhooks-pluginmanager-%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.1.</span> <span class="toc-text">pytest_addhooks(pluginmanager) - 添加自定义钩子函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-addoption-parser-%E6%B7%BB%E5%8A%A0%E5%8F%82%E6%95%B0"><span class="toc-number">2.1.2.</span> <span class="toc-text">pytest_addoption(parser) - 添加参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-configure-config"><span class="toc-number">2.1.3.</span> <span class="toc-text">pytest_configure(config)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-unconfigure-config"><span class="toc-number">2.1.4.</span> <span class="toc-text">pytest_unconfigure(config)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-sessionstart-session"><span class="toc-number">2.1.5.</span> <span class="toc-text">pytest_sessionstart(session)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-sessionfinish-session-exitstatus"><span class="toc-number">2.1.6.</span> <span class="toc-text">pytest_sessionfinish(session, exitstatus)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-plugin-registered-plugin-manager-%E6%B3%A8%E5%86%8C%E6%8F%92%E4%BB%B6"><span class="toc-number">2.1.7.</span> <span class="toc-text">pytest_plugin_registered(plugin,manager) - 注册插件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">启动时的钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-load-initial-conftests-early-config-parser-args"><span class="toc-number">2.2.1.</span> <span class="toc-text">pytest_load_initial_conftests(early_config,parser,args)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-cmdline-preparse-config-args"><span class="toc-number">2.2.2.</span> <span class="toc-text">pytest_cmdline_preparse(config,args)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-cmdline-parse-pluginmanager-args"><span class="toc-number">2.2.3.</span> <span class="toc-text">pytest_cmdline_parse(pluginmanager,args)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-cmdline-main-config"><span class="toc-number">2.2.4.</span> <span class="toc-text">pytest_cmdline_main(config)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%94%B6%E9%9B%86%E7%94%A8%E4%BE%8B%E6%97%B6%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">收集用例时的钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-collection-session"><span class="toc-number">2.3.1.</span> <span class="toc-text">pytest_collection(session)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-ignore-collect-path-config"><span class="toc-number">2.3.2.</span> <span class="toc-text">pytest_ignore_collect(path,config)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-collect-file-path-parent"><span class="toc-number">2.3.3.</span> <span class="toc-text">pytest_collect_file(path,parent)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-pycollect-makemodule-path-parent"><span class="toc-number">2.3.4.</span> <span class="toc-text">pytest_pycollect_makemodule(path,parent)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-generate-tests-metafunc"><span class="toc-number">2.3.5.</span> <span class="toc-text">pytest_generate_tests(metafunc)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-make-parametrize-id-config-val-argname"><span class="toc-number">2.3.6.</span> <span class="toc-text">pytest_make_parametrize_id(config,val,argname)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-collection-modifyitems-session-config-items"><span class="toc-number">2.3.7.</span> <span class="toc-text">pytest_collection_modifyitems(session,config,items)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-deselected-items"><span class="toc-number">2.3.8.</span> <span class="toc-text">pytest_deselected(items):</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-report-collectionfinish-config-startdir-items"><span class="toc-number">2.3.9.</span> <span class="toc-text">pytest_report_collectionfinish(config, startdir, items)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-collection-finish-session"><span class="toc-number">2.3.10.</span> <span class="toc-text">pytest_collection_finish(session)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E7%94%A8%E4%BE%8B%E6%97%B6%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.</span> <span class="toc-text">执行用例时的钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-runtestloop-session"><span class="toc-number">2.4.1.</span> <span class="toc-text">pytest_runtestloop(session)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-runtest-protocol-item-nextitem"><span class="toc-number">2.4.2.</span> <span class="toc-text">pytest_runtest_protocol(item,nextitem)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-runtest-logstart-nodeid-location"><span class="toc-number">2.4.3.</span> <span class="toc-text">pytest_runtest_logstart(nodeid,location)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-runtest-logfinish-nodeid-location"><span class="toc-number">2.4.4.</span> <span class="toc-text">pytest_runtest_logfinish(nodeid,location)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-runtest-setup-item"><span class="toc-number">2.4.5.</span> <span class="toc-text">pytest_runtest_setup(item)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-runtest-call-item"><span class="toc-number">2.4.6.</span> <span class="toc-text">pytest_runtest_call(item)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#def-pytest-runtest-teardown-item-nextitem"><span class="toc-number">2.4.7.</span> <span class="toc-text">def pytest_runtest_teardown(item,nextitem)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-runtest-makereport-item-call"><span class="toc-number">2.4.8.</span> <span class="toc-text">pytest_runtest_makereport(item,call)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E6%97%B6%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.5.</span> <span class="toc-text">生成测试结果时的钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%8E%E4%BC%9A%E8%AF%9D%E6%8A%A5%E5%91%8A%E7%9B%B8%E5%85%B3%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.5.1.</span> <span class="toc-text">与会话报告相关的钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-collectstart-collector-pytest-make-collect-report-collector"><span class="toc-number">2.5.1.1.</span> <span class="toc-text">pytest_collectstart(collector) &#x2F; pytest_make_collect_report(collector)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-itemcollected-item"><span class="toc-number">2.5.1.2.</span> <span class="toc-text">pytest_itemcollected(item)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-deselected-items-1"><span class="toc-number">2.5.1.3.</span> <span class="toc-text">pytest_deselected(items)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-report-teststatus-report-config"><span class="toc-number">2.5.1.4.</span> <span class="toc-text">pytest_report_teststatus(report, config)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-terminal-summary-terminalreporter-exitstatus-config"><span class="toc-number">2.5.1.5.</span> <span class="toc-text">pytest_terminal_summary(terminalreporter,exitstatus,config)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-fixture-setup-fixturedef-request"><span class="toc-number">2.5.1.6.</span> <span class="toc-text">pytest_fixture_setup(fixturedef,request)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-fixture-post-finalizer-fixturedef-request"><span class="toc-number">2.5.1.7.</span> <span class="toc-text">pytest_fixture_post_finalizer(fixturedef,request)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-runtest-logreport-report"><span class="toc-number">2.5.1.8.</span> <span class="toc-text">pytest_runtest_logreport(report)</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%AD%E8%A8%80%E7%9B%B8%E5%85%B3%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.5.2.</span> <span class="toc-text">断言相关钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-assertrepr-compare-config-op-left-right"><span class="toc-number">2.5.2.1.</span> <span class="toc-text">pytest_assertrepr_compare(config,op,left,right)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#pytest-assertion-pass-item-lineno-orig-expl"><span class="toc-number">2.5.2.2.</span> <span class="toc-text">pytest_assertion_pass(item, lineno, orig, expl)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E8%AF%95-%E4%BA%A4%E4%BA%92%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.</span> <span class="toc-text">调试&#x2F;交互钩子函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-internalerror-excrepr-excinfo"><span class="toc-number">2.6.1.</span> <span class="toc-text">pytest_internalerror(excrepr,excinfo)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-keyboard-interrupt-excinfo"><span class="toc-number">2.6.2.</span> <span class="toc-text">pytest_keyboard_interrupt(excinfo)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-exception-interact-node-call-report"><span class="toc-number">2.6.3.</span> <span class="toc-text">pytest_exception_interact(node,call,report)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#pytest-enter-pdb-config-pdb"><span class="toc-number">2.6.4.</span> <span class="toc-text">pytest_enter_pdb(config,pdb)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%B8%AAhooks%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B%E9%A1%BA%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">整个hooks运行流程顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E6%96%B0%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">4.</span> <span class="toc-text">声明新的钩子函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%8F%92%E4%BB%B6%E7%9A%84%E9%92%A9%E5%AD%90%E5%87%BD%E6%95%B0"><span class="toc-number">5.</span> <span class="toc-text">使用第三方插件的钩子函数</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/09/12/pytest-hooks/" title="Pytest-Hooks"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest-Hooks"/></a><div class="content"><a class="title" href="/2024/09/12/pytest-hooks/" title="Pytest-Hooks">Pytest-Hooks</a><time datetime="2024-09-12T07:38:15.000Z" title="发表于 2024-09-12 15:38:15">2024-09-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/29/Jmeter-ant%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/" title="Jmeter+ant接口测试"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Jmeter+ant接口测试"/></a><div class="content"><a class="title" href="/2024/08/29/Jmeter-ant%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95/" title="Jmeter+ant接口测试">Jmeter+ant接口测试</a><time datetime="2024-08-29T01:05:40.000Z" title="发表于 2024-08-29 09:05:40">2024-08-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/28/appium-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Appnium-移动端自动化测试框架"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Appnium-移动端自动化测试框架"/></a><div class="content"><a class="title" href="/2024/08/28/appium-%E7%A7%BB%E5%8A%A8%E7%AB%AF%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6/" title="Appnium-移动端自动化测试框架">Appnium-移动端自动化测试框架</a><time datetime="2024-08-27T16:30:00.000Z" title="发表于 2024-08-28 00:30:00">2024-08-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/23/sphinx-python%E6%96%87%E6%A1%A3%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/" title="Sphinx_python项目文档构建工具"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Sphinx_python项目文档构建工具"/></a><div class="content"><a class="title" href="/2024/08/23/sphinx-python%E6%96%87%E6%A1%A3%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7/" title="Sphinx_python项目文档构建工具">Sphinx_python项目文档构建工具</a><time datetime="2024-08-23T14:03:34.000Z" title="发表于 2024-08-23 22:03:34">2024-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/23/Canvas/" title="Canvas"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Canvas"/></a><div class="content"><a class="title" href="/2024/08/23/Canvas/" title="Canvas">Canvas</a><time datetime="2024-08-23T06:52:40.000Z" title="发表于 2024-08-23 14:52:40">2024-08-23</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By fafafa</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.14.0-b3"></script><script src="/js/main.js?v=4.14.0-b3"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.5/dist/lazyload.iife.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const runMermaid = (ele) => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from(ele).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+    
+    codeMermaidEle.forEach(ele => {
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.innerHTML = `<pre class="mermaid-src" hidden>${ele.textContent}</pre>`
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+  
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.14.0-b3"></script></div></div></body></html>
