@@ -424,7 +424,7 @@
 
 <h3 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h3><h4 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE new_database; </span><br></pre></td></tr></table></figure>
 
-<h4 id="查看所有数据库名"><a href="#查看所有数据库名" class="headerlink" title="查看所有数据库名"></a>查看所有数据库名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> DATABASE;</span><br></pre></td></tr></table></figure>
+<h4 id="查看所有数据库名"><a href="#查看所有数据库名" class="headerlink" title="查看所有数据库名"></a>查看所有数据库名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> DATABASES;</span><br></pre></td></tr></table></figure>
 
 <h4 id="使用数据库"><a href="#使用数据库" class="headerlink" title="使用数据库"></a>使用数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use <span class="operator">&lt;</span>database_name<span class="operator">&gt;</span>; # database_name 为数据库名字</span><br></pre></td></tr></table></figure>
 
@@ -496,7 +496,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="operator">|</span> 字段名<span class="number">1</span> <span class="operator">|</span> 字段名<span class="number">2</span></span><br><span class="line"><span class="keyword">FROM</span> 表名 </span><br><span class="line"><span class="keyword">WHERE</span> 表达式<span class="number">1</span> <span class="keyword">AND</span> 表达式<span class="number">2</span> </span><br></pre></td></tr></table></figure>
 
 <h6 id="OR关键字"><a href="#OR关键字" class="headerlink" title="OR关键字"></a>OR关键字</h6><p>使用多个查询条件,满足其中一个即可</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="operator">|</span> 字段名<span class="number">1</span> <span class="operator">|</span> 字段名<span class="number">2</span></span><br><span class="line"><span class="keyword">FROM</span> 表名 </span><br><span class="line"><span class="keyword">WHERE</span> 表达式<span class="number">1</span> <span class="keyword">OR</span>表达式<span class="number">2</span> </span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="operator">|</span> 字段名<span class="number">1</span> <span class="operator">|</span> 字段名<span class="number">2</span></span><br><span class="line"><span class="keyword">FROM</span> 表名 </span><br><span class="line"><span class="keyword">WHERE</span> 表达式<span class="number">1</span> <span class="keyword">ORDER</span> 表达式<span class="number">2</span> </span><br></pre></td></tr></table></figure>
 
 
 
@@ -672,9 +672,7 @@
 <li>可选：加上<code>WHERE</code>子句、<code>ORDER BY</code>等子句。</li>
 </ol>
 <p><strong>OUTER JOIN - 外连接</strong></p>
-<p>当外表中没有与内表匹配的数据时，外连接会在结果集中为外表中的行填充NULL值</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s.id, s.name, s.class_id, c.name class_name, s.gender, s.score</span><br><span class="line"><span class="keyword">FROM</span> students s</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> classes c</span><br><span class="line"><span class="keyword">ON</span> s.class_id <span class="operator">=</span> c.id;</span><br></pre></td></tr></table></figure>
-
+<p>当外表中没有与内表匹配的数据时，外连接会在结果集中填充NULL值</p>
 <p><strong>RIGHT OUTER JOIN - 右外连接</strong></p>
 <p>RIGHT OUTER JOIN（右外连接）则会返回右表中的所有行以及左表中与右表匹配的行，如果左表中没有匹配的行，则会在结果集中为左表的列填充NULL值。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> s.id, s.name, s.class_id, c.name class_name, s.gender, s.score</span><br><span class="line"><span class="keyword">FROM</span> students s</span><br><span class="line"><span class="keyword">RIGHT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> classes c</span><br><span class="line"><span class="keyword">ON</span> s.class_id <span class="operator">=</span> c.id;</span><br></pre></td></tr></table></figure>
