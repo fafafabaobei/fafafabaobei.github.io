@@ -1,0 +1,477 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>笔记 | fafafabaobei</title><meta name="author" content="fafafa"><meta name="copyright" content="fafafa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="管理信息系统导论管理信息系统管理信息系统是 管理 和 信息系统 不断融合的产物，是信息化的具体表现形式和主要形式 管理信息系统的定义基本定义  管理信息系统是一个由 人、机 组成的能进行管理信息的收集、传递、存储、加工、维护和使用的系统  作用：可以检测企业或组织的各种运行情况，利用过去的数据预测未来；从全局出发辅助 决策；利用信息控制企业或组织行为；帮助其实现长远的规划目标  信息系统是一个 人">
+<meta property="og:type" content="article">
+<meta property="og:title" content="笔记">
+<meta property="og:url" content="https://fafafabaobei.github.io/2022/04/07/%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="fafafabaobei">
+<meta property="og:description" content="管理信息系统导论管理信息系统管理信息系统是 管理 和 信息系统 不断融合的产物，是信息化的具体表现形式和主要形式 管理信息系统的定义基本定义  管理信息系统是一个由 人、机 组成的能进行管理信息的收集、传递、存储、加工、维护和使用的系统  作用：可以检测企业或组织的各种运行情况，利用过去的数据预测未来；从全局出发辅助 决策；利用信息控制企业或组织行为；帮助其实现长远的规划目标  信息系统是一个 人">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2022-04-07T13:15:21.000Z">
+<meta property="article:modified_time" content="2022-04-07T13:15:21.000Z">
+<meta property="article:author" content="fafafa">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/blog.png"><link rel="canonical" href="https://fafafabaobei.github.io/2022/04/07/%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><link rel="stylesheet" href="/css/index.css?v=4.14.0-b3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>(()=>{
+      const saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+      
+      window.btf = {
+        saveToLocal: saveToLocal,
+        getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+          script.src = url
+          script.async = true
+          script.onerror = reject
+          script.onload = script.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            script.onload = script.onreadystatechange = null
+            resolve()
+          }
+
+          Object.keys(attr).forEach(key => {
+            script.setAttribute(key, attr[key])
+          })
+
+          document.head.appendChild(script)
+        }),
+
+        getCSS: (url, id = false) => new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          if (id) link.id = id
+          link.onerror = reject
+          link.onload = link.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            link.onload = link.onreadystatechange = null
+            resolve()
+          }
+          document.head.appendChild(link)
+        }),
+
+        addGlobalFn: (key, fn, name = false, parent = window) => {
+          const pjaxEnable = false
+          if (!pjaxEnable && key.startsWith('pjax')) return
+
+          const globalFn = parent.globalFn || {}
+          const keyObj = globalFn[key] || {}
+    
+          if (name && keyObj[name]) return
+    
+          name = name || Object.keys(keyObj).length
+          keyObj[name] = fn
+          globalFn[key] = keyObj
+          parent.globalFn = globalFn
+        }
+      }
+    
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+      
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })()</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-04-07 21:15:21'
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', () => { preloader.initLoading() }, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', () => { preloader.endLoading() }, 'preloader_end')
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">46</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="fafafabaobei"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/blog.png" alt="Logo"/><span class="site-name">fafafabaobei</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">笔记<a class="post-edit-link" href="null_posts/笔记.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-07T13:15:21.000Z" title="发表于 2022-04-07 21:15:21">2022-04-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-07T13:15:21.000Z" title="更新于 2022-04-07 21:15:21">2022-04-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="管理信息系统导论"><a href="#管理信息系统导论" class="headerlink" title="管理信息系统导论"></a>管理信息系统导论</h3><h4 id="管理信息系统"><a href="#管理信息系统" class="headerlink" title="管理信息系统"></a>管理信息系统</h4><p>管理信息系统是 <strong>管理</strong> 和 <strong>信息系统</strong> 不断融合的产物，是信息化的具体表现形式和主要形式</p>
+<h5 id="管理信息系统的定义"><a href="#管理信息系统的定义" class="headerlink" title="管理信息系统的定义"></a>管理信息系统的定义</h5><p><strong>基本定义</strong></p>
+<ul>
+<li><p>管理信息系统是一个由 <strong>人</strong>、<strong>机</strong> 组成的能进行管理信息的收集、传递、存储、加工、维护和使用的系统</p>
+</li>
+<li><p>作用：可以检测企业或组织的各种运行情况，利用过去的数据预测未来；从全局出发辅助 决策；利用信息控制企业或组织行为；帮助其实现长远的规划目标</p>
+</li>
+<li><p>信息系统是一个 <strong>人机</strong> 系统，同时又是一个 <strong>一体化</strong> 系统</p>
+</li>
+</ul>
+<p><strong>人机系统</strong></p>
+<ul>
+<li>管理信息系统 &#x3D; 人+计算机，是一个人-机合成系统<br>！但是计算机并不一定是管理信息系统的必要条件，只要有管理和信息，就必然是管理信息系统</li>
+</ul>
+<p><strong>一体化系统</strong></p>
+<ul>
+<li>管理信息系统是一个一体化系统，或称集成系统</li>
+<li>一体化具体有两个含义：<ul>
+<li><strong>数据</strong> 的一体化：数据在各部门之间共享，信息成为企业的资源</li>
+<li><strong>系统开发</strong>的一体化：按总体规划，分步实施开发系统</li>
+</ul>
+</li>
+</ul>
+<h4 id="管理信息系统的分类"><a href="#管理信息系统的分类" class="headerlink" title="管理信息系统的分类"></a>管理信息系统的分类</h4><p><strong>按核心业务活动分类</strong></p>
+<ul>
+<li><p>电子业务系统</p>
+<p>学籍，教育，医疗、RPC等都属于电子业务</p>
+</li>
+<li><p>电子政务系统</p>
+<p>一般与国家管控相关，例如经济，市场宏观调控</p>
+</li>
+<li><p>电子商务系统</p>
+<p>B2B、B2C</p>
+</li>
+</ul>
+<p><strong>按数据处理方式分类</strong></p>
+<ul>
+<li>操作性管理信息系统</li>
+<li>分析型管理信息系统</li>
+</ul>
+<p><strong>按管理应用层次分类</strong></p>
+<ul>
+<li><p>事务型管理信息系统</p>
+<p>事务型管理信息系统主要服务于组织的 <strong>基层</strong> 管理者，主要目的是具体业务过程的 <strong>自动化</strong>，操作型管理新型系统大多是事务型管理信息系统</p>
+</li>
+<li><p>管理型管理信息系统</p>
+<p>管理型管理信息系统主要服务于组织的<strong>中层</strong>管理者，提供<strong>综合查询、统计分析和报表、报告</strong>等功能，设计多项业务的<strong>综合管理</strong>。主要目的是使组织的中层管理人员通过固定格式的报表、报告和综合查询、统计分析，<strong>了解和监控管理领域的运行情况</strong></p>
+</li>
+<li><p>战略型管理信息系统</p>
+<p>战略型管理信息系统主要服务于组织的<strong>高层管理者</strong>，主要目的是为战略计划的制定和调整<strong>提供辅助决策功能</strong>。这类系统所需要的数据一般来源事务型管理型信息系统和管理型管理信息系统，还有一些来自企业外部，其中外部数据所占的比例较大。</p>
+</li>
+</ul>
+<p><strong>按行业和业务只能分类</strong></p>
+<ul>
+<li><p>按行业或部门</p>
+<p>eg：铁路管理信息系统、农业管理信息系统、房地产业务管理信息系统</p>
+</li>
+<li><p>按业务职能</p>
+<p>eg：铁路统计系统、客票预发售系统、危险品及安全管理系统</p>
+</li>
+</ul>
+<h4 id="管理信息系统的结构"><a href="#管理信息系统的结构" class="headerlink" title="管理信息系统的结构"></a>管理信息系统的结构</h4><p><strong>功能结构</strong></p>
+<ul>
+<li>从使用者角度看，任何一个管理信息系统均<strong>有明确的目标</strong>，并<strong>由若干具体功能组成</strong></li>
+<li><strong>各功能相互联系</strong>，构成一个<strong>有机结合的整体</strong>，表现出系统的特性，这就是功能结构</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/04/07/%E7%AC%94%E8%AE%B0/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20250407214806595.png" alt="image-20250407214806595"></p>
+<p><strong>概念结构</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/04/07/%E7%AC%94%E8%AE%B0/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20250407224330989.png" alt="image-20250407224330989"></p>
+<p>eg：简述管理信息系统的概念结构<br>管理信息系统的功能结构反映了管理的业务职能，比较直观，易于理解。如果对各个管理信息系统的功能结构进行抽象，会发现所有的管理信息系统均是由信息源、信息处理器、信息用户和信息管理者四大部件组成，这就是管理信息系统的概念结构</p>
+<p><strong>管理职能结构</strong></p>
+<blockquote>
+<p>针对一个管理组织，我们可以从三个视角进行分析</p>
+</blockquote>
+<ul>
+<li>纵向视野：一般将管理活动分为<strong>高、中、低</strong>三个层次，即<strong>战略计划层、管理控制层和执行控制层。</strong>针对这三层次所建设的系统称为<strong>战略计划子系统、管理控制子系统和控制执行子系统。</strong>分别属于<strong>战略型、管理型和事务型</strong>管理信息系统</li>
+<li>横向视野：从横向来看一个组织，其管理活动是按只能排列的，可分为若干子系统：生产管理子系统，销售管理子系统和物资管理子系统，财务会计管理子系统，人力资源管理子系统</li>
+<li>综合视野：实际企业中的管理活动不单纯按层次或职能划分，是横、纵交叉形成的完整的管理活动</li>
+</ul>
+<p><strong>软硬件结构</strong></p>
+<ul>
+<li>硬件结构：管理信息系统的硬件结构是系统的<strong>实体部分</strong>，包括<strong>计算机、外设和网络硬件设备及其联机方式</strong></li>
+<li>组成：<ul>
+<li><strong>客户机</strong>：与管理信息系统用户直接交互的硬件设备(台式机、笔记本、pad、智能手机)</li>
+<li><strong>服务器</strong>：为客户端计算机提供各种服务的高性能计算机</li>
+</ul>
+</li>
+<li>软件结构：管理信息系统的软件结构主要包括两个方面<ul>
+<li>一是<strong>描述</strong>管理信息<strong>系统应用软件的功能模块</strong>，对管理信息系统功能结构的<strong>进一步补充和细化</strong>，一般可以用系统模块结构图的形式展示</li>
+<li>二是<strong>依附于硬件结构</strong>的管理信息系统的<strong>软件结构</strong>，主要包括<strong>操作系统、数据库管理系统、应用开发工具和各种服务器软件等</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>网络计算结构</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/04/07/%E7%AC%94%E8%AE%B0/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20250408010126163.png" alt="image-20250408010126163"></p>
+<ul>
+<li><p>客户端&amp;服务器模式(C&#x2F;S)</p>
+<p>C&#x2F;S模式的最大优点是<strong>交互性强</strong></p>
+<ul>
+<li><p>两层结构</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/04/07/%E7%AC%94%E8%AE%B0/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20250408010313986.png" alt="image-20250408010313986"></p>
+</li>
+<li><p>三层结构</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/04/07/%E7%AC%94%E8%AE%B0/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20250408010331785.png" alt="image-20250408010331785"></p>
+</li>
+</ul>
+</li>
+<li><p>浏览器&amp;服务器模式(B&#x2F;S)</p>
+<p>B&#x2F;S的产生与发展主要得益于Internet技术的发展</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/04/07/%E7%AC%94%E8%AE%B0/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20250408010532468.png" alt="image-20250408010532468"></p>
+</li>
+</ul>
+<h4 id="管理信息系统的集中典型应用"><a href="#管理信息系统的集中典型应用" class="headerlink" title="管理信息系统的集中典型应用"></a>管理信息系统的集中典型应用</h4><p><strong>MRP系统</strong></p>
+<p>MRP系统是一种<strong>以物料需求的计划与控制为主线</strong>的管理思想，基于此种管理方法形成的管理信息系统被称为MRP系统</p>
+<ul>
+<li><p>MRP系统逻辑流程</p>
+<p>MRP的<strong>基本内容</strong>是编制零件的<strong>生产计划和采购计划</strong>。首先定制<strong>主生产计划</strong>，据此定制<strong>物料需求计划、生产进度计划与能力需求计划</strong></p>
+</li>
+<li><p>MRP计算依据</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/04/07/%E7%AC%94%E8%AE%B0/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20250408011120926.png" alt="image-20250408011120926"></p>
+<p>采购计划跟生产计划主要根据主生产计划(MPS)、物料清单(BOM)、库存信息决定</p>
+</li>
+<li><p>MRP系统管理理念</p>
+<ul>
+<li>供需平衡原则</li>
+<li>优先级计划原则</li>
+</ul>
+</li>
+</ul>
+<p><strong>MRPII 系统</strong></p>
+<p>MRPII 系统，<strong>制造资源计划</strong>集制造、财务、销售、采购、工程技术等各子系统为一体</p>
+<p><strong>ERP系统</strong></p>
+<p>覆盖工程、财务、人力资源和项目管理等领域的企业内全部活动，演化成为新一代<strong>企业资源计划</strong>(ERP)</p>
+<ul>
+<li><p>ERP三大特征：</p>
+<ul>
+<li>顾客驱动</li>
+<li>基于时间</li>
+<li>面相整个供应链</li>
+</ul>
+</li>
+<li><p>ERP四大元素：</p>
+<ul>
+<li>资金</li>
+<li>货物</li>
+<li>人员</li>
+<li>信息</li>
+</ul>
+</li>
+<li><p>ERP主要功能</p>
+<ul>
+<li>财务管理</li>
+<li>物流管理</li>
+<li>生产计划与控制管理</li>
+<li>人力资源管理</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/04/07/%E7%AC%94%E8%AE%B0/Users\发发发宝贝\AppData\Roaming\Typora\typora-user-images\image-20250408012127420.png" alt="image-20250408012127420"></p>
+</li>
+</ul>
+<h3 id="管理信息系统的基本知识"><a href="#管理信息系统的基本知识" class="headerlink" title="管理信息系统的基本知识"></a>管理信息系统的基本知识</h3><h4 id="管理的基本知识"><a href="#管理的基本知识" class="headerlink" title="管理的基本知识"></a>管理的基本知识</h4><h5 id="管理的含义"><a href="#管理的含义" class="headerlink" title="管理的含义"></a>管理的含义</h5><p><strong>管理就是有一个或更多的人来协调他人的活动，以便收到个人单独活动所不能收到的效果而进行的各种活动</strong></p>
+<ul>
+<li>这一概念有三个含义<ul>
+<li>管理工作的<strong>中心是管理其他人的工作</strong></li>
+<li>管理工作是<strong>通过协调其他人的活动来进行</strong>的，追求群体的<strong>协同效应</strong></li>
+<li>管理就是去<strong>营造一种激励环境</strong>，使其所有工作人员努力工作，发挥群体的协同效应，<strong>达到企业或组织的目的</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>管理与信息系统的管理</strong></p>
+<p>管理的过程就是<strong>基于信息的决策过程</strong>，它通常包含以下步骤：<strong>发现问题、拟订方案、做出决策</strong></p>
+<p><strong>管理现代化</strong></p>
+<p>管理现代化的内容是随着社会的变化、生产力的发展和科学技术水平的提高而不断更新和充实的</p>
+<ul>
+<li>管理现代化是一个整体的概念，主要包括：<ul>
+<li>管理思想的现代化</li>
+<li>管理组织的现代化</li>
+<li>管理方法的现代化</li>
+<li>管理手段的现代化</li>
+</ul>
+</li>
+</ul>
+<p><strong>管理的基本职能</strong></p>
+<p>管理的五大职能</p>
+<ul>
+<li><strong>计划</strong> - 管理的<strong>首要职能</strong>，对未来时间做出预测，以定制出行动方案</li>
+<li><strong>组织</strong> - 完成计划所需的组织架构、规章制度、人财物的配备</li>
+<li><strong>指挥</strong> - 对所属对象的行为进行发令、调度、检查</li>
+<li><strong>协调</strong> - 是组织内部的每一部分或每一成员的个别行为都能服从于整个集体的目标，是管理过程中<strong>带有综合性、整体性的一种职能</strong></li>
+<li><strong>控制</strong> - 对下属人员的行为进行检测，纠正偏差，使其按规定给的要求工作</li>
+</ul>
+<h5 id="组织结构"><a href="#组织结构" class="headerlink" title="组织结构"></a>组织结构</h5><p>组织是保证管理目标实现的重要手段，是管理的重要问题了解管理的组织结构将有助于我们分析和设计管理信息系统</p>
+<ul>
+<li>直线制组织结构<ul>
+<li>企业各级行政单位从上到下实行垂直领导，下属部门只能接受一个上级的指令，各级主管负责人对所属单位的一切问题负责</li>
+<li>两维组成，一维是直线组织，另一维是任务(如产品、项目、地区等)</li>
+<li>最早也是最简单的组织形式</li>
+<li>各级行政单位除主管负责人外，还相应地设立一些职能机构</li>
+</ul>
+</li>
+<li>职能制组织结构</li>
+<li>矩阵式组织结构</li>
+</ul>
+<h4 id="信息的基本知识"><a href="#信息的基本知识" class="headerlink" title="信息的基本知识"></a>信息的基本知识</h4><h4 id="系统的基本知识"><a href="#系统的基本知识" class="headerlink" title="系统的基本知识"></a>系统的基本知识</h4><h4 id="信息技术的基本知识"><a href="#信息技术的基本知识" class="headerlink" title="信息技术的基本知识"></a>信息技术的基本知识</h4></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AC%94%E8%AE%B0/">笔记</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/07/01/%E6%B5%8B%E8%AF%95%E5%BC%80%E5%8F%91%E9%9D%A2%E8%AF%95%E9%A2%98/" title="测试开发面试题"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">测试开发面试题</div></div></a></div><div class="next-post pull-right"><a href="/2022/07/03/firstBlog/" title="firstBlog"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">firstBlog</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fafafa</div><div class="author-info__description">记录笔记日志</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">55</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">46</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/fafafabaobei@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=728831102&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">管理信息系统导论</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.</span> <span class="toc-text">管理信息系统</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">管理信息系统的定义</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">管理信息系统的分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">管理信息系统的结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%9B%86%E4%B8%AD%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">管理信息系统的集中典型应用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="toc-number">2.</span> <span class="toc-text">管理信息系统的基本知识</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="toc-number">2.1.</span> <span class="toc-text">管理的基本知识</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E7%9A%84%E5%90%AB%E4%B9%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">管理的含义</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%BB%84%E7%BB%87%E7%BB%93%E6%9E%84"><span class="toc-number">2.1.2.</span> <span class="toc-text">组织结构</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="toc-number">2.2.</span> <span class="toc-text">信息的基本知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="toc-number">2.3.</span> <span class="toc-text">系统的基本知识</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%8A%80%E6%9C%AF%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86"><span class="toc-number">2.4.</span> <span class="toc-text">信息技术的基本知识</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/01/14/SQLite/" title="SQLite"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SQLite"/></a><div class="content"><a class="title" href="/2025/01/14/SQLite/" title="SQLite">SQLite</a><time datetime="2025-01-13T16:52:36.000Z" title="发表于 2025-01-14 00:52:36">2025-01-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/29/xpath%E8%AF%AD%E6%B3%95/" title="Xpath语法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Xpath语法"/></a><div class="content"><a class="title" href="/2024/09/29/xpath%E8%AF%AD%E6%B3%95/" title="Xpath语法">Xpath语法</a><time datetime="2024-09-29T15:57:28.000Z" title="发表于 2024-09-29 23:57:28">2024-09-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/26/playwright%E6%A1%86%E6%9E%B6/" title="Playwright框架"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Playwright框架"/></a><div class="content"><a class="title" href="/2024/09/26/playwright%E6%A1%86%E6%9E%B6/" title="Playwright框架">Playwright框架</a><time datetime="2024-09-26T14:29:59.000Z" title="发表于 2024-09-26 22:29:59">2024-09-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/21/pywinauto-WIN-PC%E7%AB%AF%E8%87%AA%E5%8A%A8%E5%8C%96/" title="pywinauto_PC端自动化"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="pywinauto_PC端自动化"/></a><div class="content"><a class="title" href="/2024/09/21/pywinauto-WIN-PC%E7%AB%AF%E8%87%AA%E5%8A%A8%E5%8C%96/" title="pywinauto_PC端自动化">pywinauto_PC端自动化</a><time datetime="2024-09-21T02:35:00.000Z" title="发表于 2024-09-21 10:35:00">2024-09-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/12/pytest-hooks/" title="Pytest-Hooks"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Pytest-Hooks"/></a><div class="content"><a class="title" href="/2024/09/12/pytest-hooks/" title="Pytest-Hooks">Pytest-Hooks</a><time datetime="2024-09-12T07:38:15.000Z" title="发表于 2024-09-12 15:38:15">2024-09-12</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2025 By fafafa</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.14.0-b3"></script><script src="/js/main.js?v=4.14.0-b3"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.5/dist/lazyload.iife.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const runMermaid = (ele) => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from(ele).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+    
+    codeMermaidEle.forEach(ele => {
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.innerHTML = `<pre class="mermaid-src" hidden>${ele.textContent}</pre>`
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+  
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.14.0-b3"></script></div></div></body></html>
