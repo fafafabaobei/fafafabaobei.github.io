@@ -1,0 +1,323 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Yaml高阶语法 | fafafabaobei</title><meta name="author" content="fafafa"><meta name="copyright" content="fafafa"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="锚点与别名使用  &amp; 定义锚点，使用*应用别名 123456789101112defaults: &amp;defaults	timeout: 30	retries: 5	service1:	&lt;&lt;: *defaults	url: http:&#x2F;&#x2F;example.com&#x2F;servicel	service2:	&lt;&lt;: *defaults	url: http:&#x2F;&#x2F;examp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yaml高阶语法">
+<meta property="og:url" content="https://fafafabaobei.github.io/2025/04/17/yaml%E9%AB%98%E9%98%B6%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="fafafabaobei">
+<meta property="og:description" content="锚点与别名使用  &amp; 定义锚点，使用*应用别名 123456789101112defaults: &amp;defaults	timeout: 30	retries: 5	service1:	&lt;&lt;: *defaults	url: http:&#x2F;&#x2F;example.com&#x2F;servicel	service2:	&lt;&lt;: *defaults	url: http:&#x2F;&#x2F;examp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2025-04-16T17:04:52.000Z">
+<meta property="article:modified_time" content="2025-04-16T17:04:52.000Z">
+<meta property="article:author" content="fafafa">
+<meta property="article:tag" content="yaml">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/blog.png"><link rel="canonical" href="https://fafafabaobei.github.io/2025/04/17/yaml%E9%AB%98%E9%98%B6%E8%AF%AD%E6%B3%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><meta/><link rel="stylesheet" href="/css/index.css?v=4.14.0-b3"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>(()=>{
+      const saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+      
+      window.btf = {
+        saveToLocal: saveToLocal,
+        getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+          script.src = url
+          script.async = true
+          script.onerror = reject
+          script.onload = script.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            script.onload = script.onreadystatechange = null
+            resolve()
+          }
+
+          Object.keys(attr).forEach(key => {
+            script.setAttribute(key, attr[key])
+          })
+
+          document.head.appendChild(script)
+        }),
+
+        getCSS: (url, id = false) => new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+          link.rel = 'stylesheet'
+          link.href = url
+          if (id) link.id = id
+          link.onerror = reject
+          link.onload = link.onreadystatechange = function() {
+            const loadState = this.readyState
+            if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+            link.onload = link.onreadystatechange = null
+            resolve()
+          }
+          document.head.appendChild(link)
+        }),
+
+        addGlobalFn: (key, fn, name = false, parent = window) => {
+          const pjaxEnable = false
+          if (!pjaxEnable && key.startsWith('pjax')) return
+
+          const globalFn = parent.globalFn || {}
+          const keyObj = globalFn[key] || {}
+    
+          if (name && keyObj[name]) return
+    
+          name = name || Object.keys(keyObj).length
+          keyObj[name] = fn
+          globalFn[key] = keyObj
+          parent.globalFn = globalFn
+        }
+      }
+    
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+      
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })()</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Yaml高阶语法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-04-17 01:04:52'
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', () => { preloader.initLoading() }, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', () => { preloader.endLoading() }, 'preloader_end')
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">50</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="fafafabaobei"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/blog.png" alt="Logo"/><span class="site-name">fafafabaobei</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Yaml高阶语法<a class="post-edit-link" href="null_posts/yaml高阶语法.md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-16T17:04:52.000Z" title="发表于 2025-04-17 01:04:52">2025-04-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-16T17:04:52.000Z" title="更新于 2025-04-17 01:04:52">2025-04-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/yaml/">yaml</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">378</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>1分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Yaml高阶语法"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="锚点与别名"><a href="#锚点与别名" class="headerlink" title="锚点与别名"></a>锚点与别名</h4><p>使用 <code> &amp;</code> 定义锚点，使用<code>*</code>应用别名</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">defaults:</span> <span class="meta">&amp;defaults</span></span><br><span class="line">	<span class="attr">timeout:</span> <span class="number">30</span></span><br><span class="line">	<span class="attr">retries:</span> <span class="number">5</span></span><br><span class="line">	</span><br><span class="line"><span class="attr">service1:</span></span><br><span class="line">	<span class="string">&lt;&lt;:</span> <span class="meta">*defaults</span></span><br><span class="line">	<span class="attr">url:</span> <span class="string">http://example.com/servicel</span></span><br><span class="line">	</span><br><span class="line"><span class="attr">service2:</span></span><br><span class="line">	<span class="string">&lt;&lt;:</span> <span class="meta">*defaults</span></span><br><span class="line">	<span class="attr">url:</span> <span class="string">http://example.com/service2</span></span><br><span class="line">	<span class="attr">retries:</span> <span class="number">10</span> <span class="comment"># 可以覆盖默认值</span></span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">defaults:</span>  </span><br><span class="line">  <span class="attr">timeout:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="attr">service1:</span>  </span><br><span class="line">  <span class="attr">timeout:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">http://example.com/service1</span>  </span><br><span class="line"></span><br><span class="line"><span class="attr">service2:</span>  </span><br><span class="line">  <span class="attr">timeout:</span> <span class="number">30</span></span><br><span class="line">  <span class="attr">retries:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">http://example.com/service2</span>  </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="合并键"><a href="#合并键" class="headerlink" title="合并键"></a>合并键</h4><p>使用<code>&lt;&lt;</code> 操作符来合并多个映射</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">base:</span> <span class="meta">&amp;base</span></span><br><span class="line">	<span class="attr">name:</span> <span class="string">example</span></span><br><span class="line">	</span><br><span class="line"><span class="attr">extended:</span></span><br><span class="line">	<span class="string">&lt;&lt;:</span> <span class="meta">*base</span></span><br><span class="line">	<span class="attr">description:</span> <span class="string">This</span> <span class="string">is</span> <span class="string">an</span> <span class="string">extended</span> <span class="string">example</span></span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">base:</span>   </span><br><span class="line">  <span class="attr">name:</span> <span class="string">example</span>  </span><br><span class="line"></span><br><span class="line"><span class="attr">extended:</span>  </span><br><span class="line">  <span class="attr">name:</span> <span class="string">example</span>  </span><br><span class="line">  <span class="attr">description:</span> <span class="string">This</span> <span class="string">is</span> <span class="string">an</span> <span class="string">extended</span> <span class="string">example.</span>  </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="复杂数据结构"><a href="#复杂数据结构" class="headerlink" title="复杂数据结构"></a>复杂数据结构</h4><p>**yaml ** 支持嵌套和组合不同的数据类型</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">servers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">web</span></span><br><span class="line">    <span class="attr">ip:</span> <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">    <span class="attr">roles:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">webserver</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">database</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">app</span></span><br><span class="line">    <span class="attr">ip:</span> <span class="number">10.0</span><span class="number">.0</span><span class="number">.2</span></span><br><span class="line">    <span class="attr">roles:</span> </span><br><span class="line">      <span class="bullet">-</span> <span class="string">application</span></span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">servers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">web</span></span><br><span class="line">    <span class="attr">ip:</span> <span class="number">10.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">    <span class="attr">roles:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">webserver</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">database</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">app</span></span><br><span class="line">    <span class="attr">ip:</span> <span class="number">10.0</span><span class="number">.0</span><span class="number">.2</span></span><br><span class="line">    <span class="attr">roles:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">application</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="自定义标签"><a href="#自定义标签" class="headerlink" title="自定义标签"></a>自定义标签</h4><p>可以通过添加特定前缀来定义自定义标签</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">custom_object:</span> <span class="type">!mytag</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">custom_name</span></span><br><span class="line">  <span class="attr">value:</span> <span class="number">42</span></span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">custom_object:</span>  </span><br><span class="line">  <span class="type">!!mytag</span>  <span class="comment"># Indicates it is a custom type  </span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">custom_name</span></span><br><span class="line">  <span class="attr">value:</span> <span class="number">42</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="多行字符串"><a href="#多行字符串" class="headerlink" title="多行字符串"></a>多行字符串</h4><p>使用 <code>|</code>进行保留换行，使用 <code>&gt;</code> 将换行为空格</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">description:</span> <span class="string">|  </span></span><br><span class="line"><span class="string">  This is a multiline string.  </span></span><br><span class="line"><span class="string">  It retains line breaks.  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="attr">short_description:</span> <span class="string">&gt;  </span></span><br><span class="line"><span class="string">  This is a short description that  </span></span><br><span class="line"><span class="string">  will be folded into a single line.  </span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="字典中的复杂键"><a href="#字典中的复杂键" class="headerlink" title="字典中的复杂键"></a>字典中的复杂键</h4><p><strong>yaml</strong> 允许使用复杂的类型作为映射的键</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">?</span> <span class="bullet">-</span> <span class="string">&amp;ref1</span> <span class="string">value1</span></span><br><span class="line"><span class="string">?</span> <span class="bullet">-</span> <span class="string">&amp;ref2</span> <span class="string">value2</span></span><br><span class="line"><span class="string">?</span> <span class="bullet">-</span> <span class="string">&amp;ref3</span> <span class="string">value3</span></span><br><span class="line"><span class="string">:</span></span><br><span class="line">  <span class="string">&lt;&lt;:</span> <span class="meta">*ref1</span></span><br><span class="line">  <span class="attr">description:</span> <span class="string">&quot;This entry uses a complex key&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="string">value1</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">value2</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">value3:</span></span><br><span class="line">    <span class="attr">description:</span> <span class="string">&quot;This entry uses a complex key&quot;</span>  </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="使用JSON格式"><a href="#使用JSON格式" class="headerlink" title="使用JSON格式"></a>使用JSON格式</h4><p><strong>yaml</strong> 可以轻松转化为 <strong>JSON</strong>，支持使用<strong>JSON</strong>的语法来表示数据</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;  </span><br><span class="line">  <span class="attr">&quot;name&quot;:</span> <span class="string">&quot;example&quot;</span>,  </span><br><span class="line">  <span class="attr">&quot;values&quot;:</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]  </span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/yaml/">yaml</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2025/01/14/SQLite/" title="SQLite"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SQLite</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/img/fafafa.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">fafafa</div><div class="author-info__description">记录笔记日志</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">59</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">50</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="/fafafabaobei@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="tencent://AddContact/?fromId=45&amp;fromSubId=1&amp;subcmd=all&amp;uin=728831102&amp;website=www.oicqzone.com" target="_blank" title="QQ"><i class="fab fa-qq"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%9A%E7%82%B9%E4%B8%8E%E5%88%AB%E5%90%8D"><span class="toc-number">1.</span> <span class="toc-text">锚点与别名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%88%E5%B9%B6%E9%94%AE"><span class="toc-number">2.</span> <span class="toc-text">合并键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">3.</span> <span class="toc-text">复杂数据结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%87%E7%AD%BE"><span class="toc-number">4.</span> <span class="toc-text">自定义标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E8%A1%8C%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">5.</span> <span class="toc-text">多行字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E5%85%B8%E4%B8%AD%E7%9A%84%E5%A4%8D%E6%9D%82%E9%94%AE"><span class="toc-number">6.</span> <span class="toc-text">字典中的复杂键</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8JSON%E6%A0%BC%E5%BC%8F"><span class="toc-number">7.</span> <span class="toc-text">使用JSON格式</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/17/yaml%E9%AB%98%E9%98%B6%E8%AF%AD%E6%B3%95/" title="Yaml高阶语法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Yaml高阶语法"/></a><div class="content"><a class="title" href="/2025/04/17/yaml%E9%AB%98%E9%98%B6%E8%AF%AD%E6%B3%95/" title="Yaml高阶语法">Yaml高阶语法</a><time datetime="2025-04-16T17:04:52.000Z" title="发表于 2025-04-17 01:04:52">2025-04-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/14/SQLite/" title="SQLite"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="SQLite"/></a><div class="content"><a class="title" href="/2025/01/14/SQLite/" title="SQLite">SQLite</a><time datetime="2025-01-13T16:52:36.000Z" title="发表于 2025-01-14 00:52:36">2025-01-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/29/xpath%E8%AF%AD%E6%B3%95/" title="Xpath语法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Xpath语法"/></a><div class="content"><a class="title" href="/2024/09/29/xpath%E8%AF%AD%E6%B3%95/" title="Xpath语法">Xpath语法</a><time datetime="2024-09-29T15:57:28.000Z" title="发表于 2024-09-29 23:57:28">2024-09-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/26/playwright%E6%A1%86%E6%9E%B6/" title="Playwright框架"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Playwright框架"/></a><div class="content"><a class="title" href="/2024/09/26/playwright%E6%A1%86%E6%9E%B6/" title="Playwright框架">Playwright框架</a><time datetime="2024-09-26T14:29:59.000Z" title="发表于 2024-09-26 22:29:59">2024-09-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/24/Django/" title="Django"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Django"/></a><div class="content"><a class="title" href="/2024/09/24/Django/" title="Django">Django</a><time datetime="2024-09-23T16:49:13.000Z" title="发表于 2024-09-24 00:49:13">2024-09-24</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2025 By fafafa</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.14.0-b3"></script><script src="/js/main.js?v=4.14.0-b3"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.35/dist/fancybox/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@5.2.0/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.0.5/dist/lazyload.iife.min.js"></script><script>(() => {
+  const panguFn = () => {
+    if (typeof pangu === 'object') pangu.autoSpacingPage()
+    else {
+      btf.getScript('https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js')
+        .then(() => {
+          pangu.autoSpacingPage()
+        })
+    }
+  }
+
+  const panguInit = () => {
+    if (false){
+      GLOBAL_CONFIG_SITE.isPost && panguFn()
+    } else {
+      panguFn()
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', panguInit, 'pangu')
+  document.addEventListener('DOMContentLoaded', panguInit)
+})()</script><div class="js-pjax"><script>(() => {
+  const runMermaid = (ele) => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    Array.from(ele).forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+      const mermaidID = 'mermaid-' + index
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+
+      const renderV10 = () => {
+        renderFn.then(({svg}) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svg)
+        })
+      }
+
+      const renderV9 = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      typeof renderFn === 'string' ? renderV9(renderFn) : renderV10()
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+    
+    codeMermaidEle.forEach(ele => {
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.innerHTML = `<pre class="mermaid-src" hidden>${ele.textContent}</pre>`
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js').then(runMermaidFn)
+  }
+  
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.14.0-b3"></script></div></div></body></html>
